@@ -9,10 +9,14 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 public interface EspecieDAO {
 	
 	/**Dada una especie, la persiste en mi base de datos.
+	 * 
+	 * @param e - Especie que se quiere guardar
 	 * @author Abel Espínola*/
 	public void saveEspecie(Especie e);
 	
 	/**Dado el nombre de una especie, la recupera de mi base de datos y la retorna.
+	 * 
+	 * @param nombre - Nombre de la especie
 	 * @author Abel Espínola*/
 	public Especie getEspecie(String nombre);
 	
