@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.impl;
+package ar.edu.unq.epers.bichomon.backend.dao.bicho.impl;
 
 /**
  * Esta clase tiene como función manejar la persistencia de la clase Bicho en mi BD mySql,
