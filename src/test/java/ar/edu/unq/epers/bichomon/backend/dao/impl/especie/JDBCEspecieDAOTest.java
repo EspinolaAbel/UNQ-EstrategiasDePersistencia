@@ -32,7 +32,7 @@ public class JDBCEspecieDAOTest {
 	private static JDBCEspecieDAO especieDAO = new JDBCEspecieDAO();
 	
 	/**
-	 * Esto se ejecuta antes de cada test
+	 * Esto se ejecuta antes de correr todos los tests
 	 * */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -49,7 +49,7 @@ public class JDBCEspecieDAOTest {
 	}
 	
 	/**
-	 * Esto se ejecuta después de cada test
+	 * Esto se ejecuta después de correr todos los tests
 	 * */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
