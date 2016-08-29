@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unq.epers.bichomon.backend.dao.especie.EspecieDAO;
@@ -12,7 +13,9 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.ConnectionBlock;
 
-
+/**
+ * Clase que define la comunicación entre java y mi base de datos utilizando JDBC.
+ * */
 public class JDBCEspecieDAO implements EspecieDAO {
 
 	public JDBCEspecieDAO() {
@@ -23,17 +26,49 @@ public class JDBCEspecieDAO implements EspecieDAO {
 		}
 	}
 	
+	
+	
+	/**
+	 * Dado una especie, se la persiste en la base de datos usando JDBC.
+	 * 
+	 * @param e - Una especie.
+	 * @author Abel Espínola*/
 	@Override
 	public void saveEspecie(Especie e) {
-		return this.executeWithConnection(conn -> {
-			PreparedStatement ps = conn.prepareStatement(
-					"INSERT INTO "
-					+ "Especie (nombre, tipo, altura, peso, cantidad_de_bichos, url_foto)"
-					+ "");
+		this.executeWithConnection(conn -> {
+			String sql = "INSERT INTO "
+						+ "Especie (nombre, tipo, altura, peso, cantidad_de_bichos, energia_inicial, url_foto)"
+						+ "VALUES(?,?,?,?,?,?,?)";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, e.getNombre());
+			ps.setString(2, e.getTipo().toString() );
+			ps.setInt(3, e.getAltura());
+			ps.setInt(4, e.getPeso());
+			ps.setInt(5, e.getCantidadBichos());
+			ps.setInt(6, e.getEnergiaInicial());
+			ps.setString(7, e.getUrlFoto());
+			
+			ps.execute();
+
+			if (ps.getUpdateCount() != 1) {
+				throw new RuntimeException("No se inserto la especie " + e);
+			}
+			ps.close();
+
+			return null;
 		});
 		
-	}
-
+	}	
+	
+	
+	
+	/**
+	 * Dado el nombre de una especie, se la recupera de la base de datos utilizando JDBC y se la retorna.
+	 * 
+	 * @param nombreEspecie - Nombre de la especie a ser buscada.
+	 * @return La especie buscada.
+	 * @author Abel Espínola*/
 	@Override
 	public Especie getEspecie(String nombreEspecie) {
 		return this.executeWithConnection(conn -> {
@@ -55,6 +90,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 				especie.setAltura(resultSet.getInt("altura"));
 				especie.setCantidadBichos(resultSet.getInt("cantidad_de_bichos"));
 				especie.setPeso(resultSet.getInt("peso"));
+				especie.setEnergiaInicial(resultSet.getInt("energia_inicial"));
 				especie.setUrlFoto(resultSet.getString("url_foto"));
 			}
 	
@@ -62,12 +98,42 @@ public class JDBCEspecieDAO implements EspecieDAO {
 			return especie;
 		});
 
-	}
-
+	}	
+	
+	
+	
+	/**
+	 * Se recupera todas las especies de la base de datos usando JDBC y se retornan en un ArrayList.
+	 * 
+	 * @return Lista con todas las especies de la base de datos.
+	 * @author Abel Espínola*/
 	@Override
 	public List<Especie> getAllEspecies() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.executeWithConnection(conn -> {
+			List<Especie> lsEspecie = new ArrayList<Especie>();
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Especie");
+			
+			ResultSet resultSet = ps.executeQuery();
+	
+			Especie especie = null;
+			while (resultSet.next()) {
+				String nombre = resultSet.getString("nombre");
+				TipoBicho tipo = TipoBicho.valueOf(resultSet.getString("tipo"));
+				
+				especie = new Especie(nombre, tipo);
+				
+				especie.setAltura(resultSet.getInt("altura"));
+				especie.setCantidadBichos(resultSet.getInt("cantidad_de_bichos"));
+				especie.setPeso(resultSet.getInt("peso"));
+				especie.setEnergiaInicial(resultSet.getInt("energia_inicial"));
+				especie.setUrlFoto(resultSet.getString("url_foto"));
+				
+				lsEspecie.add(especie);
+			}
+	
+			ps.close();
+			return lsEspecie;
+		});
 	}
 	
 	
@@ -78,7 +144,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	 * Ejecuta un bloque de codigo contra una conexion.
 	 */
 	private <T> T executeWithConnection(ConnectionBlock<T> bloque) {
-		Connection connection = this.openConnection("jdbc:mysql://localhost:3306/Bichomon?user=root&password=root");
+		Connection connection = this.openConnection("jdbc:mysql://localhost:3306/Bichomon?user=root&password=root&useSSL=false");
 		try {
 			return bloque.executeWith(connection);
 		} catch (SQLException e) {

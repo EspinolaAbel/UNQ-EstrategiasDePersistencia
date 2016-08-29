@@ -74,7 +74,7 @@ public class Especie {
 	public int getEnergiaInicial() {
 		return this.energiaInicial;
 	}
-	public void setEnergiaIncial(int energiaInicial) {
+	public void setEnergiaInicial(int energiaInicial) {
 		this.energiaInicial = energiaInicial;
 	}
 

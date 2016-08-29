@@ -1,6 +1,6 @@
 CREATE DATABASE Bichomon;
 USE Bichomon;
-CREATE TABLE Especie(nombre VARCHAR(30), tipo VARCHAR(20), altura INT,peso FLOAT, cantidad_de_bichos INT, url_foto VARCHAR(100), PRIMARY KEY(nombre));
+CREATE TABLE Especie(nombre VARCHAR(30), tipo VARCHAR(20), altura INT,peso FLOAT, cantidad_de_bichos INT, url_foto VARCHAR(100), energia_inicial Int, PRIMARY KEY(nombre));
 CREATE TABLE Bicho(nombre VARCHAR(30), nombre_especie VARCHAR(30), PRIMARY KEY(nombre), CONSTRAINT fk_Bicho FOREIGN KEY (nombre_especie) REFERENCES Especie(nombre));
 
 
@@ -18,4 +18,5 @@ CREATE TABLE Bicho(nombre VARCHAR(30), nombre_especie VARCHAR(30), PRIMARY KEY(n
 #alter table Bicho add constraint fk_Bicho foreign key (nombre_especie) references Especie(nombre);
 
 #alter table Especie add column url_foto varchar(100);
+#alter table Especie add column energia_inicial Int;
 
