@@ -47,18 +47,9 @@ public class EspecieServiceImpl implements EspecieService {
 	@Override
 	public void crearEspecie(Especie especie) {
 		 
-		Especie especieControl;	
-		
-		// creo que aca seria mejor  capturar la excepcion  EspecieNoExiste pero no se bien  como  manejarla
-		//si la capturo , que corresponde que haga? lazarla asi como viene??
-		// deberia firmar  el mensaje como que arroja la excepcion??
-	
-		especieControl= this.especieDAO.getEspecie(especie.getNombre());
-		// si la especie no existe en la base de datos,  getEspecie deberia devolver null
-		 if (especieControl==null)
+			 
 			 	this.especieDAO.saveEspecie(especie);
 			 	
-		 return;
 		
 	}
 	
@@ -125,22 +116,24 @@ public class EspecieServiceImpl implements EspecieService {
 		
 		try{
 		   especieControl=this.especieDAO.getEspecie(nombreEspecie);
-		} catch(EspecieNoExistente e)//OJO porque esto no lanza esta exepcion, lanza runtime 
-					{especieControl= new Especie(); //faltaria determinar el tipo de bicho que es
-					 especieControl.setNombre(nombreEspecie);
-					 especieControl.setCantidadBichos(0);// lo inicializo con cero xq despues actualzo 
-					 this.especieDAO.saveEspecie(especieControl);
-					}
+		   especieControl.setCantidadBichos(especieControl.getCantidadBichos()+1);
+		   this.especieDAO.updateEspecie(especieControl);
+		   return new Bicho(especieControl, nombreBicho);
+		   
+		} catch(EspecieNoExistente e) {//OJO porque esto no lanza esta exepcion, lanza runtime 
+			throw new RuntimeException("La especie del bicho no existe.");
+//					{especieControl= new Especie(); //faltaria determinar el tipo de bicho que es
+//					 especieControl.setNombre(nombreEspecie);
+//					 especieControl.setCantidadBichos(0);// lo inicializo con cero xq despues actualzo 
+//					 this.especieDAO.saveEspecie(especieControl);
+		}
 		   
 		   // si no esta , la creo
 		//si esta actualizo el contador
-		especieControl.setCantidadBichos(especieControl.getCantidadBichos()+1);
-		//		 this.especieDAO.updateEspecie(especieControl); deberia haber algun tipo de apdate
-		//       para persistir la modificacion
-		Bicho bicho = new Bicho(especieControl, nombreBicho);
 		
+						// this.especieDAO.updateEspecie(especieControl); //deberia haber algun tipo de apdate
+		         //para persistir la modificacion
 		
-		return bicho;
 	}
 
 }

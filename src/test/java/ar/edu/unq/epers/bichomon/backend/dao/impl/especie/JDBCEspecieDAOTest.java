@@ -68,7 +68,7 @@ public class JDBCEspecieDAOTest {
 		Connection conn = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Bichomon?user=root&password=root&useSSL=false");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/bichomon?useSSL=false","root","root");
 			conn.close();
 			assertTrue(conn.isClosed());
 		}
@@ -94,7 +94,7 @@ public class JDBCEspecieDAOTest {
 	@Test
 	public void testDado_un_nombre_de_especie_la_recupero_de_mi_base_de_datos_usando_JDBC() {
 		Especie e = especieDAO.getEspecie("XXXX-XXX1");	
-		assertTrue(e.getNombre().contains("XXXX-XXX"));
+		assertTrue(e.getNombre().contains("XXXX-XXX1"));
 	}
 
 	/**
@@ -107,12 +107,25 @@ public class JDBCEspecieDAOTest {
 		lsEspecies = especieDAO.getAllEspecies();
 				
 		for(Especie each: lsEspecies) {
-			if(each.getNombre().contains("XXXX-XXX1")) {
+			if(each.getNombre().contains("XXXX-XXX")) {
 				assertTrue(true);
 				return;
 			}
 		}
 		assertTrue(false);
+	}
+	
+	@Test
+	public void testDada_una_especie_ya_existente_en_mi_tabla_la_actualizo() {
+		Especie e = especieDAO.getEspecie("XXXX-XXX1");
+		
+		//e.setCantidadBichos( e.getCantidadBichos() - 1 );
+		e.setTipo(TipoBicho.ELECTRICIDAD);
+		
+		especieDAO.updateEspecie(e);
+		
+		System.out.println(especieDAO.getEspecie("XXXX-XXX1").getCantidadBichos());
+		assertEquals(especieDAO.getEspecie("XXXX-XXX1").getTipo(), TipoBicho.ELECTRICIDAD);
 	}
 
 }

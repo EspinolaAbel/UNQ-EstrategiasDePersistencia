@@ -2,6 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.service;
 
 import ar.edu.unq.epers.bichomon.backend.service.data.DataService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieService;
+import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieServiceImpl;
 import ar.edu.unq.epers.bichomon.frontend.mock.EspecieServiceMock;
 
 /**
@@ -20,7 +21,7 @@ public class ServiceFactory {
 	 * @return un objeto que implementa {@link EspecieService}
 	 */
 	public EspecieService getEspecieService() {
-		return new EspecieServiceMock();
+		return new EspecieServiceImpl();
 		//throw new RuntimeException("Todavia no se ha implementado este metodo");
 	}
 	

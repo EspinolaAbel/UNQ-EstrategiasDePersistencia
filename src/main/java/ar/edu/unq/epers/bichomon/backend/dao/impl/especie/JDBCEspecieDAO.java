@@ -136,6 +136,28 @@ public class JDBCEspecieDAO implements EspecieDAO {
 		});
 	}
 	
+	/**
+	 * Dada una especie obtenidad de mi base de datos, aumento en 1 la cantidad de bichos que esta posee 
+	 * y la persisto en mi BD con JDBC.
+	 * @param especie - Una especie.
+	 * */
+	public void updateEspecie(Especie especie) {
+		this.executeWithConnection(conn -> {
+			PreparedStatement ps = conn.prepareStatement("UPDATE Especie SET"
+					+ " tipo = '"+especie.getTipo().toString()+"'"
+					+ ", altura = "	+especie.getAltura()
+					+ ", peso = "	+especie.getPeso()
+					+ ", cantidad_de_bichos = "+especie.getCantidadBichos()
+					+ ", url_foto = '"	+especie.getUrlFoto()+"'"
+					+ ", energia_inicial = "+especie.getEnergiaInicial()
+					+ " WHERE nombre='"+especie.getNombre()+"'");
+			
+			ps.execute();
+			
+			return null;
+		});
+		
+	}
 	
 	
 	
@@ -144,7 +166,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	 * Ejecuta un bloque de codigo contra una conexion.
 	 */
 	private <T> T executeWithConnection(ConnectionBlock<T> bloque) {
-		Connection connection = this.openConnection("jdbc:mysql://localhost:3306/Bichomon?user=root&password=root&useSSL=false");
+		Connection connection = this.openConnection("jdbc:mysql://localhost:3307/Bichomon?user=root&password=root&useSSL=false");
 		try {
 			return bloque.executeWith(connection);
 		} catch (SQLException e) {
@@ -152,6 +174,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 		} finally {
 			this.closeConnection(connection);
 		}
+		
 	}
 	
 	

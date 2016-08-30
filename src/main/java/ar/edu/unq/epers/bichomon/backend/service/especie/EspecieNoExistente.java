@@ -6,7 +6,10 @@ package ar.edu.unq.epers.bichomon.backend.service.especie;
  */
 public class EspecieNoExistente extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8138325694066688551L;
 
 	public EspecieNoExistente(String especie) {
 		super("No se encuentra la especie [" + especie + "]");
