@@ -1,19 +1,13 @@
-/**
- * 
- */
 package ar.edu.unq.epers.bichomon.backend.dao.impl.especie;
 
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -68,7 +62,7 @@ public class JDBCEspecieDAOTest {
 		Connection conn = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/bichomon?useSSL=false","root","root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/Bichomon?useSSL=false","root","root");
 			conn.close();
 			assertTrue(conn.isClosed());
 		}
@@ -98,14 +92,16 @@ public class JDBCEspecieDAOTest {
 	}
 
 	/**
-	 * Test method for {@link ar.edu.unq.epers.bichomon.backend.dao.impl.especie.JDBCEspecieDAO#getAllEspecies()}.
+	 * Intento recuperar de mi base de datos todas las especies.
 	 */
 	@Test
 	public void testRecupero_todos_los_datos_de_mi_base_de_datos_a_traves_de_JDBC() {
 		List<Especie> lsEspecies = new ArrayList<Especie>();
 		
 		lsEspecies = especieDAO.getAllEspecies();
-				
+		
+		assertTrue(lsEspecies.size() > 1);
+		
 		for(Especie each: lsEspecies) {
 			if(each.getNombre().contains("XXXX-XXX")) {
 				assertTrue(true);
@@ -115,17 +111,37 @@ public class JDBCEspecieDAOTest {
 		assertTrue(false);
 	}
 	
+	
+	/**
+	 * Dado el nombre de una especie existente en mi base de datos, obtengo la especie de dicho nombre, la modifico, la guardo nuevamente en mi base
+	 * de datos y compruebo si los cambios se persistieron. 
+	 * */
 	@Test
 	public void testDada_una_especie_ya_existente_en_mi_tabla_la_actualizo() {
+		
+		//recupero la especie de mi bd
 		Especie e = especieDAO.getEspecie("XXXX-XXX1");
 		
-		//e.setCantidadBichos( e.getCantidadBichos() - 1 );
+		//modifico la especie recuperada de mi bd
 		e.setTipo(TipoBicho.ELECTRICIDAD);
+		e.setAltura(8999);
+		e.setPeso(8999);
+		e.setCantidadBichos( 8999 );
+		e.setUrlFoto("--- URL NO EXISTENTE 2 ---");
+		e.setEnergiaInicial(8999);
 		
+		//la actualizo en mi base de datos
 		especieDAO.updateEspecie(e);
 		
-		System.out.println(especieDAO.getEspecie("XXXX-XXX1").getCantidadBichos());
-		assertEquals(especieDAO.getEspecie("XXXX-XXX1").getTipo(), TipoBicho.ELECTRICIDAD);
+		//vuelvo a recuperar esta especie de mi bd para comprobar que se realizaron los cambios
+		e = especieDAO.getEspecie("XXXX-XXX1");
+		
+		assertEquals(e.getTipo(), TipoBicho.ELECTRICIDAD);
+		assertEquals(e.getAltura(), 8999);
+		assertEquals(e.getPeso(), 8999);
+		assertEquals(e.getCantidadBichos(), 8999 );
+		assertEquals(e.getUrlFoto(), "--- URL NO EXISTENTE 2 ---");
+		assertEquals(e.getEnergiaInicial(), 8999);
 	}
 
 }

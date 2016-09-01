@@ -18,6 +18,8 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.ConnectionBlock;
  * */
 public class JDBCEspecieDAO implements EspecieDAO {
 
+	/**
+	 * Constructor de JDBCEspecieDAO. Al instanciar esta clase se registra el driver MySql en el DriverManager.*/
 	public JDBCEspecieDAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -137,20 +139,30 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	}
 	
 	/**
-	 * Dada una especie obtenidad de mi base de datos, aumento en 1 la cantidad de bichos que esta posee 
+	 * Dada una especie obtenida de mi base de datos, aumento en 1 la cantidad de bichos que esta posee 
 	 * y la persisto en mi BD con JDBC.
 	 * @param especie - Una especie.
+	 * @author Abel Espínola
 	 * */
 	public void updateEspecie(Especie especie) {
 		this.executeWithConnection(conn -> {
 			PreparedStatement ps = conn.prepareStatement("UPDATE Especie SET"
-					+ " tipo = '"+especie.getTipo().toString()+"'"
-					+ ", altura = "	+especie.getAltura()
-					+ ", peso = "	+especie.getPeso()
-					+ ", cantidad_de_bichos = "+especie.getCantidadBichos()
-					+ ", url_foto = '"	+especie.getUrlFoto()+"'"
-					+ ", energia_inicial = "+especie.getEnergiaInicial()
-					+ " WHERE nombre='"+especie.getNombre()+"'");
+					+ "  tipo = ? "
+					+ ", altura = ? "
+					+ ", peso = ? "
+					+ ", cantidad_de_bichos = ? "
+					+ ", url_foto = ? "
+					+ ", energia_inicial = ? "
+					+ " WHERE nombre= ? ");
+			
+			ps.setString(1, especie.getTipo().toString());
+			ps.setInt(2, especie.getAltura());
+			ps.setInt(3, especie.getPeso());
+			ps.setInt(4, especie.getCantidadBichos());
+			ps.setString(5, especie.getUrlFoto());
+			ps.setInt(6, especie.getEnergiaInicial());
+			ps.setString(7, especie.getNombre());
+			
 			
 			ps.execute();
 			
@@ -163,7 +175,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	
 	
 	/**
-	 * Ejecuta un bloque de codigo contra una conexion.
+	 * Ejecuta un bloque de código contra una conexión.
 	 */
 	private <T> T executeWithConnection(ConnectionBlock<T> bloque) {
 		Connection connection = this.openConnection("jdbc:mysql://localhost:3307/Bichomon?user=root&password=root&useSSL=false");
@@ -179,9 +191,9 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	
 	
 	/**
-	 * Establece una conexion a la url especificada
-	 * @param url - la url de conexion a la base de datos
-	 * @return la conexion establecida
+	 * Establece una conexión a la url especificada
+	 * @param url - la url de conexión a la base de datos
+	 * @return la conexión establecida
 	 */
 	private Connection openConnection(String url) {
 		try {

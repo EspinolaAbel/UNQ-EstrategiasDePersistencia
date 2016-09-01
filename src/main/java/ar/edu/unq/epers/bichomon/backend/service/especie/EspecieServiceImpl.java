@@ -17,7 +17,9 @@ import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 
 
-
+/**
+ * Esta clase define una API mediante la cual el front-end podrá consultar la tabla Especie de la base de datos.
+ * */
 public class EspecieServiceImpl implements EspecieService {
 
 	
