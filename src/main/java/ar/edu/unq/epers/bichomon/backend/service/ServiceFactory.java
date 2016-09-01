@@ -3,7 +3,6 @@ package ar.edu.unq.epers.bichomon.backend.service;
 import ar.edu.unq.epers.bichomon.backend.service.data.DataService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieServiceImpl;
-import ar.edu.unq.epers.bichomon.frontend.mock.EspecieServiceMock;
 
 /**
  * Esta clase es un singleton, el cual sera utilizado por equipo de frontend

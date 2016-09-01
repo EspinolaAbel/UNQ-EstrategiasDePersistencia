@@ -8,8 +8,16 @@ import java.sql.SQLException;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.ConnectionBlock;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 
+/**
+ * EspecieDataServiceImpl tiene como función cargar datos a mi base de datos en la tabla Especies para poder realizar testeos sobre ella.
+ * */
 public class EspecieDataServiceImpl implements DataService {
 
+	/**
+	 * Se eliminan todos las filas de la tabla Especie de mi base de datos que hayan sido cargados por el método crearSetDatosIniciales
+	 * de la clase EspecieDataServiceImpl.
+	 * 
+	 * @author Abel Espínola*/
 	@Override
 	public void eliminarDatos() {
 		this.executeWithConnection(conn -> {
@@ -23,6 +31,15 @@ public class EspecieDataServiceImpl implements DataService {
 		});
 	}
 
+	/**
+	 * Este método tiene como función cargar un set filas en mi tabla Especie de mi base de datos con el único fin de poder
+	 * realizar testeos sobre ella.
+	 * Todos los nombres de Especies en mis filas ingresadas empiezan con el patrón 'XXXX-XXX' y terminan con un número del 0-9.
+	 * Todos los campos numéricos están cargados con el número 9999.
+	 * El TipoBicho elegido para todas las Especies ingresadas por este método es AGUA.
+	 * El campo url_foto esta seteado con el String '--URL NO EXISTENTE--'
+	 * 
+	 * @author Abel Espínola*/
 	@Override
 	public void crearSetDatosIniciales() {
 		this.executeWithConnection(conn -> {
@@ -55,7 +72,7 @@ public class EspecieDataServiceImpl implements DataService {
 	
 	
 	/**
-	 * Ejecuta un bloque de codigo contra una conexion.
+	 * Ejecuta un bloque de código contra una conexión.
 	 */
 	private <T> T executeWithConnection(ConnectionBlock<T> bloque) {
 		Connection connection = this.openConnection("jdbc:mysql://localhost:3307/Bichomon?user=root&password=root&useSSL=false");
@@ -70,9 +87,9 @@ public class EspecieDataServiceImpl implements DataService {
 	
 	
 	/**
-	 * Establece una conexion a la url especificada
-	 * @param url - la url de conexion a la base de datos
-	 * @return la conexion establecida
+	 * Establece una conexión a la url especificada
+	 * @param url - la url de conexión a la base de datos
+	 * @return la conexión establecida
 	 */
 	private Connection openConnection(String url) {
 		try {

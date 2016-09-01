@@ -1,13 +1,3 @@
-
-	/**
-	 * 
-	 * 
-	 * @author Pedro Araoz
-	 * */
-
-
-
-
 package ar.edu.unq.epers.bichomon.backend.service.especie;
 
 import java.util.List;
@@ -17,7 +7,11 @@ import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 
 
-
+/**
+ * Esta clase define una API mediante la cual el front-end podrá consultar la tabla Especie de la base de datos.
+ * 
+ * @author Pedro Araoz
+ * */
 public class EspecieServiceImpl implements EspecieService {
 
 	
@@ -40,10 +34,10 @@ public class EspecieServiceImpl implements EspecieService {
 	 * el nombre de cada especie debe ser único para toda la aplicación.
 	 * 
 	 * @param especie - un objeto Especie previamente construido por la gente de frontend
+	 * @author Pedro Araoz
 	 *
 	 *El metodo verifica que la Especie no exista, 
 	 */
-	
 	@Override
 	public void crearEspecie(Especie especie) {
 		 
@@ -66,6 +60,7 @@ public class EspecieServiceImpl implements EspecieService {
 	 * @param nombreEspecie - el nombre de la especie que se busca
 	 * @return la especie encontrada
 	 * @throws la excepción {@link EspecieNoExistente} (no chequeada)
+	 * @author Pedro Araoz
 	 */
 	
 		@Override
@@ -79,10 +74,12 @@ public class EspecieServiceImpl implements EspecieService {
 
 		
 
-		/**
-		 * @return una lista de todas los objetos {@link Especie} existentes ordenados
-		 * alfabéticamente por su nombre en forma ascendente
-		 */
+	/**
+	 * @return una lista de todas los objetos {@link Especie} existentes ordenados
+	 * @author Pedro Araoz
+	 * 
+	 * alfabéticamente por su nombre en forma ascendente
+	 */
 	@Override
 	public List<Especie> getAllEspecies() {
 
@@ -105,6 +102,7 @@ public class EspecieServiceImpl implements EspecieService {
 	 * @param nombreEspecie - el nombre de la especie del bicho a crear
 	 * @param nombreBicho - el nombre del bicho a ser creado
 	 * @return un objeto {@link Bicho} instanciado
+	 * @author Pedro Araoz
 	 */
 
 	@Override
