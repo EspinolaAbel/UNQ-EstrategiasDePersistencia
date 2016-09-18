@@ -20,15 +20,15 @@ public class Dojo extends Lugar {
 	}
 
 	@Override
-	public void recibirBichoAbandonado(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException {
 		
-			throw new UvicacionIncorrectaExeption(super.getNombre());
+			throw new UbicacionIncorrectaException(super.getNombre());
 		
 
 	}
 
 	@Override
-	public void combatir(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		// para hacer!!!!!
 		
 	}

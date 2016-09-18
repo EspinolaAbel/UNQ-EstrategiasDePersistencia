@@ -10,23 +10,22 @@ public class Pueblo extends Lugar {
 
 	public Pueblo(String nombre) {
 		super(nombre);
-		// TODO Auto-generated constructor stub
 		this.especies=null;
 	}
 
 	@Override
-	public void recibirBichoAbandonado(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException {
 		//en el pueblo no se puede abandonar bichos
-		throw new UvicacionIncorrectaExeption(super.getNombre());
+		throw new UbicacionIncorrectaException(super.getNombre());
 			
 
 		}
 	
 
 	@Override
-	public void combatir(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		//en el pueblo no se puede combatir
-		throw new UvicacionIncorrectaExeption(super.getNombre());
+		throw new UbicacionIncorrectaException(super.getNombre());
 
 	}
 	

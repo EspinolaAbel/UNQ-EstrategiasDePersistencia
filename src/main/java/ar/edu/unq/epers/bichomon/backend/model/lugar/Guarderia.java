@@ -19,16 +19,16 @@ public class Guarderia extends Lugar {
 	}
 
 	@Override
-	public void recibirBichoAbandonado(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException {
 		this.bichos.add(bicho);
 
 	}
 
 	@Override
-	public void combatir(Bicho bicho) throws UvicacionIncorrectaExeption {
+	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		// TODO Auto-generated method stub
 
-		throw new UvicacionIncorrectaExeption(super.getNombre());
+		throw new UbicacionIncorrectaException(super.getNombre());
 	
 
 	}
