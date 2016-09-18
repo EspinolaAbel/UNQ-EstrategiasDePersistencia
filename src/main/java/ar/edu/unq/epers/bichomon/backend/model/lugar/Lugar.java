@@ -10,9 +10,9 @@ public abstract class Lugar {
 		
 	}
 	
-	public abstract void recibirBichoAbandonado(Bicho bcho) throws UvicacionIncorrectaExeption ;
+	public abstract void recibirBichoAbandonado(Bicho bcho) throws UbicacionIncorrectaException ;
 
-	public abstract void combatir(Bicho bicho) throws UvicacionIncorrectaExeption ;
+	public abstract void combatir(Bicho bicho) throws UbicacionIncorrectaException ;
 
 	public abstract Bicho retornarUnBichoDeLugar();
 	public String  getNombre(){
