@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.bicho;
 
+import ar.edu.unq.epers.bichomon.backend.model.entrenador.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 
 /**
@@ -11,8 +12,8 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 public class Bicho {
 	
 	
-    //privte Jugador owner;
-	private String nombre;
+    private Entrenador owner;
+	private String nombre;// vuela
 	private Especie especie;
 	//energia >=0 siempre, 
 	private int energia;
@@ -21,7 +22,21 @@ public class Bicho {
 		this.especie = especie;
 		this.nombre = nombre;
 	}
+	public Bicho(Especie especie){
+		this.especie=especie;
+		
+	}
 
+	public void setOwner(Entrenador owner){
+		this.owner=owner;
+		
+	}
+	
+	public Entrenador gerOwner(){
+		return this.owner;
+		
+	}
+	
 	/**
 	 * @return el nombre de un bicho (todos los bichos tienen
 	 * nombre). Este NO es el nombre de su especie.
