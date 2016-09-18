@@ -10,8 +10,11 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
  */
 public class Bicho {
 	
+	
+    //privte Jugador owner;
 	private String nombre;
 	private Especie especie;
+	//energia >=0 siempre, 
 	private int energia;
 	
 	public Bicho(Especie especie, String nombre) {
