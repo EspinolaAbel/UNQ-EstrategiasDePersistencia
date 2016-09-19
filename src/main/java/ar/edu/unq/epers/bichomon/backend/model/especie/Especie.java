@@ -18,13 +18,42 @@ public class Especie {
 	
 	private int cantidadBichos;
 	
+// modificacionrespecto al tp1
+	private Especie raiz;
+	
+	
+	private CondicionDeEvolucion condiconEvolucion;
+	
+	
+	
 	public Especie(){
 	}
-	
+
+
 	public Especie(String nombre, TipoBicho tipo) {
 		this.nombre = nombre;
 		this.tipo = tipo;
+		this.raiz=this;
 	}
+	
+	
+	public Especie(String nombre, TipoBicho tipo, Especie raiz) {
+		this.nombre = nombre;
+		this.tipo = tipo;
+		this.raiz=raiz;
+	}
+	
+
+	/**
+	 * @return retorna la raiz de la especie (por ejemplo: Perromon)
+	 */
+	public String getRaiz() {
+		return this.nombre;
+	}
+	public void setRaiz(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	
 	/**
 	 * @return el nombre de la especie (por ejemplo: Perromon)
@@ -97,6 +126,10 @@ public class Especie {
 	}
 	public void setCantidadBichos(int i) {
 		this.cantidadBichos = i;
+	}
+	
+	public Especie dameRaiz (){
+		return this.raiz;
 	}
 	
 }
