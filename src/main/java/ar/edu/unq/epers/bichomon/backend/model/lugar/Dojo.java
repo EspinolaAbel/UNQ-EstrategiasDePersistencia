@@ -1,7 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
-import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 
 /**
  * 
@@ -44,7 +43,7 @@ public class Dojo extends Lugar {
 	}
 
 	@Override
-	public Bicho retornarUnBichoDeLugar() {
+	public Bicho retornarUnBichoDelLugar() {
 		// Devuelve un bicho sin dueño
 		return (new Bicho(this.campeon.getEspecie().dameRaiz()));
 	

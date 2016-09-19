@@ -5,6 +5,7 @@ import java.util.List;
 
 import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 
+/**@author pa*/
 public class Guarderia extends Lugar {
 	
 	private List<Bicho>  bichos;
@@ -13,7 +14,6 @@ public class Guarderia extends Lugar {
 	
 	public Guarderia(String nombre) {
 		super(nombre);
-		// TODO Auto-generated constructor stub
 		this.bichos=  new ArrayList<Bicho>();
 	
 	}
@@ -34,7 +34,7 @@ public class Guarderia extends Lugar {
 	}
 
 	@Override
-	public Bicho retornarUnBichoDeLugar() {
+	public Bicho retornarUnBichoDelLugar() {
 		// TODO Auto-generated method stub
 		return null;
 	}
