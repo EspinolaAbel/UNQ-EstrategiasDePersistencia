@@ -43,7 +43,7 @@ public class Dojo extends Lugar {
 	}
 
 	@Override
-	public Bicho retornarUnBichoDeLugar() {
+	public Bicho retornarUnBichoDelLugar() {
 		// Devuelve un bicho sin dueño
 		return (new Bicho(this.campeon.getEspecie().dameRaiz()));
 	
