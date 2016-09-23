@@ -1,5 +1,8 @@
 package ar.edu.unq.epers.bichomon.backend.model.entrenador;
 
+import java.util.List;
+
+import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
 public class Entrenador {
@@ -9,6 +12,7 @@ public class Entrenador {
 	private int experiencia;
 	private Lugar ubicacion;
 	private Nivel nivelActual;
+	private List<Bicho> bichos;
 
 
 	/**@return El nombre de el {@link Entrenador}.
@@ -66,5 +70,17 @@ public class Entrenador {
 		this.nivelActual = nivelActual;
 	} 
 	
+	
+    public  void capturarBicho(Bicho bicho){
+    	this.bichos.add(bicho);
+    	
+    }
+    
+	/**@param bicho - El {@link int }establece que bicchos de la coleccion sera eliminado
+	 * @author ae */
+	
+    public void descartarBicho(int bicho){
+		this.bichos.remove(bicho);
+    }
 	
 }
