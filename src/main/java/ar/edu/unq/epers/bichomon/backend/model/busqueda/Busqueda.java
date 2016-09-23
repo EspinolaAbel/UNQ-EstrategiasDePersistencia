@@ -1,7 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.model.busqueda;
 
-import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
-import ar.edu.unq.epers.bichomon.backend.model.entrenador.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
 /** clase para manipular lña busqueda de bichos 

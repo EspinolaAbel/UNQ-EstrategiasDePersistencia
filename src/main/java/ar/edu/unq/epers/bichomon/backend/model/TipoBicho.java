@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.model.especie;
+package ar.edu.unq.epers.bichomon.backend.model;
 
 public enum TipoBicho {
 

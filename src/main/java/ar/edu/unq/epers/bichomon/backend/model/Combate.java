@@ -1,10 +1,8 @@
-package ar.edu.unq.epers.bichomon.backend.model.combate;
+package ar.edu.unq.epers.bichomon.backend.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 
 /**
  * clase  que representa un combate entre dos bichos

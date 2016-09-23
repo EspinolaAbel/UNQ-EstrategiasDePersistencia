@@ -1,8 +1,8 @@
-package ar.edu.unq.epers.bichomon.backend.dao.especie;
+package ar.edu.unq.epers.bichomon.backend.dao;
 
 import java.util.List;
 
-import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
 /**Interface creada para definir la persistencia de mi clase Especie en mi BD.
  * @author Abel Espínola*/

@@ -1,4 +1,9 @@
-package ar.edu.unq.epers.bichomon.backend.model.especie;
+package ar.edu.unq.epers.bichomon.backend.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 
 /**
  * Representa una {@link Especie} de bicho.
@@ -11,19 +16,11 @@ public class Especie {
 	private int altura;
 	private int peso;
 	private TipoBicho tipo;
-
 	private int energiaInicial;
-	
 	private String urlFoto;
-	
 	private int cantidadBichos;
-	
-// modificacionrespecto al tp1
 	private Especie raiz;
-	
-	
-	private CondicionDeEvolucion condiconEvolucion;
-	
+	private List<CondicionDeEvolucion> condicionesDeEvolucion;
 	
 	
 	public Especie(){
@@ -31,6 +28,7 @@ public class Especie {
 
 
 	public Especie(String nombre, TipoBicho tipo) {
+		this.condicionesDeEvolucion = new ArrayList<CondicionDeEvolucion>();
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.raiz=this;
@@ -130,6 +128,14 @@ public class Especie {
 	
 	public Especie dameRaiz (){
 		return this.raiz;
+	}
+
+
+	/** Dada una {@link CondicionDeEvolucion}, se la agrega a la lista que contiene las condiciones para evolucionar de esta {@llink Especie}.
+	 * @param condicionDeEvolucion - Una {@link CondicionDeEvolucion}.
+	 * @author ae */
+	public void agregarCondicionDeEvolucion(CondicionDeEvolucion condicionDeEvolucion) {
+		this.condicionesDeEvolucion.add(condicionDeEvolucion);
 	}
 	
 }

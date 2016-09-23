@@ -1,7 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.service.tp2;
 
-import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
-import ar.edu.unq.epers.bichomon.backend.model.combate.ResultadoCombate;
+import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 public class BichoService {
 

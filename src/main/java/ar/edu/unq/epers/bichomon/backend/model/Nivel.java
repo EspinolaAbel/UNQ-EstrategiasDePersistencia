@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.model.entrenador;
+package ar.edu.unq.epers.bichomon.backend.model;
 
 /** Esta clase se va a encargar de representar el {@link Nivel} actual en el que se encuentra un
  * {@link Entrenador} en el juego.*/

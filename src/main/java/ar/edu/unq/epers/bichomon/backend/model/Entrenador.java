@@ -1,8 +1,7 @@
-package ar.edu.unq.epers.bichomon.backend.model.entrenador;
+package ar.edu.unq.epers.bichomon.backend.model;
 
 import java.util.List;
 
-import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
 public class Entrenador {

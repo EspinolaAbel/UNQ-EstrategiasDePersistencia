@@ -3,7 +3,7 @@
  */
 package ar.edu.unq.epers.bichomon.backend.model.busqueda;
 
-import ar.edu.unq.epers.bichomon.backend.model.entrenador.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
 /**interface para calcular la probabilidadd de que la busqueda  sea exitosa

@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.impl.especie;
+package ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,10 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.epers.bichomon.backend.dao.especie.EspecieDAO;
-import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
-import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.ConnectionBlock;
+import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
 /**
  * Clase que define la comunicación entre java y mi base de datos utilizando JDBC.

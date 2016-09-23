@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import ar.edu.unq.epers.bichomon.backend.dao.impl.ConnectionBlock;
-import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.ConnectionBlock;
+import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
 /**
  * EspecieDataServiceImpl tiene como función cargar datos a mi base de datos en la tabla Especies para poder realizar testeos sobre ella.

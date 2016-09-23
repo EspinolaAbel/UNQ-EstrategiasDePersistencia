@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.impl.especie;
+package ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc;
 
 import static org.junit.Assert.*;
 
@@ -11,8 +11,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
-import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.JDBCEspecieDAO;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.data.DataService;
 import ar.edu.unq.epers.bichomon.backend.service.data.EspecieDataServiceImpl;
 

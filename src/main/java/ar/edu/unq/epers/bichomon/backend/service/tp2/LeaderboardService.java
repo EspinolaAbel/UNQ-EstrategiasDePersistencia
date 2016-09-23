@@ -2,8 +2,8 @@ package ar.edu.unq.epers.bichomon.backend.service.tp2;
 
 import java.util.List;
 
-import ar.edu.unq.epers.bichomon.backend.model.entrenador.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
 public class LeaderboardService {
 

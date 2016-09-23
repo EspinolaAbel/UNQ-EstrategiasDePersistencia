@@ -1,6 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
-import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**
  * 
