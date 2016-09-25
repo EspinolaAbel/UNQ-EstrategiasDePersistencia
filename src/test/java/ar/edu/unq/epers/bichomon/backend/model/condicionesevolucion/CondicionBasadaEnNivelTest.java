@@ -1,6 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Before;
 
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
@@ -32,7 +32,7 @@ public class CondicionBasadaEnNivelTest extends CondicionDeEvolucionTest {
 		entrenador.setNivelActual(nivel);
 		bichoGenerico.setOwner(entrenador);
 		
-		Assert.assertTrue(condicionDeEvolucion.apruebaLaCondicion(bichoGenerico));
+		assertTrue(condicionDeEvolucion.apruebaLaCondicion(bichoGenerico));
 	}
 
 	/** Dado un Bicho consulto si su Entrenador esta en un nivel superior al definido en la condición de la Especie.
@@ -47,7 +47,7 @@ public class CondicionBasadaEnNivelTest extends CondicionDeEvolucionTest {
 		entrenador.setNivelActual(nivel);
 		bichoGenerico.setOwner(entrenador);
 		
-		Assert.assertFalse(condicionDeEvolucion.apruebaLaCondicion(bichoGenerico));
+		assertFalse(condicionDeEvolucion.apruebaLaCondicion(bichoGenerico));
 	}
 
 }

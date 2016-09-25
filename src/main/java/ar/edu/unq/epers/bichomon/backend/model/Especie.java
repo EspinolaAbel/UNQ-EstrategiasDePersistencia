@@ -122,6 +122,7 @@ public class Especie {
 	public int getCantidadBichos() {
 		return this.cantidadBichos;
 	}
+	
 	public void setCantidadBichos(int i) {
 		this.cantidadBichos = i;
 	}
@@ -131,11 +132,24 @@ public class Especie {
 	}
 
 
-	/** Dada una {@link CondicionDeEvolucion}, se la agrega a la lista que contiene las condiciones para evolucionar de esta {@llink Especie}.
+	/** Dada una {@link CondicionDeEvolucion}, se la agrega a la lista que contiene las condiciones
+	 * para evolucionar de esta {@link Especie}.
 	 * @param condicionDeEvolucion - Una {@link CondicionDeEvolucion}.
 	 * @author ae */
 	public void agregarCondicionDeEvolucion(CondicionDeEvolucion condicionDeEvolucion) {
 		this.condicionesDeEvolucion.add(condicionDeEvolucion);
 	}
 	
+	
+	/** Se responde si el {@link Bicho} dado está en condiciones de evolucionar.
+	 * @param bichoAEvaluar
+	 * @return Boolean que indica si puede evolucionar.
+	 * @author ae */
+	public Boolean puedeEvolucionar(Bicho bichoAEvaluar) {
+		Boolean evoluciona = true;
+		for(CondicionDeEvolucion condicion: this.condicionesDeEvolucion) {
+			evoluciona = condicion.apruebaLaCondicion(bichoAEvaluar) && evoluciona;
+		}
+		return evoluciona;
+	}
 }

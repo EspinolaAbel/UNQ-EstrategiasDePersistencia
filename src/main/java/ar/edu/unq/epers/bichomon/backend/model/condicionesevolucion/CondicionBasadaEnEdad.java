@@ -7,6 +7,10 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
  * @author ae */
 public class CondicionBasadaEnEdad extends CondicionDeEvolucion {
 
+	public CondicionBasadaEnEdad(Integer magnitud) {
+		super(magnitud);
+	}
+
 	@Override
 	public Integer magnitudDeCondicionDelBicho(Bicho bicho) {
 		return bicho.getTiempoDesdeSuCaptura();

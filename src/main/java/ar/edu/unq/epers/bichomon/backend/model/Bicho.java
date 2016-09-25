@@ -76,13 +76,17 @@ public class Bicho {
 		return this.tiempoDesdeSuCaptura;
 	}
 	
-	/** Se responde con la cantidad de victorias obtenidas por parte del {@link Bicho} en
-	 * duelos.
-	 * 
-	 * @author ae */
 	public Integer getCantidadDeVictorias() {
-		//TODO duda con si esto debe obtenerse directamente del bicho o con una consulta a bd
 		return this.cantidadDeVictorias;
 	}
+	
+	public void setCantidadDeVictorias(Integer victorias) {
+		this.cantidadDeVictorias = victorias;
+	}
+	
+	public void setTiempoDesdeSuCaptura(Integer tiempo) {
+		this.tiempoDesdeSuCaptura = tiempo;
+	}
+	
 	
 }
