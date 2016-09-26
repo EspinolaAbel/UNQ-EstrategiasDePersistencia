@@ -2,7 +2,6 @@ package ar.edu.unq.epers.bichomon.backend.model;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad;
@@ -13,9 +12,6 @@ import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeE
 
 public class EspecieTest {
 	
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	/** Dado un bicho consulto si este puede evolucionar a la siguiente especie. Como el bicho
 	 * esta en condiciones de evolucionar se responde true.
@@ -50,7 +46,8 @@ public class EspecieTest {
 	}
 	
 	
-//ALGUNOS METODOS AUXILIARES PARA TEST	
+	
+//ALGUNOS MÉTODOS AUXILIARES PARA TEST	
 	
 	private Entrenador entrenadorConNivel(int i) {
 		Nivel n = new Nivel();	n.setNumeroDeNivel(i);

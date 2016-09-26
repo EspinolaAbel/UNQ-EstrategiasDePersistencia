@@ -48,8 +48,8 @@ public class Especie {
 	public String getRaiz() {
 		return this.nombre;
 	}
-	public void setRaiz(String nombre) {
-		this.nombre = nombre;
+	public void setRaiz(Especie especieRaiz) {
+		this.raiz = especieRaiz;
 	}
 	
 	
