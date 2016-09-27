@@ -13,95 +13,62 @@ import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
 public class SorteoEspeciesTest {
 	SorteoEspecies sorteoEspecie;
-	List <Especie> especies ;
+	List <EspecieConProbabilidad> especies ;
 	@Before
 	public void setUp() {
 		/**
 		 * creo  una clase que sorteara ente 5 Elementos
 		 */
-		this.sorteoEspecie= new SorteoEspecies(5);
-		this.especies= new ArrayList<Especie>();
-		this.especies.add( new Especie("lagartomon1", TipoBicho.AGUA)  );
-		this.especies.add( new Especie("lagartomon2", TipoBicho.AGUA)  );
-		this.especies.add( new Especie("lagartomon3", TipoBicho.AGUA)  );
-		this.especies.add( new Especie("lagartomon4", TipoBicho.AGUA)  );
-		this.especies.add( new Especie("lagartomon5", TipoBicho.AGUA)  );
 		
+		this.especies= new ArrayList<EspecieConProbabilidad>();
 		
+		Especie e= new Especie("lagartomon1", TipoBicho.AGUA);
+		this.especies.add(new EspecieConProbabilidad(e,5));
+	    e= new Especie("lagartomon2", TipoBicho.AGUA);
+		this.especies.add(new EspecieConProbabilidad(e, 15  ));
+		e= new Especie("lagartomon3", TipoBicho.AGUA);
+		this.especies.add(new EspecieConProbabilidad(e, 51  ));
+		e= new Especie("lagartomon4", TipoBicho.AGUA);
+		this.especies.add(new EspecieConProbabilidad(e, 31));
+		e= new Especie("lagartomon5", TipoBicho.AGUA);
+		this.especies.add(new EspecieConProbabilidad(e, 1));
+		
+		sorteoEspecie =new SorteoEspecies(this.especies);
+
 	}
 
 	@Test
-	public void testLaClaseCreadaTieneCincoElementos() {
+	public void testLaClaseCreadaTieneCincoElementosYunaProbabilidadAcumuladaDe() {//probabilidad acumualada=103
 		assertEquals(sorteoEspecie.getResultados().size(),5 );
-	}
-	
-	@Test
-	public void testResultadosMenoresACienYCadaUnaEsMAyorQueLaAnterior(){
-		//testeo que todos los elementos son menosres a 100%,las probablidades en la coleccion se acumulasn pero nunca supeeran el 100%
-		//que no falle es algo al menos
-		//no sirve del todo ya que las probabilidades asignadas son aleatorias
-		Integer previa=0;
 		
-		for (Integer i:this.sorteoEspecie.getResultados()){
-			System.out.println(i);//solo para ver lo que sale x  consola
-			assertTrue(i<=100);
-			assertTrue(i>=previa);
-			previa=i;
-		}
-	}		
-	
+		assertTrue(sorteoEspecie.getResultados().get(0)== 5);
+		assertTrue(sorteoEspecie.getResultados().get(1)== 20);
+		assertTrue(sorteoEspecie.getResultados().get(2)== 71);
+		assertTrue(sorteoEspecie.getResultados().get(3)== 102);
+		assertTrue(sorteoEspecie.getResultados().get(4)== 103);
+	}
 	
 	@Test
 	public void testReasignarCantidadDeElementos(){
 		
-		this.sorteoEspecie.reasignar(6);
-		assertEquals(sorteoEspecie.getResultados().size(),6 );
-		
 	}
 
 	
 	@Test
-	public void testSorteoDeUnSoloElemento (){
+	public void testSorteo (){
 		/**
-		 * solo voyn a tener un elemento en la lista de especies
+		 * sorteo en la lista "Con la probabilidad ya sorteada en 55 y me devuelve el tercer elemento"
 		 */
-		this.sorteoEspecie.reasignar(1);
-		Especie e= this.sorteoEspecie.sortearEspecie(especies);
+		
+		EspecieConProbabilidad e= this.sorteoEspecie.sortearEspecie(especies,55);
+		assertEquals(this.especies.get(2), e);
+		 e= this.sorteoEspecie.sortearEspecie(especies,102);
+		assertEquals(this.especies.get(3), e);
+		 e= this.sorteoEspecie.sortearEspecie(especies,103);
+		assertEquals(this.especies.get(4), e);
+		 e= this.sorteoEspecie.sortearEspecie(especies,1);
 		assertEquals(this.especies.get(0), e);
 		
 		
-		
 	}
-	
-
-	@Test
-	public void testSorteoDondeSoloElUltimoDeLaListaTieneProbabilidades (){
-		/**
-		 * solo voyn a tener un elementocon probabilidad en la lista de resultados
-		 */
-		 ArrayList <Integer> res = new ArrayList <Integer>();
-		 res.add(0);
-		 res.add(0);
-		 res.add(100);
-		 
-		 res.add(0);
-		 res.add(0);
-
-		 
-		 this.sorteoEspecie.setResultados(res);
-		Especie e= this.sorteoEspecie.sortearEspecie(especies);
-		assertEquals(this.especies.get(2), e);
-		
-		
-		
-	}
-	
-	
-//METODOS AUXILIARES PARA TEST
-	
-	public EspecieConProbabilidad especieConProbabilidad(Integer prob) {
-		Especie e = new Especie("nn", TipoBicho.FUEGO);
-		EspecieConProbabilidad ep = new EspecieConProbabilidad(e, prob);
-		return ep;
-	}
-}
+}	

@@ -1,31 +1,59 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import java.io.Serializable;
+
+import javax.persistence.*;
+import javax.persistence.Id;
+
 /**
  * Un {@link Bicho} existente en el sistema, el mismo tiene un nombre
  * y pertenece a una {@link Especie} en particular.
  * 
  * @author Charly Backend
  */
-public class Bicho {
+
+
+@Entity
+public class Bicho implements Serializable{
 	
 	
-    private Entrenador owner;
-	private String nombre;// vuela
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -731129257068449225L;
+	@Transient
+	private Entrenador owner;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+	
+    private String nombre;
+    @Transient
 	private Especie especie;
 	//energia >=0 siempre, 
 	private int energia;
 	private Integer tiempoDesdeSuCaptura;
 	private Integer cantidadDeVictorias;
 	
-	public Bicho(Especie especie, String nombre) {
-		this.especie = especie;
-		this.nombre = nombre;
+	
+	public Bicho(){
+		
 	}
+	
 	public Bicho(Especie especie){
 		this.especie=especie;
 		
 	}
 
+
+	public Bicho(Especie especie, String nombre){
+		this.especie=especie;
+		this.nombre= nombre;
+		
+		
+	}
+
+	
 	/** Se setea el {@link Entrenador} propietario del {@link Bicho}.
 	 * @param owner - {@link Entrenador} que será el nuevo propietario.*/
 	public void setOwner(Entrenador owner){
@@ -38,14 +66,6 @@ public class Bicho {
 	public Entrenador getOwner(){
 		return this.owner;
 		
-	}
-	
-	/**
-	 * @return el nombre de un bicho (todos los bichos tienen
-	 * nombre). Este NO es el nombre de su especie.
-	 */
-	public String getNombre() {
-		return this.nombre;
 	}
 	
 	/**

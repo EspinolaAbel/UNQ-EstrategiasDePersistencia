@@ -15,41 +15,33 @@ import javassist.bytecode.Descriptor.Iterator;
 
 public class SorteoEspecies {
 	/**
-	 * la coleccion de resultados acumula ls probabilidaddes en cada indice
+	 * la coleccion de aacumulados acumula ls probabilidaddes en cada indice
 	 * 
 	 */
-	private List<Integer> resultados;
+	private List<Integer> acumulados;
 	
 
-public SorteoEspecies(int entreCuantos){
+public SorteoEspecies(List <EspecieConProbabilidad> especies){
 	/**
-	 * @param entreCuantos - {@link entreCuantos} indica la cantidad de elementos a sortear la probabilidad.
-	 * se asigara a cada uno un probabilidad de ocurrencia cuya somatoria formara el 100%
+	 * @param especies - {@link especies} indica la cantidad de elementos a sortear con su probabilidad.
+	 * 
 	 */
-	this.resultados= new ArrayList<Integer>();
-	reasignar(entreCuantos); 
+	this.acumulados= new ArrayList<Integer>();
+	this.asignar(especies); 
 }	
 	
 /**
- * este metodo resaigna aleatoriamente las probabilidades segun cambien la cantidad de especies dentro del pueblo
- * @param entreCuantos
+ * este metodo saigna  las probabilidades segun cambien la cantidad de especies dentro del pueblo
+ * @param e
  */
 
-public void reasignar(int entreCuantos){
-	this.resultados= new ArrayList<Integer>(); 
-	Integer porcentajeAcumulado=0;
-	Integer porcentaje=0;
+public void asignar(List<EspecieConProbabilidad> especies){
+	int anterior=0;
+	this.acumulados= new ArrayList<Integer>(); 
 	
-	if (entreCuantos==0)
-		this.resultados=null;
-	else{
-		while (entreCuantos>1){//voy a repartir porcentajes  entre los n-1 elementos, y al ultimo le asigno el resto 
-			porcentaje= (int)(Math.random()*(100-porcentajeAcumulado));
-			porcentajeAcumulado+=porcentaje;
-			this.resultados.add(porcentajeAcumulado);
-			entreCuantos--;
-			}
-		resultados.add(100);// el ultimo elemento deberea ser el total de los porcentajes
+	for(EspecieConProbabilidad e: especies){
+		this.acumulados.add(e.getProbabilidad() +anterior);
+		anterior+=e.getProbabilidad();
 		}
 	}
 
@@ -59,13 +51,18 @@ public void reasignar(int entreCuantos){
  * @return 
  * 
  */
+
+
+
+
 public   <T> T sortearEspecie(List<T> especies){
-	Double probabilidadSeleccionada= Math.random()*100;//elijo al azar un numero entre 0 y 100
+	//elijo al azar un numero  entre 0 y el ultimo de las peobabilidades acumuladas
+	Integer probabilidadSeleccionada= (int) (Math.random()*(this.acumulados.get(this.acumulados.size()-1)));
 	int indice=0;
 	boolean encontrado= false;
 	
-	for (int i=0; i<this.resultados.size()&& !encontrado; i++){
-		 if( this.resultados.get(i)>= probabilidadSeleccionada){
+	for (int i=0; i<this.acumulados.size()&& !encontrado; i++){
+		 if( this.acumulados.get(i)>= probabilidadSeleccionada){
 			 indice=i;
 			 encontrado=true;
 		 	}
@@ -73,17 +70,40 @@ public   <T> T sortearEspecie(List<T> especies){
 	return especies.get(indice);
 
 	}
+
+public   <T> T sortearEspecie(List<T> especies, int sorteada){
+	//elijo al azar un numero  entre 0 y el ultimo de las peobabilidades acumuladas
+	Integer probabilidadSeleccionada= sorteada;
+	int indice=0;
+	boolean encontrado= false;
+	
+	for (int i=0; i<this.acumulados.size()&& !encontrado; i++){
+		 if( this.acumulados.get(i)>= probabilidadSeleccionada){
+			 indice=i;
+			 encontrado=true;
+		 	}
+		}
+	return especies.get(indice);
+
+	}
+
+
+
+
+
+
+
 /**
  * 
  * @return resultados {@link resultados} devuelve los resultados de las asignaciones de probabilidades
  */
 
 public List<Integer> getResultados(){
-	return this.resultados;
+	return this.acumulados;
 }
-public void setResultados(List <Integer> resultados){
+public void setResultados(List <Integer> acumulados){
 
-	this.resultados=resultados;
+	this.acumulados=acumulados;
 	
 	
 }
