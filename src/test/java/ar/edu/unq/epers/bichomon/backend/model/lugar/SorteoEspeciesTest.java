@@ -2,6 +2,9 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,13 +13,20 @@ import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
 public class SorteoEspeciesTest {
 	SorteoEspecies sorteoEspecie;
-	
+	List <Especie> especies ;
 	@Before
 	public void setUp() {
 		/**
 		 * creo  una clase que sorteara ente 5 Elementos
 		 */
 		this.sorteoEspecie= new SorteoEspecies(5);
+		this.especies= new ArrayList<Especie>();
+		this.especies.add( new Especie("lagartomon1", TipoBicho.AGUA)  );
+		this.especies.add( new Especie("lagartomon2", TipoBicho.AGUA)  );
+		this.especies.add( new Especie("lagartomon3", TipoBicho.AGUA)  );
+		this.especies.add( new Especie("lagartomon4", TipoBicho.AGUA)  );
+		this.especies.add( new Especie("lagartomon5", TipoBicho.AGUA)  );
+		
 		
 	}
 
@@ -48,8 +58,43 @@ public class SorteoEspeciesTest {
 		assertEquals(sorteoEspecie.getResultados().size(),6 );
 		
 	}
+
 	
+	@Test
+	public void testSorteoDeUnSoloElemento (){
+		/**
+		 * solo voyn a tener un elemento en la lista de especies
+		 */
+		this.sorteoEspecie.reasignar(1);
+		Especie e= this.sorteoEspecie.sortearEspecie(especies);
+		assertEquals(this.especies.get(0), e);
+		
+		
+		
+	}
 	
+
+	@Test
+	public void testSorteoDondeSoloElUltimoDeLaListaTieneProbabilidades (){
+		/**
+		 * solo voyn a tener un elementocon probabilidad en la lista de resultados
+		 */
+		 ArrayList <Integer> res = new ArrayList <Integer>();
+		 res.add(0);
+		 res.add(0);
+		 res.add(100);
+		 
+		 res.add(0);
+		 res.add(0);
+
+		 
+		 this.sorteoEspecie.setResultados(res);
+		Especie e= this.sorteoEspecie.sortearEspecie(especies);
+		assertEquals(this.especies.get(2), e);
+		
+		
+		
+	}
 	
 	
 //METODOS AUXILIARES PARA TEST

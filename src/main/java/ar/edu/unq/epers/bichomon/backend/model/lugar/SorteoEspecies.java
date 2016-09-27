@@ -18,7 +18,7 @@ public class SorteoEspecies {
 	 * la coleccion de resultados acumula ls probabilidaddes en cada indice
 	 * 
 	 */
-	private ArrayList<Integer> resultados;
+	private List<Integer> resultados;
 	
 
 public SorteoEspecies(int entreCuantos){
@@ -81,6 +81,11 @@ public   <T> T sortearEspecie(List<T> especies){
 public List<Integer> getResultados(){
 	return this.resultados;
 }
+public void setResultados(List <Integer> resultados){
 
+	this.resultados=resultados;
+	
+	
+}
 	
 }
