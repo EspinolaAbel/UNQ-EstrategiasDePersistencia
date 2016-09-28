@@ -17,4 +17,10 @@ public class EspecieConProbabilidad {
 	public int getProbabilidad(){
 		return this.probabilidad;
 	}
+
+
+	public Especie getEspecie() {
+
+		return this.especie;
+	}
 }

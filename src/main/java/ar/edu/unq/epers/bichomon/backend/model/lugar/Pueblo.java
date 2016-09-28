@@ -47,8 +47,8 @@ public class Pueblo extends Lugar {
 
 	@Override
 	public Bicho retornarUnBichoDelLugar() {
-		
-		return  new Bicho();
+		SorteoEspecies sorteo= new SorteoEspecies(this.especies);
+		return  new Bicho( sorteo.sortearEspecie(this.especies).getEspecie() );
 	}
 
 	
