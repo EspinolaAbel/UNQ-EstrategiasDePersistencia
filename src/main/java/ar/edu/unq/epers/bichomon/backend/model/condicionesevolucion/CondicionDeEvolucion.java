@@ -1,5 +1,14 @@
 package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
@@ -7,10 +16,18 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
  * {@link Bicho} debe cumplir para evolucionar a la siguiente {@link Especie} de su arbol de evolución.
  * Las subclases que hereden de esta clase, deben implementar una condición especifica.
  * @author ae */
+@Entity
+@Table(name = "Condiciones_de_evolucion")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class CondicionDeEvolucion {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	private Integer magnitudASuperar;
 	
+	
+	public CondicionDeEvolucion() {}
 	
 	public CondicionDeEvolucion(Integer magnitud) {
 		this.magnitudASuperar = magnitud;
