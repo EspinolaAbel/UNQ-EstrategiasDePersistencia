@@ -1,5 +1,8 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**
@@ -9,13 +12,14 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
  * @author Peter
  *
  */
+@Entity
 public class Dojo extends Lugar {
+	
+	@Transient
 	private Bicho campeon;
+	
 	public Dojo(String nombre) {
 		super(nombre);
-		
-		
-		
 	}
 
 	@Override

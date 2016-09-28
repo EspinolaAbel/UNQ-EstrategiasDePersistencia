@@ -2,6 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 
@@ -21,10 +22,12 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 public abstract class CondicionDeEvolucion {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private Integer magnitudASuperar;
 	
+	
+	public CondicionDeEvolucion() {}
 	
 	public CondicionDeEvolucion(Integer magnitud) {
 		this.magnitudASuperar = magnitud;

@@ -3,17 +3,39 @@ package ar.edu.unq.epers.bichomon.backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
+@Entity
 public class Entrenador {
 	
-	
+	@Id
 	private String  nombre;
 	private Integer experiencia;
+	
+	@OneToOne(cascade=CascadeType.ALL)
 	private Lugar ubicacion;
+	
+	@OneToOne(cascade=CascadeType.ALL)
 	private Nivel nivelActual;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner", fetch=FetchType.EAGER)
 	private List<Bicho> bichosCapturados;
 
+	public Entrenador(String nombre) {
+		this();
+		this.nombre = nombre;
+	}
+	
 	public Entrenador() {
 		this.bichosCapturados = new ArrayList<Bicho>();
 		this.experiencia = 0;
@@ -47,14 +69,15 @@ public class Entrenador {
 	public Nivel getNivelActual() {
 		return this.nivelActual;
 	}
+
+	public void setNivelActual(Nivel nivelActual) {
+		this.nivelActual = nivelActual;
+	} 
 	
 	public List<Bicho> getBichosCapturados() {
 		return this.bichosCapturados;
 	}
 
-	public void setNivelActual(Nivel nivelActual) {
-		this.nivelActual = nivelActual;
-	} 
 	
 	/** Dado un {@link Bicho} se lo agrega a la lista de bichos capturados del entrenador.
      * Este método también agrega a este entrenador como el owner del bicho.

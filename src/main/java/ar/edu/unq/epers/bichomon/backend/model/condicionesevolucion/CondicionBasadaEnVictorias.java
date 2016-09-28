@@ -10,6 +10,10 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 @Entity
 public class CondicionBasadaEnVictorias extends CondicionDeEvolucion {
 
+	public CondicionBasadaEnVictorias() {
+		super();
+	}
+	
 	public CondicionBasadaEnVictorias(Integer magnitud) {
 		super(magnitud);
 	}

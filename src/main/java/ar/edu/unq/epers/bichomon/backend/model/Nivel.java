@@ -1,12 +1,21 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 /** Esta clase se va a encargar de representar el {@link Nivel} actual en el que se encuentra un
  * {@link Entrenador} en el juego.*/
+@Entity
 public class Nivel {
 	
+	@Id
 	private Integer numeroDeNivel;
 	private Integer puntosParaSubirDeNivel;
 	private Integer maxCantidadDeBichos;
+	
+	@OneToOne
 	private Nivel siguienteNivel;
 	
 	

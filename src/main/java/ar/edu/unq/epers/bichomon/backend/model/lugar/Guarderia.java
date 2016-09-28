@@ -3,15 +3,18 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**@author pa*/
+@Entity
 public class Guarderia extends Lugar {
 	
+	@Transient
 	private List<Bicho>  bichosAbandonados;
-	
-	
-	
+		
 	public Guarderia(String nombre) {
 		super(nombre);
 		this.bichosAbandonados =  new ArrayList<Bicho>();

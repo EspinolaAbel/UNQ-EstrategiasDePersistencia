@@ -1,10 +1,20 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**@author pa*/
+@Entity
+@Table(name = "Lugares")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class Lugar {
 	
+	@Id
 	private String nombre;
 
 	/**@author pa*/
