@@ -18,8 +18,9 @@ public class HibernateEspecieDAO implements EspecieDAO {
 
 	@Override
 	public Especie getEspecie(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = Runner.getCurrentSession();
+		Especie e = session.get(Especie.class, nombre);
+		return e;
 	}
 
 	@Override

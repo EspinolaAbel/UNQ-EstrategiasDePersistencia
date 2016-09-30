@@ -26,8 +26,10 @@
 		<!-- CONDICIONES DE EVOLUCION -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion" />
+		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEnergia" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnVictorias" />
+<<<<<<< HEAD
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionQueFalla" />
@@ -35,6 +37,24 @@
 		<!-- ESPECIE -->
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
+=======
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel" />
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
 	
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Entrenador" />
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Bicho" />
+>>>>>>> 8b9b44af2c12b507a1c929342732aa8c744b21eb
+	
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
+		
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo" />
+		
 	</session-factory>
 </hibernate-configuration>

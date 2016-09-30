@@ -32,6 +32,7 @@ public abstract class CondicionDeEvolucion {
 	
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	private Integer magnitudASuperar;
@@ -40,6 +41,8 @@ public abstract class CondicionDeEvolucion {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Especie especie;
 	
+	
+	public CondicionDeEvolucion() {}
 	
 	public CondicionDeEvolucion(Integer magnitud) {
 		this.magnitudASuperar = magnitud;

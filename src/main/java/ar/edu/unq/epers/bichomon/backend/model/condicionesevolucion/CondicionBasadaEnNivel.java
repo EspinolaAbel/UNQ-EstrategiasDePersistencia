@@ -12,9 +12,14 @@ import ar.edu.unq.epers.bichomon.backend.model.Nivel;
 @Entity
 public class CondicionBasadaEnNivel extends CondicionDeEvolucion {
 
+	public CondicionBasadaEnNivel() {
+		super();
+	}
+	
 	public CondicionBasadaEnNivel(Integer magnitud) {
 		super(magnitud);
 	}
+	
 
 	@Override
 	public Integer magnitudDeCondicionDelBicho(Bicho bicho) {

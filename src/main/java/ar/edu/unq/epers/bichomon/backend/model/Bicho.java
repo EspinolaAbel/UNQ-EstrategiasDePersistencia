@@ -1,19 +1,31 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
 /**
  * Un {@link Bicho} existente en el sistema, el mismo tiene un nombre
  * y pertenece a una {@link Especie} en particular.
  * 
- * @author Charly Backend
- */
+ * @author Charly Backend */
+@Entity
 public class Bicho {
 	
-	
+	@ManyToOne
     private Entrenador owner;
-	private String nombre;// vuela
-	private Especie especie;
-	//energia >=0 siempre, 
-	private int energia;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private String nombre;
+	
+	@Transient
+	private Especie especie; 
+	private Integer energia;
 	private Integer tiempoDesdeSuCaptura;
 	private Integer cantidadDeVictorias;
 	
@@ -21,11 +33,17 @@ public class Bicho {
 		this.especie = especie;
 		this.nombre = nombre;
 	}
+
+	public Bicho() {
+		super();
+	}
+	
 	public Bicho(Especie especie){
-		this.especie=especie;
-		
+		this();
+		this.especie=especie;	
 	}
 
+	
 	/** Se setea el {@link Entrenador} propietario del {@link Bicho}.
 	 * @param owner - {@link Entrenador} que será el nuevo propietario.*/
 	public void setOwner(Entrenador owner){

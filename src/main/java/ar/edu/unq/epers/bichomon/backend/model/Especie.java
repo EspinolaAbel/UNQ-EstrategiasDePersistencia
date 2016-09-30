@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -29,8 +29,9 @@ public class Especie {
 	private int cantidadBichos;
 	@Transient
 	private Especie raiz;
-	
-	@OneToMany(mappedBy="especie", cascade=CascadeType.ALL)
+
+
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<CondicionDeEvolucion> condicionesDeEvolucion;
 	
 	
@@ -138,6 +139,18 @@ public class Especie {
 		this.cantidadBichos = i;
 	}
 	
+	
+	
+	public List<CondicionDeEvolucion> getCondicionesDeEvolucion() {
+		return condicionesDeEvolucion;
+	}
+
+
+	public void setCondicionesDeEvolucion(List<CondicionDeEvolucion> condicionesDeEvolucion) {
+		this.condicionesDeEvolucion = condicionesDeEvolucion;
+	}
+
+
 	public Especie dameRaiz (){
 		return this.raiz;
 	}
@@ -163,4 +176,6 @@ public class Especie {
 		}
 		return evoluciona;
 	}
+	
+	
 }
