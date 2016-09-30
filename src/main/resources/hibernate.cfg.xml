@@ -21,14 +21,20 @@
 		
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 
-		<!--  
-		<mapping class="ar.edu.unq.unidad3.wop.modelo.Personaje" />
-		<mapping class="ar.edu.unq.unidad3.wop.modelo.Item" />
-		-->
+		<!-- MAPEOS: -->
+		
+		<!-- CONDICIONES DE EVOLUCION -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEnergia" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnVictorias" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionQueFalla" />
+	
+		<!-- ESPECIE -->
+	
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
 	
 	</session-factory>
 </hibernate-configuration>

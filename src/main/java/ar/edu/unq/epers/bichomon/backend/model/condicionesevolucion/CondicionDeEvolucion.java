@@ -1,11 +1,15 @@
 package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
@@ -17,13 +21,24 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
  * @author ae */
 @Entity
 @Table(name = "Condiciones_de_evolucion")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)				//@IdClass(CondicionDeEvolucionPK.class)
 public abstract class CondicionDeEvolucion {
 	
+
+//	--Guarda la secuencia de id en la misma tabla de la entidad.	
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	--Guarda la secuencia de id en una tabla separada la cual tiene una fila por cada id de cada tabla que usen esta estrategia.	
+//	@GeneratedValue(strategy=GenerationType.TABLE)
+	
+
 	@Id
-	@GeneratedValue
 	private Integer id;
+	
 	private Integer magnitudASuperar;
+	
+	@ManyToOne
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Especie especie;
 	
 	
 	public CondicionDeEvolucion(Integer magnitud) {
@@ -59,4 +74,17 @@ public abstract class CondicionDeEvolucion {
 	 * @return El valor númerico a evaluar del {@link Bicho}.
 	 * @author ae */
 	public abstract Integer magnitudDeCondicionDelBicho(Bicho bicho);
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	
+	
 }

@@ -3,15 +3,23 @@ package ar.edu.unq.epers.bichomon.backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 
 /**
  * Representa una {@link Especie} de bicho.
  * 
- * @author Charly Backend
- */
+ * @author Charly Backend */
+@Entity
 public class Especie {
 
+	@Id
 	private String nombre;
 	private int altura;
 	private int peso;
@@ -19,7 +27,10 @@ public class Especie {
 	private int energiaInicial;
 	private String urlFoto;
 	private int cantidadBichos;
+	@Transient
 	private Especie raiz;
+	
+	@OneToMany(mappedBy="especie", cascade=CascadeType.ALL)
 	private List<CondicionDeEvolucion> condicionesDeEvolucion;
 	
 	
