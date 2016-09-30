@@ -6,21 +6,36 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class NivelTest {
-
-	Nivel nivel1, nivel2;
-
-	/** Dados un nivel le pido me de su siguiente nivel y me lo responde.
-	 * - El nivel 1 tiene como siguiente nivel el nivel 2*/
+	
+	private Nivel nivelOriginal;
+	private Nivel nivelComparativo;
+	
 	@Test
-	public void dadoUnNivelLePidoMeDeSuSiguienteNivel() {
-		nivel1 = new Nivel();
-		nivel1.setNumeroDeNivel(1);
-		nivel2 = new Nivel();
-		nivel2.setNumeroDeNivel(2);
+	public void dadosDosNivelesLosComparoConEqualsParaComprobarSiSonNivelesIgualesYMeRespondeTrue() {
+
 		
-		nivel1.setSiguienteNivel(nivel2);
+		this.igualarNiveles(nivelOriginal, nivelComparativo);
 		
-		assertEquals(nivel1.getSiguienteNivel(), nivel2);
+		assertEquals(nivelOriginal, nivelCopia);
 	}
 
+	private void igualarNiveles(Nivel nivelOriginal, Nivel nivelComparativo) {
+		Nivel siguienteNivel = new Nivel(2, 200, 20);
+		nivelOriginal = new Nivel(1, 100, 10, siguienteNivel);
+		nivelComparativo = new Nivel(1, 100, 10, siguienteNivel);
+	}
+
+	@Test
+	public void dadosDosNivelesLosComparoConEqualsParaComprobarSiSonNivelesIgualesYMeRespondeFalse() {
+		Nivel siguienteNivel = new Nivel(2, 200, 20); 
+		
+		Nivel nivelOriginal = new Nivel(1, 100, 10, siguienteNivel);
+		Nivel nivelComparativo = new Nivel(1, 100, 10, siguienteNivel);
+		
+		//Distinto nivel
+		nivelOriginal.setNumeroDeNivel(2);
+		
+		assertNotEquals(nivelOriginal, nivelComparativo);
+	}
+	
 }
