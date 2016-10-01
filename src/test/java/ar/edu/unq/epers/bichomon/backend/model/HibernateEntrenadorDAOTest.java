@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;

@@ -23,6 +23,10 @@ public abstract class Lugar {
 		
 	}
 	
+	public Lugar() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**@author pa*/
 	public abstract void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException ;
 

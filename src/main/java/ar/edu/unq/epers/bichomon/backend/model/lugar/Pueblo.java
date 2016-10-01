@@ -15,6 +15,12 @@ public class Pueblo extends Lugar {
 	
 	@Transient
 	private List<Especie> especies;
+	
+	
+	public Pueblo(){
+		super();
+	}
+	
 
 	public Pueblo(String nombre) {
 		super(nombre);
