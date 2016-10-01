@@ -3,7 +3,6 @@ package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Test;
 
 public class CondicionQueFallaTest extends CondicionDeEvolucionTest {
 
@@ -12,6 +11,8 @@ public class CondicionQueFallaTest extends CondicionDeEvolucionTest {
 	@Before
 	public void setUp() {
 		super.setUp();
+		this.condicionOriginal = new CondicionQueFalla();
+		this.condicionComparativa = new CondicionQueFalla();
 	}
 
 

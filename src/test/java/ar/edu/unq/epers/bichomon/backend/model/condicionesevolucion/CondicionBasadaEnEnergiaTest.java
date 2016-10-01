@@ -14,6 +14,8 @@ public class CondicionBasadaEnEnergiaTest extends CondicionDeEvolucionTest {
 		super.setUp();
 		especieGenerica.agregarCondicionDeEvolucion(condicionEvolucion);
 		bichoGenerico = new Bicho(especieGenerica);
+		this.condicionOriginal = new CondicionBasadaEnEnergia();
+		this.condicionComparativa = new CondicionBasadaEnEnergia();
 	}
 	
 	

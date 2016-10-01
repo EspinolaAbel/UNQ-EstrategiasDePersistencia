@@ -1,15 +1,11 @@
 package ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
@@ -20,7 +16,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
  * Las subclases que hereden de esta clase, deben implementar una condición especifica.
  * @author ae */
 @Entity
-@Table(name = "Condiciones_de_evolucion")
+@Table(name="Condiciones_de_evolucion")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)				//@IdClass(CondicionDeEvolucionPK.class)
 public abstract class CondicionDeEvolucion {
 	
@@ -30,17 +26,11 @@ public abstract class CondicionDeEvolucion {
 //	--Guarda la secuencia de id en una tabla separada la cual tiene una fila por cada id de cada tabla que usen esta estrategia.	
 //	@GeneratedValue(strategy=GenerationType.TABLE)
 	
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
 	private Integer magnitudASuperar;
-	
-	@ManyToOne
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Especie especie;
-	
+
 	
 	public CondicionDeEvolucion() {}
 	
@@ -49,12 +39,20 @@ public abstract class CondicionDeEvolucion {
 	}
 	
 	
-	private Integer getMagnitudASuperar() {
+	public Integer getMagnitudASuperar() {
 		return this.magnitudASuperar;
 	}
 	
 	public void setMagnitudASuperar(Integer magnitudASuperar) {
 		this.magnitudASuperar = magnitudASuperar;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
@@ -63,12 +61,7 @@ public abstract class CondicionDeEvolucion {
 	 * @return {@ Boolean} que indica si el {@link Bicho} dado aprueba la condición.
 	 * @author ae */
 	public Boolean apruebaLaCondicion(Bicho bicho) {
-		if(this.magnitudDeCondicionDelBicho(bicho) > this.getMagnitudASuperar()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return this.magnitudDeCondicionDelBicho(bicho) > this.getMagnitudASuperar();
 	}
 
 	
@@ -78,16 +71,22 @@ public abstract class CondicionDeEvolucion {
 	 * @author ae */
 	public abstract Integer magnitudDeCondicionDelBicho(Bicho bicho);
 
-
-	public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o.getClass() != this.getClass())
+			return false;
+		CondicionDeEvolucion condicion = (CondicionDeEvolucion) o;
+		return this.getMagnitudASuperar().equals( condicion.getMagnitudASuperar() );
 	}
 	
+	@Override
+	public int hashCode() {
+		final int num = 29;
+		int result = 10;
+		result = num * result + (int) this.getMagnitudASuperar();
+		return result;
+	}
 	
 	
 }

@@ -11,6 +11,8 @@ public class CondicionBasadaEnVictoriasTest extends CondicionDeEvolucionTest {
 	@Before
 	public void setUp() {
 		super.setUp();
+		this.condicionOriginal = new CondicionBasadaEnVictorias();
+		this.condicionComparativa = new CondicionBasadaEnVictorias();
 	}
 
 	/** Dado un bicho consulto si su cantidad de victorias es superior a la de la condición.

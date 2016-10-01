@@ -1,9 +1,10 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 /** Esta clase se va a encargar de representar el {@link Nivel} actual en el que se encuentra un
  * {@link Entrenador} en el juego.*/
@@ -15,7 +16,7 @@ public class Nivel {
 	private Integer puntosParaSubirDeNivel;
 	private Integer maxCantidadDeBichos;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL ,fetch=FetchType.EAGER)
 	private Nivel siguienteNivel;
 	
 	
@@ -33,69 +34,54 @@ public class Nivel {
 	}
 	
 	
-	/** 
-	 * @return numeroDeNivel - El número de este {@link Nivel}
-	 * @author ae */
+
 	public Integer getNumeroDeNivel() {
 		return numeroDeNivel;
 	}
 	
-	/** 
-	 * @param numeroDeNivel - Número de este {@link Nivel}.
-	 * @author ae */
 	public void setNumeroDeNivel(Integer numeroDeNivel) {
 		this.numeroDeNivel = numeroDeNivel;
 	}
 	
-	/**
-	 * @return puntosParaSubirDeNivel - La cantidad de puntos necesarios para subir al próximo {@link Nivel}.
-	 * @author ae */
+
 	public Integer getPuntosParaSubirDeNivel() {
 		return puntosParaSubirDeNivel;
 	}
 	
-	/**
-	 * @param puntosParaSubirDeNivel - La cantidad de puntos necesarios para subir al próximo {@link Nivel}.
-	 * @author ae */
 	public void setPuntosParaSubirDeNivel(Integer puntosParaSubirDeNivel) {
 		this.puntosParaSubirDeNivel = puntosParaSubirDeNivel;
 	}
 	
-	/**
-	 * @return maxCantidadDeBichos - Máxima cantidad de {@link Bicho}s que el {@link Entrenador} que se
-	 * 								encuentra en este {@link Nivel} puede capturar.
-	 * @author ae */
+
 	public Integer getMaxCantidadDeBichos() {
 		return maxCantidadDeBichos;
 	}
 	
-	/**
-	 * @param maxCantidadDeBichos the maxCantidadDeBichos to set
-	 */
 	public void setMaxCantidadDeBichos(Integer maxCantidadDeBichos) {
 		this.maxCantidadDeBichos = maxCantidadDeBichos;
 	}
-	/**
-	 * @return the siguienteNivel
-	 */
+
+
 	public Nivel getSiguienteNivel() {
 		return siguienteNivel;
 	}
-	/**
-	 * @param siguienteNivel the siguienteNivel to set
-	 */
+
 	public void setSiguienteNivel(Nivel siguienteNivel) {
 		this.siguienteNivel = siguienteNivel;
 	}
 	
+	
+	/**Prec.: Para que un Nivel sea comparable es necesario que todos sus campos estén declarados,
+	 * 		que sean distintos de null. Caso contrario este método fallará al ejecutarse.*/
 	@Override
 	public boolean equals(Object o){
 		if((o.getClass() != Nivel.class) || (o == null))
 			return false;
 		Nivel otroNivel = (Nivel) o;
-		boolean mismoNroNivel = this.getNumeroDeNivel() == otroNivel.getNumeroDeNivel();
-		boolean mismaMaxCantidadDeBichos = this.getMaxCantidadDeBichos() == otroNivel.getMaxCantidadDeBichos();
-		boolean mismosPuntosParaSubirDeNivel = this.getPuntosParaSubirDeNivel() == otroNivel.getPuntosParaSubirDeNivel();
+		
+		boolean mismoNroNivel = this.getNumeroDeNivel().equals( otroNivel.getNumeroDeNivel() );
+		boolean mismaMaxCantidadDeBichos = this.getMaxCantidadDeBichos().equals( otroNivel.getMaxCantidadDeBichos() );
+		boolean mismosPuntosParaSubirDeNivel = this.getPuntosParaSubirDeNivel().equals( otroNivel.getPuntosParaSubirDeNivel() );
 		boolean mismoSiguienteNivel;
 		if(this.getSiguienteNivel() == null || otroNivel.getSiguienteNivel() == null)
 			mismoSiguienteNivel = this.getSiguienteNivel() == otroNivel.getSiguienteNivel();

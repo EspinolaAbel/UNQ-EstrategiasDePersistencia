@@ -2,57 +2,41 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.dao.CondicionDeEvolucionDAO;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEnergia;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnVictorias;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionQueFalla;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
-public class HibernateCondicionDeEvolucionDAOTest {
+public abstract class HibernateCondicionDeEvolucionDAOTest {
 
+	private CondicionDeEvolucionDAO condicionDAO;
+	protected CondicionDeEvolucion condicionOriginal;
+	
 	@Before
 	public void setUp(){
+		this.condicionDAO = new HibernateCondicionDeEvolucionDAO();
+		this.condicionOriginal = null;
 	}
 
 	@Test
-	public void test() {
-		CondicionDeEvolucionDAO condicionDAO = new HibernateCondicionDeEvolucionDAO();
-		CondicionDeEvolucion condicionEner = new CondicionBasadaEnEnergia(100);
+	public void dadaUnaCondicionDeEvolucionLaPersistoEnLaBBDDBichomonLuegoLaRecuperoYComprueboSiFuePersistidaDeManeraCorrecta() {
+		
 		Runner.runInSession(() -> {
-			condicionDAO.guardar(condicionEner);
+			condicionDAO.saveCondicion(this.condicionOriginal);
 			return null;
 		});
 		
-		CondicionDeEvolucion condicionVic = new CondicionBasadaEnVictorias(15);
-		Runner.runInSession(() -> {
-			condicionDAO.guardar(condicionVic);
-			return null;
+		List<CondicionDeEvolucion> condicionesRecuperadas = (List<CondicionDeEvolucion>) Runner.runInSession(() -> {
+			return condicionDAO.getAllCondiciones();
 		});
 		
-		CondicionDeEvolucion condicionNiv = new CondicionBasadaEnNivel(5);
-		Runner.runInSession(() -> {
-			condicionDAO.guardar(condicionNiv);
-			return null;
-		});
-		
-		CondicionDeEvolucion condicionEda = new CondicionBasadaEnEdad(3);
-		Runner.runInSession(() -> {
-			condicionDAO.guardar(condicionEda);
-			return null;
-		});
-		
-		CondicionDeEvolucion condicionFal = new CondicionQueFalla();
-		Runner.runInSession(() -> {
-			condicionDAO.guardar(condicionFal);
-			return null;
-		});
-		
+		assertTrue(condicionesRecuperadas.contains(condicionOriginal));
+		System.out.println(condicionesRecuperadas.size());
 	}
 
 }

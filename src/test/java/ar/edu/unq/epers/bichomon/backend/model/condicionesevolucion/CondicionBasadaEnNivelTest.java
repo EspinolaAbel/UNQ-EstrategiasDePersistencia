@@ -17,7 +17,9 @@ public class CondicionBasadaEnNivelTest extends CondicionDeEvolucionTest {
 	public void setUp() {
 		super.setUp();
 		entrenador = new Entrenador();
-		nivel = new Nivel();				
+		nivel = new Nivel();	
+		this.condicionOriginal = new CondicionBasadaEnNivel();
+		this.condicionComparativa = new CondicionBasadaEnNivel();
 	}
 
 	/** Dado un Bicho consulto si su Entrenador esta en un nivel superior al definido en la condición de la Especie.

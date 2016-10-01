@@ -11,6 +11,8 @@ public class CondicionBasadaEnEdadTest extends CondicionDeEvolucionTest {
 	@Before
 	public void setUp() {
 		super.setUp();
+		this.condicionOriginal = new CondicionBasadaEnEdad();
+		this.condicionComparativa = new CondicionBasadaEnEdad();
 	}
 
 	/** Dado un bicho consulto si el tiempo que pasó desde su captura es superior a la condición.

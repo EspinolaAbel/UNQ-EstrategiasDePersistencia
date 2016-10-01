@@ -2,40 +2,86 @@ package ar.edu.unq.epers.bichomon.backend.model;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class NivelTest {
 	
-	private Nivel nivelOriginal;
-	private Nivel nivelComparativo;
+//REDEFINICINES DE EQUALS Y HASHCODE 
 	
 	@Test
 	public void dadosDosNivelesLosComparoConEqualsParaComprobarSiSonNivelesIgualesYMeRespondeTrue() {
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
 
-		
-		this.igualarNiveles(nivelOriginal, nivelComparativo);
-		
-		assertEquals(nivelOriginal, nivelCopia);
+		assertEquals(nivelOriginal, nivelComparativo);
 	}
 
-	private void igualarNiveles(Nivel nivelOriginal, Nivel nivelComparativo) {
-		Nivel siguienteNivel = new Nivel(2, 200, 20);
-		nivelOriginal = new Nivel(1, 100, 10, siguienteNivel);
-		nivelComparativo = new Nivel(1, 100, 10, siguienteNivel);
-	}
 
 	@Test
-	public void dadosDosNivelesLosComparoConEqualsParaComprobarSiSonNivelesIgualesYMeRespondeFalse() {
-		Nivel siguienteNivel = new Nivel(2, 200, 20); 
-		
-		Nivel nivelOriginal = new Nivel(1, 100, 10, siguienteNivel);
-		Nivel nivelComparativo = new Nivel(1, 100, 10, siguienteNivel);
+	public void dadosDosNivelesSimilaresPeroConDistintoNumeroDeNivelLosComparoPorEqualsYMeRespondeFalse() {	
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
 		
 		//Distinto nivel
-		nivelOriginal.setNumeroDeNivel(2);
-		
+		nivelComparativo.setNumeroDeNivel(999);
 		assertNotEquals(nivelOriginal, nivelComparativo);
+	}
+	
+	@Test
+	public void dadosDosNivelesSimilaresPeroConDistintoPuntosParaSubirDeNivelLosComparoPorEqualsYMeRespondeFalse() {	
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
+		
+		//Distinto puntaje para subir de nivel
+		nivelComparativo.setPuntosParaSubirDeNivel(999);
+		assertNotEquals(nivelOriginal, nivelComparativo);
+	}
+		
+	@Test
+	public void dadosDosNivelesSimilaresPeroConDistintaMaxCantBichosLosComparoPorEqualsYMeRespondeFalse() {	
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
+		
+		//Distinta máxima cantidad de bichos
+		nivelComparativo.setMaxCantidadDeBichos(999);
+		assertNotEquals(nivelOriginal, nivelComparativo);
+	}
+	
+	@Test
+	public void dadosDosNivelesSimilaresPeroConDistintoSiguienteNivelLosComparoPorEqualsYMeRespondeFalse() {	
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
+		
+		//Distinto siguiente nivel
+		nivelComparativo.setSiguienteNivel(new Nivel());
+		assertNotEquals(nivelOriginal, nivelComparativo);
+	}
+	
+	
+	@Test
+	public void dadosDosNivelesComparoSusHashCodeYResultanSerIguales() {
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
+		
+		assertEquals(nivelOriginal.hashCode(), nivelComparativo.hashCode());
+	}
+	
+	
+	@Test
+	public void dadosDosNivelesComparoSusHashCodeYResultanSerDistintos() {
+		Nivel nivelOriginal = this.nuevoNivelOriginal();
+		Nivel nivelComparativo = this.nuevoNivelOriginal();
+		
+		nivelComparativo.setNumeroDeNivel(999);
+		assertNotEquals(nivelOriginal.hashCode(), nivelComparativo.hashCode());
+	}
+	
+	
+//TESTS AUXILIARES PARA TESTS
+	
+	private Nivel nuevoNivelOriginal() {
+		Nivel siguienteNivel = new Nivel(2, 200, 20, null);
+		return new Nivel(1, 100, 10, siguienteNivel);
 	}
 	
 }

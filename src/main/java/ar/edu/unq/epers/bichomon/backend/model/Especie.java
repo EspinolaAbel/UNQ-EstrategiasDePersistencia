@@ -7,8 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 
@@ -16,7 +16,7 @@ import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeE
  * Representa una {@link Especie} de bicho.
  * 
  * @author Charly Backend */
-@Entity
+@Entity(name="Especies")
 public class Especie {
 
 	@Id
@@ -27,17 +27,18 @@ public class Especie {
 	private int energiaInicial;
 	private String urlFoto;
 	private int cantidadBichos;
-	@Transient
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	private Especie evolucionaA;
+	
+	@OneToOne(cascade=CascadeType.ALL)
 	private Especie raiz;
 
-
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<CondicionDeEvolucion> condicionesDeEvolucion;
 	
 	
-	public Especie(){
-	}
-
+	public Especie(){}
 
 	public Especie(String nombre, TipoBicho tipo) {
 		this.condicionesDeEvolucion = new ArrayList<CondicionDeEvolucion>();
@@ -46,7 +47,6 @@ public class Especie {
 		this.raiz=this;
 	}
 	
-	
 	public Especie(String nombre, TipoBicho tipo, Especie raiz) {
 		this.nombre = nombre;
 		this.tipo = tipo;
@@ -54,15 +54,6 @@ public class Especie {
 	}
 	
 
-	/**
-	 * @return retorna la raiz de la especie (por ejemplo: Perromon)
-	 */
-	public String getRaiz() {
-		return this.nombre;
-	}
-	public void setRaiz(Especie especieRaiz) {
-		this.raiz = especieRaiz;
-	}
 	
 	
 	/**
@@ -145,17 +136,31 @@ public class Especie {
 		return condicionesDeEvolucion;
 	}
 
-
 	public void setCondicionesDeEvolucion(List<CondicionDeEvolucion> condicionesDeEvolucion) {
 		this.condicionesDeEvolucion = condicionesDeEvolucion;
 	}
 
+	public Especie getRaiz() {
+		return this.raiz;
+	}
+	
+	public void setRaiz(Especie especieRaiz) {
+		this.raiz = especieRaiz;
+	}
 
+	//TODO
 	public Especie dameRaiz (){
 		return this.raiz;
 	}
 
-
+	public Especie getEvolucionaA() {
+		return this.evolucionaA;
+	}
+	
+	public void setEvolucionaA(Especie evolucion) {
+		this.evolucionaA = evolucion;
+	}
+	
 	/** Dada una {@link CondicionDeEvolucion}, se la agrega a la lista que contiene las condiciones
 	 * para evolucionar de esta {@link Especie}.
 	 * @param condicionDeEvolucion - Una {@link CondicionDeEvolucion}.
