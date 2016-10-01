@@ -1,10 +1,12 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 /**
@@ -15,7 +17,7 @@ import javax.persistence.Transient;
 @Entity
 public class Bicho {
 	
-	@ManyToOne
+	@ManyToOne (cascade=CascadeType.ALL)
     private Entrenador owner;
 	
 	@Id
@@ -23,7 +25,7 @@ public class Bicho {
 	private Integer id;
 	private String nombre;
 	
-	@Transient
+	@OneToOne(cascade=CascadeType.ALL)
 	private Especie especie; 
 	private Integer energia;
 	private Integer tiempoDesdeSuCaptura;
@@ -104,6 +106,12 @@ public class Bicho {
 	
 	public void setTiempoDesdeSuCaptura(Integer tiempo) {
 		this.tiempoDesdeSuCaptura = tiempo;
+	}
+	
+	
+	public int  getId() {
+
+		return this.id;
 	}
 	
 	
