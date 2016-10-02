@@ -138,11 +138,11 @@ public class JDBCEspecieDAOTest {
 		e = especieDAO.getEspecie("XXXX-XXX1");
 		
 		assertEquals(e.getTipo(), TipoBicho.ELECTRICIDAD);
-		assertEquals(e.getAltura(), 8999);
-		assertEquals(e.getPeso(), 8999);
-		assertEquals(e.getCantidadBichos(), 8999 );
+		assertEquals(e.getAltura(), (Integer) 8999);
+		assertEquals(e.getPeso(), (Integer) 8999);
+		assertEquals(e.getCantidadBichos(), (Integer) 8999 );
 		assertEquals(e.getUrlFoto(), "--- URL NO EXISTENTE 2 ---");
-		assertEquals(e.getEnergiaInicial(), 8999);
+		assertEquals(e.getEnergiaInicial(), (Integer) 8999);
 	}
 
 }

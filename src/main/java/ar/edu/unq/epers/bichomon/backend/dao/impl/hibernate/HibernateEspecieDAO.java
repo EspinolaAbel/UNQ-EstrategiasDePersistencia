@@ -13,7 +13,7 @@ public class HibernateEspecieDAO implements EspecieDAO {
 	@Override
 	public void saveEspecie(Especie e) {
 		Session session = Runner.getCurrentSession();
-		session.save(e);
+		session.saveOrUpdate(e);
 	}
 
 	@Override

@@ -14,7 +14,10 @@ import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeE
 
 /**
  * Representa una {@link Especie} de bicho.
- * 
+ * TODO: contrato
+ * - Si dos especies son iguales (mismo nombre) entonces tienen misma evolucion.
+ * - Si dos especies son iguales (mismo nombre) entonces tienen mismas condiciones de evolucion.
+ * - Dos especies del mismo arbol genealógico tienen siempre la misma especie raiz.
  * @author Charly Backend */
 @Entity(name="Especies")
 public class Especie {
@@ -47,6 +50,7 @@ public class Especie {
 		this.raiz=this;
 	}
 	
+	//TODO
 	public Especie(String nombre, TipoBicho tipo, Especie raiz) {
 		this.nombre = nombre;
 		this.tipo = tipo;
@@ -69,7 +73,7 @@ public class Especie {
 	/**
 	 * @return la altura de todos los bichos de esta especie
 	 */
-	public int getAltura() {
+	public Integer getAltura() {
 		return this.altura;
 	}
 	public void setAltura(int altura) {
@@ -79,7 +83,7 @@ public class Especie {
 	/**
 	 * @return el peso de todos los bichos de esta especie
 	 */
-	public int getPeso() {
+	public Integer getPeso() {
 		return this.peso;
 	}
 	public void setPeso(int peso) {
@@ -101,7 +105,7 @@ public class Especie {
 	 * @return la cantidad de energia de poder iniciales para los bichos
 	 * de esta especie.
 	 */
-	public int getEnergiaInicial() {
+	public Integer getEnergiaInicial() {
 		return this.energiaInicial;
 	}
 	public void setEnergiaInicial(int energiaInicial) {
@@ -122,7 +126,7 @@ public class Especie {
 	 * @return la cantidad de bichos que se han creado para esta
 	 * especie.
 	 */
-	public int getCantidadBichos() {
+	public Integer getCantidadBichos() {
 		return this.cantidadBichos;
 	}
 	
@@ -180,6 +184,31 @@ public class Especie {
 			evoluciona = condicion.apruebaLaCondicion(bichoAEvaluar) && evoluciona;
 		}
 		return evoluciona;
+	}
+	
+	
+	@Override
+	public boolean equals(Object o) {
+		//Si tienen la misma identidad, entonces son iguales e identicos.
+		if(this == o) return true;
+		//Si no son identicos, comprobar que sean iguales comparando sus parámetros.
+		if(o instanceof Especie) {
+			Especie otraEspecie = (Especie) o;
+			//Si tienen el mismo nombre, entonces por contrato son la misma especie. Por lo tanto todos los demás campos tienen que ser iguales.
+			boolean idemNombre = this.nombre.equals( otraEspecie.getNombre() );
+	
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 421;
+		int result = 10;
+		result =	num * result + this.nombre.hashCode();
+		
+		return result;
 	}
 	
 	

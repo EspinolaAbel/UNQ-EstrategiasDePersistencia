@@ -11,7 +11,6 @@ import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBas
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 
 public class EspecieTest {
-	
 
 	/** Dado un bicho consulto si este puede evolucionar a la siguiente especie. Como el bicho
 	 * esta en condiciones de evolucionar se responde true.
@@ -46,8 +45,41 @@ public class EspecieTest {
 	}
 	
 	
+//TESTS REDEFINICION EQUALS Y HASHCODE
 	
+	@Test
+	public void dadasDosEspeciesLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
+		Especie especieOriginal = this.nuevaEspecieOriginal();
+		Especie especieComparativa = this.nuevaEspecieOriginal();
+		
+		assertEquals(especieOriginal, especieComparativa);
+	} 
+	
+	/** El campo "nombre" de la clase Especie es el único que necesito comparar para saber si dos Especies son iguales 
+	 * (ver contrato de {@link Especie}). */
+	@Test
+	public void dadasDosEspeciesLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeFalseDebidoAQueTienenDistintoNombre() {
+		Especie especieOriginal = this.nuevaEspecieOriginal();
+		Especie especieComparativa = this.nuevaEspecieOriginal();
+		especieComparativa.setNombre("EspecieDistintaALaOriginal");
+		
+		assertNotEquals(especieOriginal, especieComparativa);
+	} 
+
 //ALGUNOS MÉTODOS AUXILIARES PARA TEST	
+
+	private Especie nuevaEspecieOriginal() {
+		Especie e = this.especieConCondicionesDeEnergiaNivelEdadYVictorias(1, 2, 3, 4);
+		e.setNombre("EspecieOriginal");
+		e.setAltura(9999);
+		e.setCantidadBichos(9999);
+		e.setEnergiaInicial(9999);
+		e.setEvolucionaA(new Especie("EspecieEvolucion", TipoBicho.AGUA));
+		e.setPeso(9999);
+		e.setRaiz(new Especie("EspecieRaiz", TipoBicho.AGUA));
+		e.setUrlFoto("--URL-FOTO--");
+		return e;
+	}
 	
 	private Entrenador entrenadorConNivel(int i) {
 		Nivel n = new Nivel();	n.setNumeroDeNivel(i);
