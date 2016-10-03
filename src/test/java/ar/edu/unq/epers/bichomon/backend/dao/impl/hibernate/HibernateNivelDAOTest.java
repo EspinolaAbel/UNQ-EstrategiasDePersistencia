@@ -2,13 +2,14 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Nivel;
-import ar.edu.unq.epers.bichomon.backend.model.hibernate.HibernateNivelDAO;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 
 public class HibernateNivelDAOTest {
 
@@ -18,6 +19,11 @@ public class HibernateNivelDAOTest {
 	@Before
 	public void setUp() {
 		this.nivelDao = new HibernateNivelDAO();
+	}
+	
+	@After
+	public void reiniciarBD() {
+		SessionFactoryProvider.destroy();
 	}
 	
 	
@@ -35,7 +41,7 @@ public class HibernateNivelDAOTest {
 		Nivel nivelRecuperado = Runner.runInSession( () -> {
 									return this.nivelDao.getNivel(1);
 								});
-		//Este assertEquals funciona ya que el equals esta redefinido en Nivel y también ha sido testeado.
+		
 		assertEquals(nivelOriginal, nivelRecuperado);
 	}
 

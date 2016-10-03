@@ -35,9 +35,12 @@ public class GuarderiaTest {
 	@Test
 	public void dadaUnaGuarderiaObtengoUnBichoQueHayaSidoAbandonadoEnEsteLugarYCheckeoQueHayaSidoEliminadoDeLaListaDeBichosAbandonados(){
 		int i;
-		for(i=1; i<=5; i++)
-			guarderia.recibirBichoAbandonado(new Bicho(new Especie()));
-		
+		for(i=1; i<=5; i++) {
+			Bicho b = new Bicho(new Especie());
+			b.setId(i);
+			guarderia.recibirBichoAbandonado(b);
+		}
+			
 		Bicho bichoObtenido = guarderia.retornarUnBichoDelLugar();
 		
 		assertFalse(guarderia.getBichosAbandonados().contains(bichoObtenido));

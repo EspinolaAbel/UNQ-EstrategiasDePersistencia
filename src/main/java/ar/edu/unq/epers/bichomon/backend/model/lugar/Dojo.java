@@ -18,6 +18,10 @@ public class Dojo extends Lugar {
 	@Transient
 	private Bicho campeon;
 	
+	public Dojo(){
+		super();
+	}
+	
 	public Dojo(String nombre) {
 		super(nombre);
 	}

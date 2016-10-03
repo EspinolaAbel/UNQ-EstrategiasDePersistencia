@@ -7,29 +7,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 /**
  * Un {@link Bicho} existente en el sistema, el mismo tiene un nombre
  * y pertenece a una {@link Especie} en particular.
  * 
  * @author Charly Backend */
-@Entity
+@Entity(name="Bichos")
 public class Bicho {
 	
-	@ManyToOne (cascade=CascadeType.ALL)
+	@ManyToOne
     private Entrenador owner;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 	private String nombre;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Especie especie; 
-	private Integer energia;
-	private Integer tiempoDesdeSuCaptura;
-	private Integer cantidadDeVictorias;
+	private int energia;
+	private int tiempoDesdeSuCaptura;
+	private int cantidadDeVictorias;
 	
 	public Bicho(Especie especie, String nombre) {
 		this.especie = especie;
@@ -92,11 +91,11 @@ public class Bicho {
 	 * NOTA: El tiempo transcurrido es representado por un {@link Integer}.
 	 * 
 	 * @author ae */
-	public Integer getTiempoDesdeSuCaptura() {
+	public int getTiempoDesdeSuCaptura() {
 		return this.tiempoDesdeSuCaptura;
 	}
 	
-	public Integer getCantidadDeVictorias() {
+	public int getCantidadDeVictorias() {
 		return this.cantidadDeVictorias;
 	}
 	
@@ -108,11 +107,34 @@ public class Bicho {
 		this.tiempoDesdeSuCaptura = tiempo;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public int  getId() {
-
 		return this.id;
 	}
 	
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Bicho) {
+			Bicho otroBicho = (Bicho) o;
+			boolean idemId= this.id == otroBicho.getId();
+	
+			return 	idemId;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 84;
+		int result = 11;
+		result =	num * result + this.id;
+		
+		return result;
+	}
 	
 }

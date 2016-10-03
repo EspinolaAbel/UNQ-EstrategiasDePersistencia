@@ -189,12 +189,9 @@ public class Especie {
 	
 	@Override
 	public boolean equals(Object o) {
-		//Si tienen la misma identidad, entonces son iguales e identicos.
 		if(this == o) return true;
-		//Si no son identicos, comprobar que sean iguales comparando sus parámetros.
 		if(o instanceof Especie) {
 			Especie otraEspecie = (Especie) o;
-			//Si tienen el mismo nombre, entonces por contrato son la misma especie. Por lo tanto todos los demás campos tienen que ser iguales.
 			boolean idemNombre = this.nombre.equals( otraEspecie.getNombre() );
 	
 			return 	idemNombre;

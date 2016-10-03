@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.model.hibernate;
+package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class HibernateNivelDAO implements NivelDAO {
 	@Override
 	public void saveNivel(Nivel nivel) {
 		Session session = Runner.getCurrentSession();
-		session.save(nivel);
+		session.saveOrUpdate(nivel);
 	}
 
 	@Override

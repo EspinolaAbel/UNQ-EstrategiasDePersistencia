@@ -9,8 +9,7 @@ import javax.persistence.Table;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**@author pa*/
-@Entity
-@Table(name = "Lugares")
+@Entity(name = "Lugares")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class Lugar {
 	
@@ -24,7 +23,7 @@ public abstract class Lugar {
 	}
 	
 	public Lugar() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**@author pa*/

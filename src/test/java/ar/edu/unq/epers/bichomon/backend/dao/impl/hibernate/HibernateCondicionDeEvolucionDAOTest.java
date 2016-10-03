@@ -2,15 +2,14 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.dao.CondicionDeEvolucionDAO;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 
 public abstract class HibernateCondicionDeEvolucionDAOTest {
 
@@ -22,21 +21,25 @@ public abstract class HibernateCondicionDeEvolucionDAOTest {
 		this.condicionDAO = new HibernateCondicionDeEvolucionDAO();
 		this.condicionOriginal = null;
 	}
+	
+	@After
+	public void reiniciarBD() {
+		SessionFactoryProvider.destroy();
+	}
 
 	@Test
 	public void dadaUnaCondicionDeEvolucionLaPersistoEnLaBBDDBichomonLuegoLaRecuperoYComprueboSiFuePersistidaDeManeraCorrecta() {
+		Integer idCondicion =	Runner.runInSession(() -> {
+									condicionDAO.saveCondicion(this.condicionOriginal);
+									return condicionOriginal.getId();
+								});
 		
-		Runner.runInSession(() -> {
-			condicionDAO.saveCondicion(this.condicionOriginal);
-			return null;
-		});
+		CondicionDeEvolucion condicionesRecuperada =
+				Runner.runInSession(() -> {
+					return condicionDAO.getCondicion(idCondicion);
+				});
 		
-		List<CondicionDeEvolucion> condicionesRecuperadas = (List<CondicionDeEvolucion>) Runner.runInSession(() -> {
-			return condicionDAO.getAllCondiciones();
-		});
-		
-		assertTrue(condicionesRecuperadas.contains(condicionOriginal));
-		System.out.println(condicionesRecuperadas.size());
+		assertEquals(this.condicionOriginal, condicionesRecuperada);
 	}
 
 }

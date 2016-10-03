@@ -29,7 +29,6 @@ public class HibernateEspecieDAOTest {
 		
 		this.especieOriginal = new Especie("EspecieTest", TipoBicho.AGUA);
 		
-		
 		this.condicionEnergia = new CondicionBasadaEnEnergia(999);
 		this.condicionEdad = new CondicionBasadaEnEdad(888);
 		

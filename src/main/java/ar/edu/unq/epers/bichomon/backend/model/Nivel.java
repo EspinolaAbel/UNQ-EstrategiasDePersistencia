@@ -8,7 +8,7 @@ import javax.persistence.OneToOne;
 
 /** Esta clase se va a encargar de representar el {@link Nivel} actual en el que se encuentra un
  * {@link Entrenador} en el juego.*/
-@Entity
+@Entity(name="Niveles")
 public class Nivel {
 	
 	@Id
@@ -75,28 +75,21 @@ public class Nivel {
 	 * 		que sean distintos de null. Caso contrario este método fallará al ejecutarse.*/
 	@Override
 	public boolean equals(Object o){
-		if((o.getClass() != Nivel.class) || (o == null))
-			return false;
-		Nivel otroNivel = (Nivel) o;
+		if(o == this) return true;
+		if(o instanceof Nivel) {
+			Nivel otroNivel = (Nivel) o;
+			boolean mismoNroNivel = this.getNumeroDeNivel().equals( otroNivel.getNumeroDeNivel() );
 		
-		boolean mismoNroNivel = this.getNumeroDeNivel().equals( otroNivel.getNumeroDeNivel() );
-		boolean mismaMaxCantidadDeBichos = this.getMaxCantidadDeBichos().equals( otroNivel.getMaxCantidadDeBichos() );
-		boolean mismosPuntosParaSubirDeNivel = this.getPuntosParaSubirDeNivel().equals( otroNivel.getPuntosParaSubirDeNivel() );
-		boolean mismoSiguienteNivel;
-		if(this.getSiguienteNivel() == null || otroNivel.getSiguienteNivel() == null)
-			mismoSiguienteNivel = this.getSiguienteNivel() == otroNivel.getSiguienteNivel();
-		else
-			mismoSiguienteNivel = this.getSiguienteNivel().equals(otroNivel.getSiguienteNivel());										 
-		
-		return mismoNroNivel && mismaMaxCantidadDeBichos && mismosPuntosParaSubirDeNivel && mismoSiguienteNivel;
+			return mismoNroNivel;
+		}
+		return false;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int num = 30;
 		int result = 1;
-		result = num * result + (int) this.getNumeroDeNivel() + (int) this.getMaxCantidadDeBichos()
-					+ (int) this.getPuntosParaSubirDeNivel() + (this.getSiguienteNivel()==null ? 0 : this.getSiguienteNivel().hashCode());
+		result = num * result + (int) this.getNumeroDeNivel();
 		return result;
 	}
 	

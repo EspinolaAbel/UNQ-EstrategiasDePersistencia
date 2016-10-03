@@ -15,6 +15,10 @@ public class Guarderia extends Lugar {
 	@Transient
 	private List<Bicho>  bichosAbandonados;
 		
+	public Guarderia() {
+		super();
+	}
+	
 	public Guarderia(String nombre) {
 		super(nombre);
 		this.bichosAbandonados =  new ArrayList<Bicho>();

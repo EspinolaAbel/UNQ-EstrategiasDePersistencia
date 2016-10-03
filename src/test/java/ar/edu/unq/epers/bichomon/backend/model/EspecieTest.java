@@ -64,7 +64,24 @@ public class EspecieTest {
 		especieComparativa.setNombre("EspecieDistintaALaOriginal");
 		
 		assertNotEquals(especieOriginal, especieComparativa);
-	} 
+	}
+	
+	@Test
+	public void dadasDosEspeciesComparoSusHashParaComprobarQueSeanIgualesYMeRespondeTrue() {
+		Especie especieOriginal = this.nuevaEspecieOriginal();
+		Especie especieComparativa = this.nuevaEspecieOriginal();
+		
+		assertEquals(especieOriginal.hashCode(), especieComparativa.hashCode());
+	}
+	
+	@Test
+	public void dadasDosEspeciesComparoSusHashParaComprobarQueSeanIgualesYMeRespondeFalse() {
+		Especie especieOriginal = this.nuevaEspecieOriginal();
+		Especie especieComparativa = this.nuevaEspecieOriginal();
+		especieComparativa.setNombre("EspecieDistintaALaOriginal");
+		
+		assertNotEquals(especieOriginal.hashCode(), especieComparativa.hashCode());
+	}
 
 //ALGUNOS MÉTODOS AUXILIARES PARA TEST	
 

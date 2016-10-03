@@ -9,23 +9,20 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
 
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
-@Entity
+@Entity(name="Entrenadores")
 public class Entrenador {
 	
 	@Id
 	private String  nombre;
 	private Integer experiencia;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	private Lugar ubicacion;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	private Nivel nivelActual;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner", fetch=FetchType.EAGER)

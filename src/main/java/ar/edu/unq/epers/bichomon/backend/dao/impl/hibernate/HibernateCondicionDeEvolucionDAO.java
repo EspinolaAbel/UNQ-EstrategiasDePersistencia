@@ -15,7 +15,7 @@ public class HibernateCondicionDeEvolucionDAO implements CondicionDeEvolucionDAO
 	@Override
 	public void saveCondicion(CondicionDeEvolucion condicion) {
 		Session session = Runner.getCurrentSession();
-		session.save(condicion);
+		session.saveOrUpdate(condicion);
 	}
 
 	@Override

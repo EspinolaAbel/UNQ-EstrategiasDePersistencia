@@ -27,36 +27,6 @@ public class NivelTest {
 		assertNotEquals(nivelOriginal, nivelComparativo);
 	}
 	
-	@Test
-	public void dadosDosNivelesSimilaresPeroConDistintoPuntosParaSubirDeNivelLosComparoPorEqualsYMeRespondeFalse() {	
-		Nivel nivelOriginal = this.nuevoNivelOriginal();
-		Nivel nivelComparativo = this.nuevoNivelOriginal();
-		
-		//Distinto puntaje para subir de nivel
-		nivelComparativo.setPuntosParaSubirDeNivel(999);
-		assertNotEquals(nivelOriginal, nivelComparativo);
-	}
-		
-	@Test
-	public void dadosDosNivelesSimilaresPeroConDistintaMaxCantBichosLosComparoPorEqualsYMeRespondeFalse() {	
-		Nivel nivelOriginal = this.nuevoNivelOriginal();
-		Nivel nivelComparativo = this.nuevoNivelOriginal();
-		
-		//Distinta máxima cantidad de bichos
-		nivelComparativo.setMaxCantidadDeBichos(999);
-		assertNotEquals(nivelOriginal, nivelComparativo);
-	}
-	
-	@Test
-	public void dadosDosNivelesSimilaresPeroConDistintoSiguienteNivelLosComparoPorEqualsYMeRespondeFalse() {	
-		Nivel nivelOriginal = this.nuevoNivelOriginal();
-		Nivel nivelComparativo = this.nuevoNivelOriginal();
-		
-		//Distinto siguiente nivel
-		nivelComparativo.setSiguienteNivel(new Nivel());
-		assertNotEquals(nivelOriginal, nivelComparativo);
-	}
-	
 	
 	@Test
 	public void dadosDosNivelesComparoSusHashCodeYResultanSerIguales() {
@@ -65,8 +35,7 @@ public class NivelTest {
 		
 		assertEquals(nivelOriginal.hashCode(), nivelComparativo.hashCode());
 	}
-	
-	
+		
 	@Test
 	public void dadosDosNivelesComparoSusHashCodeYResultanSerDistintos() {
 		Nivel nivelOriginal = this.nuevoNivelOriginal();

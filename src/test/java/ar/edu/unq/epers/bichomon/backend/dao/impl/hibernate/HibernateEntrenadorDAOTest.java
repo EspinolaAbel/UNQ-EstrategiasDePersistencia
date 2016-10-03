@@ -2,29 +2,47 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
-import org.hibernate.Session;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Nivel;
+import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
+import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
+import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 
 public class HibernateEntrenadorDAOTest {
-	private Entrenador entrenador;
-	
-	private Entrenador entrenador2;
-	private Entrenador entrenador3;
-	private HibernateEntrenadorDAO entrenadorDao;
+	private Entrenador entrenadorOriginal;
+	private HibernateEntrenadorDAO entrenadorDAO;
+	private Nivel nivel;
+	private Lugar lugar;
+	private LugarDAO lugarDAO;
+	private NivelDAO nivelDAO;
 	
 	@Before
-	public void prepare(){
-		this.entrenador= new Entrenador("Juan");
-		this.entrenadorDao= new  HibernateEntrenadorDAO();
-		this.entrenador2= new Entrenador("Pedro");
-		this.entrenador3= new Entrenador("van");
+	public void setUp(){
+		this.entrenadorOriginal = new Entrenador("EntrenadorTest");
+		this.entrenadorOriginal.setExperiencia(999);
+		this.nivel = new Nivel(1, 999, 999);
+		this.entrenadorOriginal.setNivelActual(this.nivel);
+		this.lugar = new Guarderia("GuarderiaTest"); 
+		this.entrenadorOriginal.setUbicacionActual(lugar);
+		this.entrenadorOriginal.agregarBichoCapturado(new Bicho());
+		this.entrenadorOriginal.agregarBichoCapturado(new Bicho());
+		this.entrenadorDAO= new  HibernateEntrenadorDAO();
+		this.lugarDAO = new HibernateLugarDAO();
+		this.nivelDAO = new HibernateNivelDAO();
+	}
+	
+	@After
+	public void reiniciarBD() {
+		SessionFactoryProvider.destroy();
 	}
 	
 	/**
@@ -33,27 +51,27 @@ public class HibernateEntrenadorDAOTest {
 	 * getEntrenador
 	 * getAllEntrenadores
 	 */
-//	 * deberia limpiarse un poco y reorganizarlo	
 	@Test
-	public void testSaveEntreneador() {
+	public void dadoUnEntrenadorLoPersistoEnLaBBDDYLuegoLoRecuperoParaComprobarQueSeHayaPersistidoDeManeraCorrecta() {
 		Runner.runInSession(() -> {
-			entrenadorDao.saveEntrenador(entrenador);
-			entrenadorDao.saveEntrenador(entrenador3);
-			entrenadorDao.saveEntrenador(entrenador2);
-			
-			entrenador2= entrenadorDao.getEntrenador("Juan");
-			assertEquals(entrenador2, entrenador);
-			assertNotEquals(entrenador2, entrenador3);
-			
-			List <Entrenador> e= entrenadorDao.getAllEntrenadores();
-	
-			assertEquals (e.size(),3);
-			
+			this.lugarDAO.saveLugar(this.lugar);
+			this.nivelDAO.saveNivel(nivel);
+			this.entrenadorDAO.saveEntrenador(entrenadorOriginal);
 			return null;
 		});
-	//este test solo fue para probar si funciona el Entrenador dao, los tres metodos
-		//corrieron  bien y me   trajo todos  los entrenadores
-		// le metodo  list() se queja, deprecated , pero igual me trae los elementos
+		
+		Entrenador entrenadorRecuperado =
+					Runner.runInSession(() -> {
+						return this.entrenadorDAO.getEntrenador("EntrenadorTest");
+					});
+		
+		assertEquals(this.entrenadorOriginal.getNombre(), entrenadorRecuperado.getNombre());
+		assertTrue(this.entrenadorOriginal.getBichosCapturados().containsAll( entrenadorRecuperado.getBichosCapturados() ));
+		assertEquals(this.entrenadorOriginal.getExperiencia(), entrenadorRecuperado.getExperiencia());
+		assertEquals(	this.entrenadorOriginal.getNivelActual().getNumeroDeNivel(),
+						entrenadorRecuperado.getNivelActual().getNumeroDeNivel());
+		assertEquals(	this.entrenadorOriginal.getUbicacionActual().getNombre(),
+						entrenadorRecuperado.getUbicacionActual().getNombre());
 	}
 
 }
