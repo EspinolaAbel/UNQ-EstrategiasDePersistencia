@@ -24,7 +24,6 @@ public class SorteoEspecies {
 public SorteoEspecies(List <EspecieConProbabilidad> especies){
 	/**
 	 * @param especies - {@link especies} indica la cantidad de elementos a sortear con su probabilidad.
-	 * 
 	 */
 	this.acumulados= new ArrayList<Integer>();
 	this.asignar(especies); 
@@ -35,29 +34,27 @@ public SorteoEspecies(List <EspecieConProbabilidad> especies){
  * @param e
  */
 
-public void asignar(List<EspecieConProbabilidad> especies){
+public void asignar(List<EspecieConProbabilidad> especiesConProbabilidad){
 	int anterior=0;
 	this.acumulados= new ArrayList<Integer>(); 
 	
-	for(EspecieConProbabilidad e: especies){
+	for(EspecieConProbabilidad e: especiesConProbabilidad){
 		this.acumulados.add(e.getProbabilidad() +anterior);
 		anterior+=e.getProbabilidad();
 		}
 	}
-
-
 /**
- * @param <T>
- * @return 
- * 
+ * me devuelve el maximo de probabilidades acumuladas, osea el valo del ultimo elemento de la coleccion
+ * @return
  */
-
-
-
+public int maximo(){
+	return this.acumulados.get(this.acumulados.size()-1);
+	}
 
 public   <T> T sortearEspecie(List<T> especies){
-	//elijo al azar un numero  entre 0 y el ultimo de las peobabilidades acumuladas
-	Integer probabilidadSeleccionada= (int) (Math.random()*(this.acumulados.get(this.acumulados.size()-1)));
+	//elijo al azar un numero  entre 1 y el ultimo de las peobabilidades acumuladas 
+	// por ejemplo si el acumulado es 100=> elijo ente 1 y 100 
+	Integer probabilidadSeleccionada= 1+  (int) ( Math.random() * (maximo()-1) );
 	int indice=0;
 	boolean encontrado= false;
 	
@@ -88,20 +85,15 @@ public   <T> T sortearEspecie(List<T> especies, int sorteada){
 	}
 
 
-
-
-
-
-
 /**
  * 
  * @return resultados {@link resultados} devuelve los resultados de las asignaciones de probabilidades
  */
 
-public List<Integer> getResultados(){
+public List<Integer> getAcumulados(){
 	return this.acumulados;
 }
-public void setResultados(List <Integer> acumulados){
+public void setAcumulados(List <Integer> acumulados){
 
 	this.acumulados=acumulados;
 	
