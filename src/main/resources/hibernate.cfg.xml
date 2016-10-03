@@ -21,6 +21,7 @@
 		
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 
+
 		<!-- MAPEOS: -->
 		
 		<!-- CONDICIONES DE EVOLUCION -->
@@ -35,7 +36,6 @@
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Entrenador" />
-		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Bicho" />
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
