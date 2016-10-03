@@ -32,4 +32,14 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {
+		Session session = Runner.getCurrentSession();
+		String hql = "count(*) FROM Entrenadores e WHERE ubicacion.nombre=:nombreLugar";
+		Query<Entrenador> query = session.createQuery(hql, Entrenador.class);
+		query.setParameter("nombreLugar", nombreLugar);
+		
+		return  (int) query.getFirstResult();
+	}
+
 }

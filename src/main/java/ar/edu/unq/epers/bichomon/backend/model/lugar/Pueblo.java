@@ -14,7 +14,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 @Entity
 public class Pueblo extends Lugar {
 	
-	
+	@Transient
 	private List<EspecieConProbabilidad> especies;
 
 	public Pueblo(){

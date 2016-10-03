@@ -11,5 +11,7 @@ public interface EntrenadorDAO {
 	public Entrenador getEntrenador(String nombre);
 	
 	public List<Entrenador> getAllEntrenadores();
+
+	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar);
 	
 }
