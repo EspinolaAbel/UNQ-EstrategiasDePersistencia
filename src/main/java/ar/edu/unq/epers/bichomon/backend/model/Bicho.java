@@ -1,3 +1,4 @@
+
 package ar.edu.unq.epers.bichomon.backend.model;
 
 import javax.persistence.CascadeType;
