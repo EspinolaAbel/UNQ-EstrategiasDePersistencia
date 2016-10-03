@@ -19,8 +19,7 @@ public class DojoTest {
 	}
 
 	/** Dado un dojo intento abandonar un bicho en él. Como en este lugar no se permite abandonar bichos
-	 * se lanza una UbicacionIncorrectaException.
-	 * @author ae */
+	 * se lanza una UbicacionIncorrectaException. */
 	@Test
 	public void dadoUnDojoIntentoAbandonarUnBichoYSeLanzaUnaUbicacionIncorrectaException() {
 		Bicho bicho = new Bicho(new Especie());
@@ -39,9 +38,8 @@ public class DojoTest {
 	 * pido que me de un nuevo bicho del lugar.
 	 * Al realizar esta acción me retorna un nuevo bicho de la especie raiz de la especie del bicho
 	 * campeón actual.
-	 * - Especie del bicho campeon: 'EspecieEvolucionada;
-	 * - Especie raiz del campeon: 'EspecieRaiz'.
-	 * @author ae */
+	 * - Especie del bicho campeon: 'EspecieEvolucionada';
+	 * - Especie raiz del campeon: 'EspecieRaiz'. */
 	@Test
 	public void dadoUnDojoConBichoCampeonDeEspecieEvolucionadaLePidoUnBichoYMeDevuelveUnNuevoBichoDeLaEspecieRaizDelCampeonActual() {
 		Especie especieEvolucionada = new Especie("EspecieEvolucionada", TipoBicho.FUEGO);
@@ -49,7 +47,7 @@ public class DojoTest {
 		
 		especieEvolucionada.setRaiz(especieRaiz);		
 		Bicho bichoCampeon = new Bicho(especieEvolucionada);		
-		dojo.setCampeon(bichoCampeon);
+		dojo.setBichoCampeonActual(bichoCampeon);
 		
 		Bicho bichoDelLugar = dojo.retornarUnBichoDelLugar();
 		

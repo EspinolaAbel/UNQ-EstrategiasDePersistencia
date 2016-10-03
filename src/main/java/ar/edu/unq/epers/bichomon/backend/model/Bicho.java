@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * Un {@link Bicho} existente en el sistema, el mismo tiene un nombre
@@ -23,6 +24,8 @@ public class Bicho {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
+	@Transient
 	private String nombre;
 	
 	@OneToOne(cascade=CascadeType.ALL)

@@ -1,22 +1,17 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.OneToOne;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**
- * 
- * 
- * 
- * @author Peter
- *
- */
+ * @author Peter */
 @Entity
 public class Dojo extends Lugar {
 	
-	@Transient
-	private Bicho campeon;
+	@OneToOne
+	private Bicho bichoCampeonActual;
 	
 	public Dojo(){
 		super();
@@ -28,35 +23,26 @@ public class Dojo extends Lugar {
 
 	@Override
 	public void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException {
-		
-			throw new UbicacionIncorrectaException(super.getNombre());
-		
-
+		throw new UbicacionIncorrectaException(super.getNombre());
 	}
 
 	@Override
 	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		// para hacer!!!!!
-		
 	}
 
-	public Bicho getCampeon(){
-		return this.campeon;
-		
+	public Bicho getBichoCampeonActual(){
+		return this.bichoCampeonActual;
 	}
 
-	public void setCampeon(Bicho bicho){
-		this.campeon=bicho;
-		
+	public void setBichoCampeonActual(Bicho bicho){
+		this.bichoCampeonActual=bicho;
 	}
 
+	/** Devuelve un bicho sin dueño */
 	@Override
 	public Bicho retornarUnBichoDelLugar() {
-		// Devuelve un bicho sin dueño
-		return (new Bicho(this.campeon.getEspecie().dameRaiz()));
-	
-	
+		return (new Bicho(this.bichoCampeonActual.getEspecie().dameRaiz()));
 	}
-
 
 }

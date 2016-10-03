@@ -16,31 +16,24 @@ public abstract class Lugar {
 	@Id
 	private String nombre;
 
-	/**@author pa*/
 	public Lugar(String nombre){
 		this.setNombre(nombre);
-		
 	}
 	
 	public Lugar() {
 		super();
 	}
 
-	/**@author pa*/
 	public abstract void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException ;
 
-	/**@author pa*/
 	public abstract void combatir(Bicho bicho) throws UbicacionIncorrectaException ;
 
-	/**@author pa*/
 	public abstract Bicho retornarUnBichoDelLugar();
 	
-	/**@author pa*/
 	public String  getNombre(){
 		return this.nombre;
 	}
 	
-	/**@author pa*/
 	public void setNombre(String nombre){
 		this.nombre = nombre;
 	}

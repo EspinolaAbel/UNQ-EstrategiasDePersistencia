@@ -42,9 +42,11 @@ public class MapaService {
 		});
 	}
 	
-	public Bicho campeon(String dojo) {
-		//TODO
-		return null;
+	public Bicho campeon(String nombreDojo) {
+		return
+		Runner.runInSession(() -> {
+			return lugarDAO.getBichoCampeonActualDelDojo(nombreDojo);
+		});
 	}
 	
 	public Bicho campeonHistorico(String dojo) {

@@ -1,7 +1,5 @@
 package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
@@ -11,6 +9,7 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 public class HibernateEntrenadorDAO implements EntrenadorDAO {
 
 	public HibernateEntrenadorDAO() {
+		super();
 	}
 
 	@Override
@@ -24,22 +23,18 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 		Session session = Runner.getCurrentSession();
 		return session.get(Entrenador.class, nombre);
 	}
-
-	@Override
-	public List<Entrenador> getAllEntrenadores() {		
-		Session  session=Runner.getCurrentSession();
-		Query<Entrenador> query = session.createQuery("FROM Entrenador", Entrenador.class);
-		return query.getResultList();
-	}
-
+	
+	/** Dado un nombre de {@link Lugar} persistido en BBDD, retorno la cantidad de {@link Entrenador}es que actualmente
+	 * están ubicados en ese lugar.
+	 * @param nombreLugar - el nombre del lugar a consultar.*/
 	@Override
 	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {
 		Session session = Runner.getCurrentSession();
-		String hql = "count(*) FROM Entrenadores e WHERE ubicacion.nombre=:nombreLugar";
-		Query<Entrenador> query = session.createQuery(hql, Entrenador.class);
+		String hql = "SELECT COUNT(*) FROM Entrenadores WHERE ubicacion.nombre=:nombreLugar";
+		Query<Long> query = session.createQuery(hql, Long.class);
 		query.setParameter("nombreLugar", nombreLugar);
 		
-		return  (int) query.getFirstResult();
+		return  query.getSingleResult().intValue();
 	}
 
 }
