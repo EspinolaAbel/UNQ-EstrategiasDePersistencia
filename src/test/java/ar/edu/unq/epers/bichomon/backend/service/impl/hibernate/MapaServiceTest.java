@@ -2,6 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import static org.junit.Assert.*;
 
+import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,7 +95,35 @@ public class MapaServiceTest {
 	
 	@Test
 	public void dadoUnDojoSeBuscaEnLaBBDDElBichoQueHayaSidoCampeonDuranteMasTiempoEnEstaUbicacion() {
+		CampeonHistorico c1, c2, c3, c4, c5;
+		Bicho b1, b2, b3, b4, b5;
 		
+		b1 = new Bicho();
+		b2 = new Bicho();
+		b3 = new Bicho();
+		b4 = new Bicho();
+		b5 = new Bicho();
+		
+		c1 = new CampeonHistorico(this.dojo, b1);	c1.setFechaCoronadoCampeon(1); c1.setFechaDepuesto(2);
+		c2 = new CampeonHistorico(this.dojo, b2);	c2.setFechaCoronadoCampeon(2); c2.setFechaDepuesto(4);
+		c3 = new CampeonHistorico(this.dojo, b3);	c3.setFechaCoronadoCampeon(4); c3.setFechaDepuesto(8);
+		c4 = new CampeonHistorico(this.dojo, b4);	c4.setFechaCoronadoCampeon(8); c4.setFechaDepuesto(16);
+		c5 = new CampeonHistorico(this.dojo, b5);	c5.setFechaCoronadoCampeon(16); c5.setFechaDepuesto(32);
+		
+		Runner.runInSession(() -> {
+			Session session = Runner.getCurrentSession();
+			
+			session.save(b1);	session.save(b2);	session.save(b3);
+			session.save(b4);	session.save(b5);
+			
+			session.save(c1);	session.save(c2);	session.save(c3);
+			session.save(c4);	session.save(c5);
+			
+			return null;
+		});
+		Bicho bichoRecuperado = this.mapaService.campeonHistorico(this.dojo.getNombre());
+		
+		assertEquals(bichoRecuperado, b5);
 	}
 
 	

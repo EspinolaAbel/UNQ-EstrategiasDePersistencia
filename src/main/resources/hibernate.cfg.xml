@@ -40,12 +40,14 @@
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
 		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
+
+		<!-- LUGARES -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo" />
 		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
 	</session-factory>
 </hibernate-configuration>
