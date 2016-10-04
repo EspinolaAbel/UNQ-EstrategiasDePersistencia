@@ -3,7 +3,10 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
@@ -11,10 +14,10 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
 
 /**@author pa*/
-@Entity
+@Entity 
 public class Pueblo extends Lugar {
 	
-	@Transient
+	@OneToMany (cascade= CascadeType.ALL , fetch= FetchType.LAZY)
 	private List<EspecieConProbabilidad> especies;
 
 	public Pueblo(){

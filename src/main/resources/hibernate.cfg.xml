@@ -47,5 +47,7 @@
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo" />
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.EspecieConProbabilidad"/>
 	</session-factory>
 </hibernate-configuration>
