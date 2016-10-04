@@ -8,6 +8,7 @@ import org.junit.Test;
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateBichoDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateCampeonHistoricoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
@@ -28,7 +29,7 @@ public class HibernateCampeonHistoricoTest {
 	}
 
 	@Test
-	public void dados10BichosCampeonesHistoricosLosPersistoEnLaBBDDYComprueboQueSeHayaPersistidoDeManeraCorrecta() {
+	public void dados10BichosCampeonesHistoricosLosPersistoEnLaBBDDYComprueboQueSeHayanPersistidoDeManeraCorrecta() {
 
 		Runner.runInSession(() -> {
 			Dojo dojo;

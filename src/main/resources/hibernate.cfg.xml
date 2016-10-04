@@ -40,6 +40,9 @@
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
 		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
+
+		<!-- LUGARES -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo" />
@@ -49,5 +52,11 @@
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.EspecieConProbabilidad"/>
+
+<!-- ======= -->
+<!-- >>>>>>> 6219fcc3a8dc7a67f495f1fa896f0b5e9dbbb9c8 -->
+
+
+
 	</session-factory>
 </hibernate-configuration>

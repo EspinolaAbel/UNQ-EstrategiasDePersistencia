@@ -11,4 +11,6 @@ public interface LugarDAO {
 
 	public Bicho getBichoCampeonActualDelDojo(String nombreDojo);
 
+	public Bicho getCampeonHistoricoDelDojo(String dojoNombre);
+
 }
