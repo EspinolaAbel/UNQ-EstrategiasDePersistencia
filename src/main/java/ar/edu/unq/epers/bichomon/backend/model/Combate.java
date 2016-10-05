@@ -17,7 +17,7 @@ public class Combate {
 
 	private Bicho retador;
 	private Bicho campeon;
-	private LocalDateTime fecha;
+	private Long fecha;
 	private ArrayList<Double> ataques;
 	
 	private Double dañoAcumuladoRetador=0.0;
@@ -27,7 +27,7 @@ public class Combate {
 		
 		this.retador=retador;
 		this.campeon=campeon;
-		this.fecha= LocalDateTime.now();
+		this.fecha=System.currentTimeMillis();
 		this.ataques= new  ArrayList<Double>();
 	}
 	

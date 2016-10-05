@@ -3,18 +3,22 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 
 /**@author pa*/
-@Entity
+@Entity 
 public class Pueblo extends Lugar {
 	
-	@Transient
+	@OneToMany (cascade= CascadeType.ALL , fetch= FetchType.LAZY)
 	private List<EspecieConProbabilidad> especies;
 
 	public Pueblo(){
@@ -39,7 +43,7 @@ public class Pueblo extends Lugar {
 	}
 	
 	@Override
-	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
+	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		//en el pueblo ni en la guardería se puede combatir
 		throw new UbicacionIncorrectaException(super.getNombre());
 	}

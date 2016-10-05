@@ -1,6 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
-public class UbicacionIncorrectaException extends Exception {
+public class UbicacionIncorrectaException extends RuntimeException {
 	
 	/**
 	 * 
