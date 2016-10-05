@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Combate;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**
  * @author Peter */
@@ -27,7 +29,13 @@ public class Dojo extends Lugar {
 	}
 
 	@Override
-	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
+	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
+		
+		Combate combate = new Combate(bicho, this.bichoCampeonActual);
+		return combate.Combatir();
+		
+		
+		
 		// para hacer!!!!!
 	}
 

@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 
 /**@author pa*/
@@ -42,7 +43,7 @@ public class Pueblo extends Lugar {
 	}
 	
 	@Override
-	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
+	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		//en el pueblo ni en la guardería se puede combatir
 		throw new UbicacionIncorrectaException(super.getNombre());
 	}

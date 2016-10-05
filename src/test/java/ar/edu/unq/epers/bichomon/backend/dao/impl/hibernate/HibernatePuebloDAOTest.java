@@ -9,7 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unq.epers.bichomon.backend.dao.EspecieConProbabilidadDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.PuebloDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.EspecieConProbabilidad;
@@ -20,46 +23,71 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 
 public class HibernatePuebloDAOTest  {
 
-	private List<EspecieConProbabilidad> especies= new ArrayList<EspecieConProbabilidad>();
-	private Pueblo pueblo;
-	private HibernatePuebloDAO puebloDAO;
-	private EspecieConProbabilidad esp; 
-	@Before
-	public void setUp() {
-		
-		Especie e = new Especie("EspecieTest1", TipoBicho.AGUA);
-		esp= new EspecieConProbabilidad(e,13);
-		especies.add(esp);
-		e = new Especie("EspecieTest2", TipoBicho.AIRE);
-		esp= new EspecieConProbabilidad(e,1);
-		especies.add(esp);
-		
-		this.pueblo = new Pueblo("PuebloTest");
-		this.pueblo.setEspecies(especies);//agrego las especies  con  probabilidad
-		
-		this.puebloDAO = new HibernatePuebloDAO();
-		
-		
-		
-	}
-	
-	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
-	}
 
-	@Test
-	public void dadoUnPuebloLoGuardoEnLaBBDD() {
-		Runner.runInSession(() -> {
-			this.puebloDAO.savePueblo(this.pueblo);
-			return null;
+private Pueblo pueblo;
+private PuebloDAO puebloDAO;
+private EspecieConProbabilidadDAO especieConProbabilidadDAO;
+
+private List <EspecieConProbabilidad> especies;
+private EspecieConProbabilidad esp;
+private EspecieDAO especieDAO;
+ private Especie e ;
+
+@Before
+public void setUp() {
+	
+	especieConProbabilidadDAO= new HibernateEspecieConProbabilidadDAO();
+	especieDAO= new HibernateEspecieDAO();
+	especies= new ArrayList<EspecieConProbabilidad>();
+	
+
+	e = new Especie("EspecieTest1", TipoBicho.AGUA);
+	esp= new EspecieConProbabilidad(e,13);
+	
+	
+	
+	especies.add(esp);
+	Runner.runInSession( () ->{
+		this.especieDAO.saveEspecie(e);
+		this.especieConProbabilidadDAO.saveEspecieConProbabilidad(esp);
+		return null;
 		});
+	
+	e = new Especie("EspecieTest2", TipoBicho.AIRE);
+	esp= new EspecieConProbabilidad(e,1);
+	especies.add(esp);
+	Runner.runInSession( () ->{
+		this.especieDAO.saveEspecie(e);
+		this.especieConProbabilidadDAO.saveEspecieConProbabilidad(esp);
+		return null;
+		});
+
+	
+	
+	this.pueblo = new Pueblo("PuebloTest");
+	this.pueblo.setEspecies(this.especies);
+	this.puebloDAO = new HibernatePuebloDAO();
 	}
 
+@After
+public void reiniciarBD() {
+	SessionFactoryProvider.destroy();
+}
 
+@Test
+public void dadoUnLugarLoPersisto() {
+	Runner.runInSession(() -> {
+		this.puebloDAO.savePueblo(this.pueblo);
+		return null;
+	});
 	
-	
-	
-	
-
+	/**
+	 * 	Lugar lugarRecuperado =
+	 *					return this.lugarDAO.getLugar("LugarTest");
+	 *				});
+	 *	
+	 *	assertEquals(this.lugarOriginal.getNombre(), lugarRecuperado.getNombre());
+	 *	}
+	 **/
+}
 }

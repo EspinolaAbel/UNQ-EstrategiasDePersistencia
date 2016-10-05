@@ -3,16 +3,19 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**@author pa*/
 @Entity
 public class Guarderia extends Lugar {
 	
-	@Transient
+	@OneToMany (cascade =CascadeType.ALL)
 	private List<Bicho>  bichosAbandonados;
 		
 	public Guarderia() {
@@ -30,8 +33,9 @@ public class Guarderia extends Lugar {
 	}
 
 	@Override
-	public void combatir(Bicho bicho) throws UbicacionIncorrectaException {
+	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		throw new UbicacionIncorrectaException(super.getNombre());
+		
 	}
 
 	/** Se retorna un {@link Bicho} al azar de la lista de bichos abandonados en este lugar.

@@ -7,6 +7,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**@author pa*/
 @Entity(name = "Lugares")
@@ -26,7 +27,7 @@ public abstract class Lugar {
 
 	public abstract void recibirBichoAbandonado(Bicho bicho) throws UbicacionIncorrectaException ;
 
-	public abstract void combatir(Bicho bicho) throws UbicacionIncorrectaException ;
+	public abstract ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException ;
 
 	public abstract Bicho retornarUnBichoDelLugar();
 	
