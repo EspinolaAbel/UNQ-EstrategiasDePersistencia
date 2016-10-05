@@ -6,39 +6,40 @@ import javax.persistence.OneToOne;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
-@Entity(name="Campeones_historicos")
-public class CampeonHistorico {
+@Entity(name="Campeones")
+public class Campeon {
 	
 	@Id
-	private Integer fechaCoronadoCampeon;
-	private Integer fechaDepuesto;
+	private Long fechaCoronadoCampeon;
+	private Long fechaDepuesto;
 	@OneToOne
 	private Bicho bichoCampeon;
 	@OneToOne
 	private Dojo lugarDondeFueCoronadoCampeon;
 	
-	public CampeonHistorico() {
+	public Campeon() {
 		super();
 	}
 	
-	public CampeonHistorico(Dojo dojo, Bicho bichoCampeon) {
+	public Campeon(Dojo dojo, Bicho bichoCampeon) {
 		this.lugarDondeFueCoronadoCampeon = dojo;
 		this.bichoCampeon = bichoCampeon;
+		this.setFechaCoronadoCampeon(System.nanoTime());
 	}
 	
-	public Integer getFechaCoronadoCampeon() {
+	public Long getFechaCoronadoCampeon() {
 		return fechaCoronadoCampeon;
 	}
 	
-	public void setFechaCoronadoCampeon(Integer fechaCoronadoCampeon) {
+	public void setFechaCoronadoCampeon(Long fechaCoronadoCampeon) {
 		this.fechaCoronadoCampeon = fechaCoronadoCampeon;
 	}
 	
-	public Integer getFechaDepuesto() {
+	public Long getFechaDepuesto() {
 		return fechaDepuesto;
 	}
 	
-	public void setFechaDepuesto(Integer fechaDepuesto) {
+	public void setFechaDepuesto(Long fechaDepuesto) {
 		this.fechaDepuesto = fechaDepuesto;
 	}
 	

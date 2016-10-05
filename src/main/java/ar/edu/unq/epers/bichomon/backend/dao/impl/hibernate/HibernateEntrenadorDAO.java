@@ -1,5 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
@@ -35,6 +37,25 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 		query.setParameter("nombreLugar", nombreLugar);
 		
 		return  query.getSingleResult().intValue();
+	}
+
+	@Override
+	public List<Entrenador> getEntrenadoresConBichosCampeones() {
+//		try {
+		Session session = Runner.getCurrentSession();
+	
+		
+//		String hql = 	"SELECT e FROM Entrenadores e JOIN "
+//						+ "( FROM Campeones JOIN Bichos ON id=bichoCampeon.id WHERE fechaDepuesto IS null ) b "
+//						+ "ON nombre=b.owner.nombre ";
+//						+ "ORDER BY fechaCoronadoCampeon ASC";
+		String hql = 	"select c.bichoCampeon.owner from Campeones c where c.fechaDepuesto is null order by c.fechaCoronadoCampeon ASC";
+		Query<Entrenador> query = session.createQuery(hql, Entrenador.class);
+		return query.getResultList();
+//		}
+//		catch(Exception e) {
+//			return this.getEntrenadoresConBichosCampeones();
+//		}
 	}
 
 }

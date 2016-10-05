@@ -1,8 +1,8 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /**
@@ -10,8 +10,8 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 @Entity
 public class Dojo extends Lugar {
 	
-	@OneToOne
-	private Bicho bichoCampeonActual;
+	@OneToOne(cascade=CascadeType.ALL)
+	private Campeon campeonActual;
 	
 	public Dojo(){
 		super();
@@ -31,18 +31,20 @@ public class Dojo extends Lugar {
 		// para hacer!!!!!
 	}
 
-	public Bicho getBichoCampeonActual(){
-		return this.bichoCampeonActual;
+	public Campeon getCampeonActual(){
+		return this.campeonActual;
 	}
 
-	public void setBichoCampeonActual(Bicho bicho){
-		this.bichoCampeonActual=bicho;
+	public void setCampeonActual(Bicho bicho){
+		this.campeonActual= new Campeon(this, bicho);
 	}
 
+	//TODO
 	/** Devuelve un bicho sin dueño */
 	@Override
 	public Bicho retornarUnBichoDelLugar() {
-		return (new Bicho(this.bichoCampeonActual.getEspecie().dameRaiz()));
+		Bicho bicho = this.getCampeonActual().getBichoCampeon();
+		return (new Bicho(bicho.getEspecie().dameRaiz()));
 	}
 
 }

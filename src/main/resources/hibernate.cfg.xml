@@ -40,7 +40,7 @@
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
 		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Campeon" />
 
 		<!-- LUGARES -->
 		

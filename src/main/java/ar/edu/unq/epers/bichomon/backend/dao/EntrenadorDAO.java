@@ -1,5 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.dao;
 
+import java.util.List;
+
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 
 public interface EntrenadorDAO {
@@ -9,5 +11,7 @@ public interface EntrenadorDAO {
 	public Entrenador getEntrenador(String nombre);
 
 	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar);
+
+	public List<Entrenador> getEntrenadoresConBichosCampeones();
 	
 }
