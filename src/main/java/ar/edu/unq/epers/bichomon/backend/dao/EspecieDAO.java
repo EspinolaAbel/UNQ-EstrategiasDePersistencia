@@ -23,4 +23,6 @@ public interface EspecieDAO {
 	/**Se recupera de la base de datos todas las especies y las retorna en una lista.
 	 * @author ae */
 	public List<Especie> getAllEspecies();
+
+	public Especie getEspecieLider();
 }

@@ -68,7 +68,7 @@ public class BichoServiceTest {
 		
 		
 		this.lugar.recibirBichoAbandonado(bicho4);
-		this.lugar2.setBichoCampeonActual(bicho3);
+		this.lugar2.setCampeonActual(bicho3);
 		
 		this.entrenador.setUbicacionActual(lugar);
 		this.entrenador2.setUbicacionActual(lugar2);

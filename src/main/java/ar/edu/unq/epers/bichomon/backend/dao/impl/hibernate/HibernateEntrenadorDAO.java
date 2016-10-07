@@ -41,21 +41,22 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 
 	@Override
 	public List<Entrenador> getEntrenadoresConBichosCampeones() {
-//		try {
-		Session session = Runner.getCurrentSession();
-	
-		
-//		String hql = 	"SELECT e FROM Entrenadores e JOIN "
-//						+ "( FROM Campeones JOIN Bichos ON id=bichoCampeon.id WHERE fechaDepuesto IS null ) b "
-//						+ "ON nombre=b.owner.nombre ";
-//						+ "ORDER BY fechaCoronadoCampeon ASC";
-		String hql = 	"select c.bichoCampeon.owner from Campeones c where c.fechaDepuesto is null order by c.fechaCoronadoCampeon ASC";
+		Session session = Runner.getCurrentSession();	
+		String hql = "SELECT DISTINCT e FROM Entrenadores e "
+					+ "WHERE e in "
+					+ 	"(SELECT c.bichoCampeon.owner FROM Campeones_historicos c "
+					+ 	"WHERE c.fechaDepuesto IS null ORDER BY c.fechaCoronadoCampeon ASC)";
 		Query<Entrenador> query = session.createQuery(hql, Entrenador.class);
 		return query.getResultList();
-//		}
-//		catch(Exception e) {
-//			return this.getEntrenadoresConBichosCampeones();
-//		}
+	}
+
+	@Override
+	public List<Entrenador> getLideres() {
+		Session session = Runner.getCurrentSession();	
+		String hql = "SELECT b.owner FROM Bichos b GROUP BY b.owner ORDER BY SUM(b.energia) DESC";
+		Query<Entrenador> query = session.createQuery(hql, Entrenador.class);
+		query.setMaxResults(10);
+		return query.getResultList();
 	}
 
 }

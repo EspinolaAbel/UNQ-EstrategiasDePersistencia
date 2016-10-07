@@ -13,7 +13,7 @@ import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 public class Dojo extends Lugar {
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	private Campeon campeonActual;
+	private CampeonHistorico campeonActual;
 	
 	public Dojo(){
 		super();
@@ -31,7 +31,7 @@ public class Dojo extends Lugar {
 	@Override
 	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		
-		Combate combate = new Combate(bicho, this.bichoCampeonActual);
+		Combate combate = new Combate(bicho, this.getCampeonActual().getBichoCampeon());
 		return combate.Combatir();
 		
 		
@@ -39,12 +39,12 @@ public class Dojo extends Lugar {
 		// para hacer!!!!!
 	}
 
-	public Campeon getCampeonActual(){
+	public CampeonHistorico getCampeonActual(){
 		return this.campeonActual;
 	}
 
 	public void setCampeonActual(Bicho bicho){
-		this.campeonActual= new Campeon(this, bicho);
+		this.campeonActual= new CampeonHistorico(this, bicho);
 	}
 
 	//TODO
