@@ -25,4 +25,8 @@ public interface EspecieDAO {
 	public List<Especie> getAllEspecies();
 
 	public Especie getEspecieLider();
+
+	public List<Especie> getMasPopulares();
+
+	public List<Especie> getMenosPopulares();
 }

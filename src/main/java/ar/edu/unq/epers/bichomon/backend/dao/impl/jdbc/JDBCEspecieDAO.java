@@ -221,4 +221,20 @@ public class JDBCEspecieDAO implements EspecieDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	@Override
+	public List<Especie> getMasPopulares() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<Especie> getMenosPopulares() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

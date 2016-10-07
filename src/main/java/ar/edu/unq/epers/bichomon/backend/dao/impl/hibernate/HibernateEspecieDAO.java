@@ -42,4 +42,24 @@ public class HibernateEspecieDAO implements EspecieDAO {
 		return query.getSingleResult();
 	}
 
+	@Override
+	public List<Especie> getMasPopulares() {
+		Session session = Runner.getCurrentSession();
+		String hql = "SELECT b.especie FROM Bichos b "
+					+ "WHERE b.owner IS NOT Null GROUP BY b.especie ORDER BY COUNT(b.especie) DESC";
+		Query<Especie> query = session.createQuery(hql, Especie.class);
+		query.setMaxResults(10);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Especie> getMenosPopulares() {
+		Session session = Runner.getCurrentSession();
+		String hql = "SELECT b.especie FROM Bichos b "
+					+ "WHERE b.owner IS Null GROUP BY b.especie ORDER BY COUNT(b.especie) DESC";
+		Query<Especie> query = session.createQuery(hql, Especie.class);
+		query.setMaxResults(10);
+		return query.getResultList();
+	}
+
 }
