@@ -18,6 +18,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.Nivel;
+import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
@@ -31,12 +32,12 @@ public class BichoServiceTest {
 	
 	
 
-	private Entrenador entrenador, entrenador2;
-	private Lugar lugar;
-	private Dojo lugar2;
+	private Entrenador entrenador1, entrenador2;
+	private Lugar guarderia;
+	private Dojo dojo;
 	private BichoService bichoService;
-	private Bicho bicho,bicho2,bicho3, bicho4, 
-		     	  bichoObtenidoDeGuarderia, bichoObtenidoDeDojo;
+	private Bicho bicho1,bicho2,bicho3, bicho4, 
+		     	  bichoObtenidoDeGuarderia, bichoObtenidoDeDojo, bichoCampeonDeDojo;
 	private Nivel nivel;
 	
 	private EntrenadorDAO entrenadorDAO;
@@ -47,18 +48,21 @@ public class BichoServiceTest {
 	
 	@Before
 	public void setUp() {
-		this.entrenador = new Entrenador("EntrenadorTest");
+		this.entrenador1 = new Entrenador("EntrenadorTest1");
 		this.entrenador2 = new Entrenador("EntrenadorTest2");
 		
 		this.nivel= new Nivel(1,2,5);
 		
-		this.lugar = new Guarderia("GuarderiaTest");
-		this.lugar2= new Dojo("DojoTest");
+		this.guarderia = new Guarderia("GuarderiaTest");
+		this.dojo= new Dojo("DojoTest");
 				
-		this.bicho = new Bicho(new Especie("EspecieTest", TipoBicho.AGUA)); 
+		this.bicho1 = new Bicho(new Especie("EspecieTest", TipoBicho.AGUA)); 
 		this.bicho2 = new Bicho(new Especie("EspecieTest2", TipoBicho.AIRE));
 		this.bicho3 = new Bicho(new Especie("EspecieTest3", TipoBicho.FUEGO));
+		this.bichoCampeonDeDojo = new Bicho(new Especie("EspecieTest5", TipoBicho.FUEGO));
 		this.bicho4 = new Bicho(new Especie("EspecieTest4", TipoBicho.FUEGO));
+		
+		
 		
 		this.entrenadorDAO = new HibernateEntrenadorDAO();
 		this.lugarDAO = new HibernateLugarDAO();
@@ -67,27 +71,37 @@ public class BichoServiceTest {
 		this.bichoService = new BichoService(entrenadorDAO, bichoDAO);
 		
 		
-		this.lugar.recibirBichoAbandonado(bicho4);
-		this.lugar2.setBichoCampeonActual(bicho3);
+		this.guarderia.recibirBichoAbandonado(bicho4);
 		
-		this.entrenador.setUbicacionActual(lugar);
-		this.entrenador2.setUbicacionActual(lugar2);
+		// al bichoCampeonDeDojo campeon del dojo le vamos a setear 5 energia
+		this.dojo.setBichoCampeonActual(bichoCampeonDeDojo);
+		this.bichoCampeonDeDojo.setEnergia(5);
+		this.bicho3.setEnergia(50);
 		
-		this.entrenador.setNivelActual(nivel);
+		this.entrenador1.setUbicacionActual(guarderia);
+		this.entrenador2.setUbicacionActual(dojo);
+		
+		this.entrenador1.setNivelActual(nivel);
 		this.entrenador2.setNivelActual(nivel);
 		
-		this.entrenador.agregarBichoCapturado(bicho);this.entrenador.agregarBichoCapturado(bicho2);
+		this.entrenador1.agregarBichoCapturado(bicho1);
+		this.entrenador1.agregarBichoCapturado(bicho2);
 		this.entrenador2.agregarBichoCapturado(bicho3);
 		
 		Runner.runInSession(() -> {
 			
 			this.nivelDAO.saveNivel(this.nivel);
-			this.bichoDAO.saveBicho(bicho);this.bichoDAO.saveBicho(bicho2);
+			
+			this.bichoDAO.saveBicho(bicho1);
+			this.bichoDAO.saveBicho(bicho2);
 			this.bichoDAO.saveBicho(bicho3);
-			this.lugarDAO.saveLugar(lugar);
-			this.lugarDAO.saveLugar(lugar2);
-			this.entrenadorDAO.saveEntrenador(entrenador);
+			
+			this.lugarDAO.saveLugar(guarderia);
+			this.lugarDAO.saveLugar(dojo);
+			
+			this.entrenadorDAO.saveEntrenador(entrenador1);
 			this.entrenadorDAO.saveEntrenador(entrenador2);
+			
 			return null;
 		});
 	}
@@ -124,26 +138,16 @@ public class BichoServiceTest {
 			return null;
 		});
 		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
-	
 	
 	
 	@Test
 	public void testDadoUnEntrenadorAbandonaUnBichoEnUnaGuarderiaYLoDeja() {
-		this.bichoService.abandonar(this.entrenador.getNombre(), 2);
+		this.bichoService.abandonar(this.entrenador1.getNombre(), 2);
 		
 		Runner.runInSession(() -> {
 
-				Entrenador entrenadorRecuperado= this.entrenadorDAO.getEntrenador("EntrenadorTest");
+				Entrenador entrenadorRecuperado= this.entrenadorDAO.getEntrenador("EntrenadorTest1");
 				Guarderia guarderiaRcuperada=(Guarderia) entrenadorRecuperado.getUbicacionActual();
 				assertEquals(entrenadorRecuperado.getBichosCapturados().size(),1);
 				assertEquals(guarderiaRcuperada.getBichosAbandonados().size(),1);
@@ -171,6 +175,33 @@ public class BichoServiceTest {
 			return null;
 		});
 		}
+		
+	}
+	
+	/**
+	 * el test se realiza entre el campeon del dojo con 5 puntos de energia y el bicho de un  
+	 * entrenador con 50 puntos de enregia, dad esta circunstancia  y las caracteristicas del combate
+	 * el bicho del retador ganara y se conbsagrara campeon del doyo
+	 * 
+	 */
+	@Test
+	public void testCombateEntreUnBichoDeUnEntrenadorYElCampeonDelDojo(){
+		//el entrenador tiene un solo bichocen su lista
+		
+		ResultadoCombate resultado;
+		try{
+			resultado=	this.bichoService.duelo(this.entrenador2.getNombre(), this.entrenador2.getBichosCapturados().get(0).getId());
+		} catch (UbicacionIncorrectaException uIE){
+			
+		Runner.runInSession(() -> {
+				Dojo dojoRec= (Dojo)this.lugarDAO.getLugar("DojoTest");
+				assertEquals(this.entrenador2.getBichosCapturados().get(0).getId(),dojoRec.getBichoCampeonActual().getId());
+				//la guarderia debe tener el bicho con  id = 2
+				
+			return null;
+		});
+		}
+		
 		
 	}
 

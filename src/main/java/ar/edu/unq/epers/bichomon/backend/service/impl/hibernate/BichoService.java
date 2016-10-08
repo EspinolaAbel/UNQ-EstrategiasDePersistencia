@@ -50,33 +50,54 @@ public class BichoService {
 	
 	
 	/**
-	 * abandonar(String entrenador, int bicho):void el entrenador abandonará el bicho especificado en la
-	 *  localización actual.Si la ubicación no es una Guarderia se arrojará UbicacionIncorrectaException.
+	 * abandonar(  String entrenador, int bicho):void el entrenador abandonará el bicho especificado 
+	 * en la  localización actual.Si la ubicación no es una Guarderia se arrojará 
+	 * UbicacionIncorrectaException.
 	 * 
-	 * @param entrenador
-	 * @param bicho
+	 * @param entrenador - es el nombre del entrenador
+	 * @param bicho - es el identificador del bicho
 	 */
 	public void abandonar(String entrenador, int bicho) {
 		
 		Runner.runInSession(() -> {
-
 			Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
 			Bicho b= this.bichoDAO.getBicho(bicho)	;	
-			e.getUbicacionActual().recibirBichoAbandonado(b);
-			e.descartarBichoCapturado(b);
-
+			if (e.getBichosCapturados().size()>1){
+				e.getUbicacionActual().recibirBichoAbandonado(b);
+				e.descartarBichoCapturado(b);
+				}//solo lo de
 		return null;
 		});
-	//} catch (UbicacionIncorrectaException uvIncEx){/* por ahora no hago nada  conla excepcion */	}
-	
-		
 	}
+	/**
+	 * duelo(String entrenador, int bicho):ResultadoCombate el entrenador desafiará
+	 *  al actual campeon del dojo a duelo. Si la ubicación no es un Dojo se arrojará
+	 *  UbicacionIncorrectaException. El objeto resultante ResultadoCombate informará 
+	 *  no solo quién fue el ganador del combate sino el resultado de cada uno de 
+	 *  los ataques realizados.
+	 * @param entrenador
+	 * @param bicho
+	 * @return
+	 */
 	
 	public ResultadoCombate duelo(String entrenador, int bicho) {
-		//TODO
-		return null;
-	}
+			
+		return		Runner.runInSession(() -> {
+					Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
+					Bicho bichoRetador= this.bichoDAO.getBicho(bicho)	;	
+					ResultadoCombate resultadoDeCombate =e.getUbicacionActual().combatir(bichoRetador);
+					/**
+					 * hasta aca solo se combatio, ahora hay que actualizar
+					 * los valores segun el resultado
+					 */
+					
+					
+					return resultadoDeCombate;
+			
+					});
+		}
 	
+
 	public boolean puedeEvolucionar(String entrenador, int bicho) {
 		//TODO
 		return null != null;

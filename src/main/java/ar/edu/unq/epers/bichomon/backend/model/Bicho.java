@@ -120,6 +120,13 @@ public class Bicho {
 	}
 	
 	
+	
+	public void recuperarEnergia(){
+		this.energia += (int) 1+(Math.random()*4);
+	}
+	
+	
+	
 	@Override
 	public boolean equals(Object o) {
 		if(this == o) return true;

@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -12,7 +13,7 @@ import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 @Entity
 public class Dojo extends Lugar {
 	
-	@OneToOne
+	@OneToOne(cascade =CascadeType.ALL)
 	private Bicho bichoCampeonActual;
 	
 	public Dojo(){
