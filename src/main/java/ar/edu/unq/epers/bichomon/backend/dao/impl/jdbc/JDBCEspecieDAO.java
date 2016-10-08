@@ -213,4 +213,28 @@ public class JDBCEspecieDAO implements EspecieDAO {
 			throw new RuntimeException("Error al cerrar la conexion", e);
 		}
 	}
+
+
+
+	@Override
+	public Especie getEspecieLider() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<Especie> getMasPopulares() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<Especie> getMenosPopulares() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

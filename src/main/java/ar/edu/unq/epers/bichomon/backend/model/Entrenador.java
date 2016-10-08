@@ -94,4 +94,25 @@ public class Entrenador {
 		bichoADescartar.setOwner(null);
     }	
 	
+    
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Entrenador) {
+			Entrenador otroEntrenador = (Entrenador) o;
+			boolean idemNombre= this.nombre.equals(otroEntrenador.getNombre());
+	
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 44;
+		int result = 111;
+		result =	num * result + this.nombre.hashCode();
+		
+		return result;
+	}
 }

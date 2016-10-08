@@ -15,11 +15,12 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
-public class HibernateCampeonHistoricoTest {
+public class HibernateCampeonHistoricoDAOTest {
 
 	private HibernateCampeonHistoricoDAO campeonHistoricoDAO;
 	private BichoDAO bichoDAO;
 	private LugarDAO lugarDAO;
+	private Bicho bicho;
 	
 	@Before
 	public void setUp() {
@@ -27,34 +28,29 @@ public class HibernateCampeonHistoricoTest {
 		this.bichoDAO = new HibernateBichoDAO();
 		this.campeonHistoricoDAO = new HibernateCampeonHistoricoDAO();
 	}
-
+	
 	@Test
-	public void dados10BichosCampeonesHistoricosLosPersistoEnLaBBDDYComprueboQueSeHayanPersistidoDeManeraCorrecta() {
-
-		Runner.runInSession(() -> {
-			Dojo dojo;
-			Bicho bicho;
-			Especie especie = new Especie("EspecieTest", TipoBicho.AGUA);
-			CampeonHistorico ch;
-			dojo = new Dojo("DojoTest");
+	public void dadoUnCampeonHistoricoLoPersistoEnMiBDYComprueboQueSeHayaPersistidoCorrectamente() {
+		Dojo dojo;
+		Especie especie = new Especie("EspecieTest", TipoBicho.AGUA);
+		this.bicho = new Bicho(especie);
+		dojo = new Dojo("DojoTest");
+		CampeonHistorico ch = new CampeonHistorico(dojo, bicho);
+		
+		Runner.runInSession(()->{
+			this.bichoDAO.saveBicho(bicho);
 			this.lugarDAO.saveLugar(dojo);
-			int fechaDondeFueCoronadoElCampeonAnterior = -1;
-			
-			for(int i=0; i<10; i++) {
-				bicho = new Bicho(especie);
-				this.bichoDAO.saveBicho(bicho);
-				
-				ch = new CampeonHistorico(dojo, bicho);
-				this.campeonHistoricoDAO.saveCampeonHistorico(ch);
-				
-				assertEquals(ch.getBichoCampeon(), bicho);
-				assertEquals(ch.getLugarDondeFueCoronadoCampeon(), dojo);
-				assertTrue(ch.getFechaCoronadoCampeon() > fechaDondeFueCoronadoElCampeonAnterior);
-				
-				fechaDondeFueCoronadoElCampeonAnterior = ch.getFechaCoronadoCampeon();
-			}
+			this.campeonHistoricoDAO.saveCampeonHistorico(ch);
 			return null;
 		});
+		
+		CampeonHistorico campeonRecuperado = Runner.runInSession(() -> {			
+			return this.campeonHistoricoDAO.getUltimoCampeonDelDojo("DojoTest");
+		});
+
+		assertEquals(campeonRecuperado.getBichoCampeon(), bicho);
+		assertEquals(campeonRecuperado.getLugarDondeEsCampeon().getNombre(), dojo.getNombre());
+		assertEquals(campeonRecuperado.getFechaCoronadoCampeon(), ch.getFechaCoronadoCampeon());
 	}
 
 }

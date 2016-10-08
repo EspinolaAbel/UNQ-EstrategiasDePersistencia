@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -10,35 +11,36 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 public class CampeonHistorico {
 	
 	@Id
-	private Integer fechaCoronadoCampeon;
-	private Integer fechaDepuesto;
-	@OneToOne
+	private Long fechaCoronadoCampeon;
+	private Long fechaDepuesto;
+	@OneToOne(cascade= CascadeType.ALL)
 	private Bicho bichoCampeon;
 	@OneToOne
-	private Dojo lugarDondeFueCoronadoCampeon;
+	private Dojo lugarDondeEsCampeon;
 	
 	public CampeonHistorico() {
 		super();
 	}
 	
 	public CampeonHistorico(Dojo dojo, Bicho bichoCampeon) {
-		this.lugarDondeFueCoronadoCampeon = dojo;
+		this.lugarDondeEsCampeon = dojo;
 		this.bichoCampeon = bichoCampeon;
+		this.setFechaCoronadoCampeon(System.nanoTime());
 	}
 	
-	public Integer getFechaCoronadoCampeon() {
+	public Long getFechaCoronadoCampeon() {
 		return fechaCoronadoCampeon;
 	}
 	
-	public void setFechaCoronadoCampeon(Integer fechaCoronadoCampeon) {
+	public void setFechaCoronadoCampeon(Long fechaCoronadoCampeon) {
 		this.fechaCoronadoCampeon = fechaCoronadoCampeon;
 	}
 	
-	public Integer getFechaDepuesto() {
+	public Long getFechaDepuesto() {
 		return fechaDepuesto;
 	}
 	
-	public void setFechaDepuesto(Integer fechaDepuesto) {
+	public void setFechaDepuesto(Long fechaDepuesto) {
 		this.fechaDepuesto = fechaDepuesto;
 	}
 	
@@ -50,12 +52,12 @@ public class CampeonHistorico {
 		this.bichoCampeon = bichoCampeon;
 	}
 
-	public Dojo getLugarDondeFueCoronadoCampeon() {
-		return lugarDondeFueCoronadoCampeon;
+	public Dojo getLugarDondeEsCampeon() {
+		return lugarDondeEsCampeon;
 	}
 
-	public void setLugarDondeFueCoronadoCampeon(Dojo lugarDondeFueCoronadoCampeon) {
-		this.lugarDondeFueCoronadoCampeon = lugarDondeFueCoronadoCampeon;
+	public void setLugarDondeEsCampeon(Dojo lugarDondeFueCoronadoCampeon) {
+		this.lugarDondeEsCampeon = lugarDondeFueCoronadoCampeon;
 	}
 
 }

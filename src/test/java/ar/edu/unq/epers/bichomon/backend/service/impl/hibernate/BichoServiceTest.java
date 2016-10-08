@@ -56,7 +56,7 @@ public class BichoServiceTest {
 		this.guarderia = new Guarderia("GuarderiaTest");
 		this.dojo= new Dojo("DojoTest");
 				
-		this.bicho1 = new Bicho(new Especie("EspecieTest", TipoBicho.AGUA)); 
+		this.bicho1 = new Bicho(new Especie("EspecieTest1", TipoBicho.AGUA)); 
 		this.bicho2 = new Bicho(new Especie("EspecieTest2", TipoBicho.AIRE));
 		this.bicho3 = new Bicho(new Especie("EspecieTest3", TipoBicho.FUEGO));
 		this.bichoCampeonDeDojo = new Bicho(new Especie("EspecieTest5", TipoBicho.FUEGO));
@@ -71,10 +71,15 @@ public class BichoServiceTest {
 		this.bichoService = new BichoService(entrenadorDAO, bichoDAO);
 		
 		
+//<<<<<<< HEAD
 		this.guarderia.recibirBichoAbandonado(bicho4);
+//=======
+//		this.lugar.recibirBichoAbandonado(bicho4);
+//		this.lugar2.setCampeonActual(bicho3);
+//>>>>>>> afe453ef5a6aa658c0fef8827fe8f6e1260f05b2
 		
 		// al bichoCampeonDeDojo campeon del dojo le vamos a setear 5 energia
-		this.dojo.setBichoCampeonActual(bichoCampeonDeDojo);
+		this.dojo.setCampeonActual(bichoCampeonDeDojo);
 		this.bichoCampeonDeDojo.setEnergia(5);
 		this.bicho3.setEnergia(50);
 		
@@ -115,7 +120,7 @@ public class BichoServiceTest {
 	@Test
 	public void testDadoUnEntrenadorQuebuscaUnBichoEnUnaGuarderiaLoEncuentraYLoGuardaEnSuLista(){
 		
-		this.bichoObtenidoDeGuarderia=this.bichoService.buscar("EntrenadorTest");
+		this.bichoObtenidoDeGuarderia=this.bichoService.buscar("EntrenadorTest1");
 		
 		Runner.runInSession(() -> {
 			Bicho b= this.bichoDAO.getBicho(this.bichoObtenidoDeGuarderia.getId());
@@ -195,7 +200,7 @@ public class BichoServiceTest {
 			
 		Runner.runInSession(() -> {
 				Dojo dojoRec= (Dojo)this.lugarDAO.getLugar("DojoTest");
-				assertEquals(this.entrenador2.getBichosCapturados().get(0).getId(),dojoRec.getBichoCampeonActual().getId());
+				assertEquals(this.entrenador2.getBichosCapturados().get(0).getId(),dojoRec.getCampeonActual().getBichoCampeon().getId());
 				//la guarderia debe tener el bicho con  id = 2
 				
 			return null;

@@ -41,6 +41,48 @@ public class EntrenadorTest {
 		assertNull(bichoGenerico.getOwner());
 	}
 	
+//TESTS REDEFINICION EQUALS Y HASHCODE
 	
+	@Test
+	public void dadosDosBichosLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
+		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
+		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
+		
+		assertEquals(entrenadorOriginal, entrenadorComparativo);
+	} 
+	
+	@Test
+	public void dadosDosBichosLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeFalseDebidoAQueTienenDistintoId() {
+		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
+		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
+		entrenadorComparativo.setNombre("EntrenadorComparativo");
+		
+		assertNotEquals(entrenadorOriginal, entrenadorComparativo);
+	}
+	
+	@Test
+	public void dadosDosBichosLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeTrue() {
+		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
+		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
+		
+		assertEquals(entrenadorOriginal.hashCode(), entrenadorComparativo.hashCode());
+	} 
+	
+	@Test
+	public void dadosDosBichosLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeFalse() {
+		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
+		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
+		entrenadorComparativo.setNombre("EntrenadorComparativo");
+		
+		assertNotEquals(entrenadorOriginal.hashCode(), entrenadorComparativo.hashCode());
+	}
 
+
+//MÉTODOS AUXILIARES PARA TEST		
+	
+	private Entrenador nuevoEntrenadorOriginal() {
+		Entrenador e = new Entrenador();
+		e.setNombre("EntrenadorOriginal");
+		return e;
+	} 
 }

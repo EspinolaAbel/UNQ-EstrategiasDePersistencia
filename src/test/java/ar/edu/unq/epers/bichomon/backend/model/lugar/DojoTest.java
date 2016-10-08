@@ -47,7 +47,7 @@ public class DojoTest {
 		
 		especieEvolucionada.setRaiz(especieRaiz);		
 		Bicho bichoCampeon = new Bicho(especieEvolucionada);		
-		dojo.setBichoCampeonActual(bichoCampeon);
+		dojo.setCampeonActual(bichoCampeon);
 		
 		Bicho bichoDelLugar = dojo.retornarUnBichoDelLugar();
 		

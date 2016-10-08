@@ -3,7 +3,6 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Combate;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
@@ -13,8 +12,16 @@ import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 @Entity
 public class Dojo extends Lugar {
 	
-	@OneToOne(cascade =CascadeType.ALL)
-	private Bicho bichoCampeonActual;
+//
+//	@OneToOne(cascade =CascadeType.ALL)
+//	private Bicho bichoCampeonActual;
+//=======
+
+	//esto me rompe algo
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	private CampeonHistorico campeonActual;
+//>>>>>>> afe453ef5a6aa658c0fef8827fe8f6e1260f05b2
 	
 	public Dojo(){
 		super();
@@ -32,7 +39,7 @@ public class Dojo extends Lugar {
 	@Override
 	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		
-		Combate combate = new Combate(bicho, this.bichoCampeonActual);
+		Combate combate = new Combate(bicho, this.getCampeonActual().getBichoCampeon());
 		return combate.Combatir();
 		
 		
@@ -40,18 +47,20 @@ public class Dojo extends Lugar {
 		// para hacer!!!!!
 	}
 
-	public Bicho getBichoCampeonActual(){
-		return this.bichoCampeonActual;
+	public CampeonHistorico getCampeonActual(){
+		return this.campeonActual;
 	}
 
-	public void setBichoCampeonActual(Bicho bicho){
-		this.bichoCampeonActual=bicho;
+	public void setCampeonActual(Bicho bicho){
+		this.campeonActual= new CampeonHistorico(this, bicho);
 	}
 
+	//TODO
 	/** Devuelve un bicho sin dueño */
 	@Override
 	public Bicho retornarUnBichoDelLugar() {
-		return (new Bicho(this.bichoCampeonActual.getEspecie().dameRaiz()));
+		Bicho bicho = this.getCampeonActual().getBichoCampeon();
+		return (new Bicho(bicho.getEspecie().dameRaiz()));
 	}
 
 }

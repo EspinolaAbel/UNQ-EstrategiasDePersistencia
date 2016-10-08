@@ -47,7 +47,7 @@ public class MapaServiceTest {
 		this.mapaService = new MapaService(entrenadorDAO, lugarDAO);
 		
 		this.entrenador.setUbicacionActual(lugarViejo);
-		this.dojo.setBichoCampeonActual(bicho);
+		this.dojo.setCampeonActual(bicho);
 		
 		Runner.runInSession(() -> {
 			this.bichoDAO.saveBicho(bicho);
@@ -104,11 +104,11 @@ public class MapaServiceTest {
 		b4 = new Bicho();
 		b5 = new Bicho();
 		
-		c1 = new CampeonHistorico(this.dojo, b1);	c1.setFechaCoronadoCampeon(1); c1.setFechaDepuesto(2);
-		c2 = new CampeonHistorico(this.dojo, b2);	c2.setFechaCoronadoCampeon(2); c2.setFechaDepuesto(4);
-		c3 = new CampeonHistorico(this.dojo, b3);	c3.setFechaCoronadoCampeon(4); c3.setFechaDepuesto(8);
-		c4 = new CampeonHistorico(this.dojo, b4);	c4.setFechaCoronadoCampeon(8); c4.setFechaDepuesto(16);
-		c5 = new CampeonHistorico(this.dojo, b5);	c5.setFechaCoronadoCampeon(16); c5.setFechaDepuesto(32);
+		c1 = new CampeonHistorico(this.dojo, b1);	c1.setFechaCoronadoCampeon((long) 1); c1.setFechaDepuesto((long) 2);
+		c2 = new CampeonHistorico(this.dojo, b2);	c2.setFechaCoronadoCampeon((long) 2); c2.setFechaDepuesto((long) 4);
+		c3 = new CampeonHistorico(this.dojo, b3);	c3.setFechaCoronadoCampeon((long) 4); c3.setFechaDepuesto((long) 8);
+		c4 = new CampeonHistorico(this.dojo, b4);	c4.setFechaCoronadoCampeon((long) 8); c4.setFechaDepuesto((long) 16);
+		c5 = new CampeonHistorico(this.dojo, b5);	c5.setFechaCoronadoCampeon((long) 16); c5.setFechaDepuesto((long) 32);
 		
 		Runner.runInSession(() -> {
 			Session session = Runner.getCurrentSession();

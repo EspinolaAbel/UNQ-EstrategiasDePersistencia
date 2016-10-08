@@ -3,8 +3,10 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
+import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -27,6 +29,37 @@ public class HibernateEspecieDAO implements EspecieDAO {
 	public List<Especie> getAllEspecies() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Especie getEspecieLider() {
+		Session session = Runner.getCurrentSession();
+		String hql = "SELECT b.especie FROM Bichos b WHERE b IN"
+					+ "(SELECT DISTINCT c.bichoCampeon FROM Campeones_historicos c)"
+					+ "GROUP BY b.especie ORDER BY COUNT(b.especie) DESC ";
+		Query<Especie> query =  session.createQuery(hql, Especie.class);
+		query.setMaxResults(1);
+		return query.getSingleResult();
+	}
+
+	@Override
+	public List<Especie> getMasPopulares() {
+		Session session = Runner.getCurrentSession();
+		String hql = "SELECT b.especie FROM Bichos b "
+					+ "WHERE b.owner IS NOT Null GROUP BY b.especie ORDER BY COUNT(b.especie) DESC";
+		Query<Especie> query = session.createQuery(hql, Especie.class);
+		query.setMaxResults(10);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Especie> getMenosPopulares() {
+		Session session = Runner.getCurrentSession();
+		String hql = "SELECT b.especie FROM Bichos b "
+					+ "WHERE b.owner IS Null GROUP BY b.especie ORDER BY COUNT(b.especie) DESC";
+		Query<Especie> query = session.createQuery(hql, Especie.class);
+		query.setMaxResults(10);
+		return query.getResultList();
 	}
 
 }
