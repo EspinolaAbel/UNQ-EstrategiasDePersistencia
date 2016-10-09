@@ -10,8 +10,6 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
 public class HibernateNivelDAO implements NivelDAO {
 	
-	private Session session;
-
 	@Override
 	public void saveNivel(Nivel nivel) {
 		Session session = Runner.getCurrentSession();
@@ -24,6 +22,7 @@ public class HibernateNivelDAO implements NivelDAO {
 		return session.get(Nivel.class, nroNivel);
 	}
 
+	//TODO
 	@Override
 	public List<Nivel> getNiveles() {
 		Session session = Runner.getCurrentSession();

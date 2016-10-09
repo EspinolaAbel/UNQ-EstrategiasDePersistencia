@@ -24,7 +24,6 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
-import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class EspecieServiceTest {
@@ -52,6 +51,8 @@ public class EspecieServiceTest {
 		Truncator.cleanUpTables();
 	}
 
+	/** Dado una lista de especies recuperadas, las comparo con el orden de la lista de populares,
+	 *  la cual esta cargada y ordenada según la popularidad de las especies entre los entrenadores.*/
 	@Test
 	public void consultoLasEspeciesMasPopularesEntreTodosLosEntrenadores(){
 		List<Especie> especiesRecuperadas = this.especieService.populares();
@@ -60,6 +61,9 @@ public class EspecieServiceTest {
 			assertEquals(especiesRecuperadas.get(i), populares.get( 10-i ));
 	}
 	
+	/** Dado una lista de especies recuperadas, las comparo con el orden de la lista de impopulares,
+	 *  la cual esta cargada y ordenada según la popularidad de las especies ubicadas en las 
+	 *  guarderias.*/
 	@Test
 	public void consultoLasEspeciesMenosPopularesEntreTodasLasGuarderias(){
 		List<Especie> especiesRecuperadas = this.especieService.impopulares();

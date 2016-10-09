@@ -2,6 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernateCampeonHistoricoDAOTest {
 
@@ -27,6 +29,11 @@ public class HibernateCampeonHistoricoDAOTest {
 		this.lugarDAO = new HibernateLugarDAO();
 		this.bichoDAO = new HibernateBichoDAO();
 		this.campeonHistoricoDAO = new HibernateCampeonHistoricoDAO();
+	}
+	
+	@After
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 	
 	@Test
