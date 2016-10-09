@@ -10,6 +10,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Nivel;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernateNivelDAOTest {
 
@@ -22,8 +23,8 @@ public class HibernateNivelDAOTest {
 	}
 	
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 	
 	

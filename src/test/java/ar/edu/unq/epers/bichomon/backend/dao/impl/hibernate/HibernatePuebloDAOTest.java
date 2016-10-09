@@ -20,6 +20,7 @@ import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernatePuebloDAOTest  {
 
@@ -70,8 +71,8 @@ public void setUp() {
 	}
 
 @After
-public void reiniciarBD() {
-	SessionFactoryProvider.destroy();
+public void cleanUp() {
+	Truncator.cleanUpTables();
 }
 
 @Test

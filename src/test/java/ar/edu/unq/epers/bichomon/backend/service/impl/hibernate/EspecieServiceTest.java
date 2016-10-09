@@ -25,6 +25,7 @@ import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class EspecieServiceTest {
 
@@ -36,7 +37,7 @@ public class EspecieServiceTest {
 	private List<Especie> impopulares;
 	private EspecieService especieService;
 	
-@Before
+	@Before
 	public void setUp() {
 		this.entrenadorDAO = new HibernateEntrenadorDAO();
 		this.especieDAO = new HibernateEspecieDAO();
@@ -47,8 +48,8 @@ public class EspecieServiceTest {
 	}
 
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 
 	@Test

@@ -10,6 +10,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.CondicionDeEvolucionDAO;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public abstract class HibernateCondicionDeEvolucionDAOTest {
 
@@ -23,8 +24,8 @@ public abstract class HibernateCondicionDeEvolucionDAOTest {
 	}
 	
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 
 	@Test
