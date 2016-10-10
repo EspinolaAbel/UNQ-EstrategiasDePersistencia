@@ -6,7 +6,6 @@ import org.hibernate.query.Query;
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
-import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -24,6 +23,10 @@ public class HibernateLugarDAO implements LugarDAO {
 		return session.get(Lugar.class, nombre);
 	}
 
+	/** Dado el nombre de un {@link Dojo} se consulta a la base de datos por el {@link Bicho}
+	 * que actualmente es campeón en dicho dojo.
+	 * @param dojoNombre - nombre del dojo a consultar.
+	 * @return bicho campeón actual. */
 	@Override
 	public Bicho getBichoCampeonActualDelDojo(String nombreDojo) {
 		Session session = Runner.getCurrentSession();
@@ -35,13 +38,19 @@ public class HibernateLugarDAO implements LugarDAO {
 		return query.getSingleResult();
 	}
 
+	/** Dado el nombre de un {@link Dojo} se consulta a la base de datos por el {@link Bicho}
+	 * que es campeón durante más tiempo en dicho dojo.
+	 * @param dojoNombre - nombre del dojo a consultar.
+	 * @return bicho campeón histórico. */
 	@Override
 	public Bicho getCampeonHistoricoDelDojo(String dojoNombre) {
 		Session session = Runner.getCurrentSession();
 		
-		String hql_idBichoCH = 	"SELECT bichoCampeon.id FROM Campeones_historicos c "
-				+ "ORDER BY (c.fechaDepuesto - c.fechaCoronadoCampeon) DESC";
-				Query<Integer> query = session.createQuery(hql_idBichoCH, Integer.class);
+		String hql = 	"SELECT bichoCampeon.id FROM Campeones_historicos c "
+				+ "WHERE c.lugarDondeEsCampeon.nombre = :dojoNombre "
+				+ "ORDER BY c.fechaDepuesto ASC";
+		Query<Integer> query = session.createQuery(hql, Integer.class);
+		query.setParameter("dojoNombre", dojoNombre);
 		query.setMaxResults(1);
 		Integer idBichoCH = query.getSingleResult();
 		

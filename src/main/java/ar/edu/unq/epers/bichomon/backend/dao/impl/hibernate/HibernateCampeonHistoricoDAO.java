@@ -10,7 +10,8 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
 public class HibernateCampeonHistoricoDAO {
 	
-	/** Persiste un nuevo campeón histórico. Además se actualizan las fechas necesarias para el nuevo campeón y el campeón depuesto. */
+	/** Persiste un nuevo campeón histórico. Además se destrona al campeón derrotado.
+	 * @param ch - Nuevo campeón histórico. */
 	public void saveCampeonHistorico(CampeonHistorico ch) {
 		Session session = Runner.getCurrentSession();
 		this.destronarAnteriorCampeonDelDojo(ch.getFechaCoronadoCampeon(), ch.getLugarDondeEsCampeon());
@@ -18,7 +19,10 @@ public class HibernateCampeonHistoricoDAO {
 	}
 	
 	/** Dado un nombre de un dojo, retorna el último campeón historico de este.
-	 * En caso de no haber ningún campeón hasta el momento retorna null. */
+	 * En caso de no haber ningún campeón hasta el momento retorna null.
+	 * @param nombreDojo - Nombre del dojo donde se buscará el último campeón.
+	 * @return el último campeon del dojo.
+	 * @throws {@link NoResultException} en caso de que el dojo no tenga campeones.*/
 	public CampeonHistorico getUltimoCampeonDelDojo(String nombreDojo) {
 		Session session = Runner.getCurrentSession();
 		String hql = "FROM Campeones_historicos WHERE lugarDondeEsCampeon.nombre=:nombreDojo ORDER BY fechaCoronadoCampeon DESC";

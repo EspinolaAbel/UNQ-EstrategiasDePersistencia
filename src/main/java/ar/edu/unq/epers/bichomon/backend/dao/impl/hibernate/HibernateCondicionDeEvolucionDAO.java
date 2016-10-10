@@ -28,7 +28,6 @@ public class HibernateCondicionDeEvolucionDAO implements CondicionDeEvolucionDAO
 	public Collection<CondicionDeEvolucion> getAllCondiciones() {
 		Session session = Runner.getCurrentSession();
 		String hql = "FROM CondicionDeEvolucion";
-
 		Query<CondicionDeEvolucion> query = session.createQuery(hql, CondicionDeEvolucion.class); 
 
 		return query.getResultList();

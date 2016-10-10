@@ -16,6 +16,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernateEntrenadorDAOTest {
 	private Entrenador entrenadorOriginal;
@@ -41,8 +42,8 @@ public class HibernateEntrenadorDAOTest {
 	}
 	
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 	
 	/**

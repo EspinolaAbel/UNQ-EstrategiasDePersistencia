@@ -28,7 +28,8 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 	
 	/** Dado un nombre de {@link Lugar} persistido en BBDD, retorno la cantidad de {@link Entrenador}es que actualmente
 	 * están ubicados en ese lugar.
-	 * @param nombreLugar - el nombre del lugar a consultar.*/
+	 * @param nombreLugar - el nombre del lugar a consultar.
+	 * @return la cantidad de entrenadores en el lugar dado.*/
 	@Override
 	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {
 		Session session = Runner.getCurrentSession();
@@ -39,6 +40,9 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 		return  query.getSingleResult().intValue();
 	}
 
+	/** Se responde con la lista de todos aquellos {@link Entrenador}es que posean  
+	 * algún {@link Bicho} campeón que es campeón actualmente en algún {@link Dojo}.
+	 * @return lista de entrenadores que posean bicho actualmesnte campeones.*/
 	@Override
 	public List<Entrenador> getEntrenadoresConBichosCampeones() {
 		Session session = Runner.getCurrentSession();	
@@ -50,6 +54,10 @@ public class HibernateEntrenadorDAO implements EntrenadorDAO {
 		return query.getResultList();
 	}
 
+	
+	/** Se responde con los diez entrenadores para los cuales el valor de poder combinado de todos sus
+	 * {@link Bicho}s sea superior.
+	 * @return lista de entrenadores que posean bichos con mayor poder.*/
 	@Override
 	public List<Entrenador> getLideres() {
 		Session session = Runner.getCurrentSession();	

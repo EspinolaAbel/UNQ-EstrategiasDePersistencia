@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
-import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -31,6 +30,10 @@ public class HibernateEspecieDAO implements EspecieDAO {
 		return null;
 	}
 
+	/** Se consulta a base de datos por aquella especie que tenga más bichos campeones contando todos
+	 * los dojos de la aplicación.
+	 * Cada bicho será contado una sola vez sin importar sin un bicho salió campeón más de una vez.
+	 * @return especie lider con mayor cantidad de bichos campeones. */
 	@Override
 	public Especie getEspecieLider() {
 		Session session = Runner.getCurrentSession();
@@ -42,6 +45,10 @@ public class HibernateEspecieDAO implements EspecieDAO {
 		return query.getSingleResult();
 	}
 
+	/** Se consulta a la base de datos por aquellas 10 especies que son más populares.
+	 * Se dice que son populares a aquellas especies de bichos que están presente en mayor cantidad 
+	 * teniendo en cuenta a todos los entrenadores de la aplicación.
+	 * @return lista de especies populares. */
 	@Override
 	public List<Especie> getMasPopulares() {
 		Session session = Runner.getCurrentSession();
@@ -52,6 +59,10 @@ public class HibernateEspecieDAO implements EspecieDAO {
 		return query.getResultList();
 	}
 
+	/** Se consulta a la base de datos por aquellas 10 especies que son más impopulares.
+	 * Se dice que son impopulares a aquellas especies de bichos que están en mayor cantidad 
+	 * en todas las guarderias de la aplicación.
+	 * @return lista de especies impopulares. */
 	@Override
 	public List<Especie> getMenosPopulares() {
 		Session session = Runner.getCurrentSession();

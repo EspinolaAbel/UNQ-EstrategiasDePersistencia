@@ -2,6 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public class DojoTest {
 	public void setUp() throws Exception {
 		dojo = new Dojo("DojoGenerico");
 	}
+	
 
 	/** Dado un dojo intento abandonar un bicho en él. Como en este lugar no se permite abandonar bichos
 	 * se lanza una UbicacionIncorrectaException. */

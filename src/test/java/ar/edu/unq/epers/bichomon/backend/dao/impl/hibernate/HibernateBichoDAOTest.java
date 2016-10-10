@@ -13,6 +13,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernateBichoDAOTest {
 	private Especie especie;
@@ -31,8 +32,8 @@ public class HibernateBichoDAOTest {
 	}
 	
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 	
 	@Test

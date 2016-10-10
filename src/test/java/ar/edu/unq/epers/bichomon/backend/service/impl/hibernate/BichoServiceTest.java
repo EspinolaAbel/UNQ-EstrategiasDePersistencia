@@ -36,6 +36,7 @@ import ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.UbicacionIncorrectaException;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class BichoServiceTest {
 	
@@ -169,8 +170,8 @@ public class BichoServiceTest {
 	}
 	
 	@After
-	public void reiniciarBD() {
-		SessionFactoryProvider.destroy();
+	public void cleanUp() {
+		Truncator.cleanUpTables();
 	}
 
 
