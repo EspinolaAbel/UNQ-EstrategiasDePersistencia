@@ -37,7 +37,7 @@ public class Especie {
 	@OneToOne(cascade=CascadeType.ALL)
 	private Especie raiz;
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(cascade =CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<CondicionDeEvolucion> condicionesDeEvolucion;
 	
 	

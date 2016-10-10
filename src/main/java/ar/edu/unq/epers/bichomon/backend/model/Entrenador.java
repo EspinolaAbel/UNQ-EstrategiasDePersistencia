@@ -19,7 +19,7 @@ public class Entrenador {
 	private String  nombre;
 	private Integer experiencia;
 	
-	@OneToOne
+	@OneToOne (cascade = CascadeType.ALL)
 	private Lugar ubicacion;
 	
 	@OneToOne

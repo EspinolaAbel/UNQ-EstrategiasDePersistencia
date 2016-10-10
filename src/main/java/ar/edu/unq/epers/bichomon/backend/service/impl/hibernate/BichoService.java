@@ -6,7 +6,9 @@ import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
+import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.UbicacionIncorrectaException;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
@@ -83,6 +85,7 @@ public class BichoService {
 	public ResultadoCombate duelo(String entrenador, int bicho) {
 			
 		return		Runner.runInSession(() -> {
+					
 					Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
 					Bicho bichoRetador= this.bichoDAO.getBicho(bicho)	;	
 					ResultadoCombate resultadoDeCombate =e.getUbicacionActual().combatir(bichoRetador);
@@ -91,20 +94,78 @@ public class BichoService {
 					 * los valores segun el resultado
 					 */
 					
+					Bicho ganador;
+					Bicho perdedor;
+					
+					// el dojo debe tner un  nuevo campeon
+					Dojo d=(Dojo) e.getUbicacionActual();
+					d.setCampeonActual(resultadoDeCombate.getGanador());
+					
+					// los bichos debenrecuperar energia
+					ganador=resultadoDeCombate.getGanador();
+					ganador.recuperarEnergia();
+					perdedor=resultadoDeCombate.getPerdedor();
+					perdedor.recuperarEnergia();
+					
+					//el bicho ganador  incrementa su cantidad de victoraias
+					 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
+					
+					// los entrenadores deben adquirir experiencia
+					ganador.getOwner().setExperiencia(ganador.getOwner().getExperiencia()+10);//aca hay que areglar.
+					perdedor.getOwner().setExperiencia(perdedor.getOwner().getExperiencia()+10);
 					
 					return resultadoDeCombate;
 			
 					});
+		
 		}
-	
+	/**
+	 * devuelve true o false si el bicho en cestion  esta en condiciones de evolucionar
+	 * @param entrenador
+	 * @param bicho
+	 * @return
+	 */
 
 	public boolean puedeEvolucionar(String entrenador, int bicho) {
-		//TODO
-		return null != null;
+		//no utilizo el entrenador para nada, ya que la consulta al nivel del  entrenador
+		//lo obtengo del bicho q conoce a su entrenador
+		return Runner.runInSession(() -> {
+
+
+					Bicho b= this.bichoDAO.getBicho(bicho)	;	
+					Especie esp =b.getEspecie();
+					return esp.puedeEvolucionar(b);
+		});
 	}
 	
+	/**
+	 * evolucionar(String entrenador, int bicho):Bicho evoluciona el bicho especificado 
+	 * (si cumple con las codiciones para evolucionar)
+	 * 
+	 * @param entrenador
+	 * @param bicho
+	 * @return
+	 */
+	
+	
 	public Bicho evolucionar(String entrenador, int bicho) {
-		//TODO
-		return null;
+		//no utilizo el entrenador para nada, ya que la consulta al nivel del  entrenador
+		//lo obtengo del bicho q conoce a su entrenador
+		int expPorEvolucionar=5;
+		Bicho bi;
+		if (puedeEvolucionar(entrenador, bicho)){
+				bi= Runner.runInSession(() -> {
+							Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
+							Bicho b= this.bichoDAO.getBicho(bicho)	;	
+							Especie esp =b.getEspecie().getEvolucionaA();
+							b.setEspecie(esp);
+							e.setExperiencia(e.getExperiencia()+expPorEvolucionar);
+							return b;
+							});
+				return bi;
+				}
+			else
+				return null;
+	
 	}
 }

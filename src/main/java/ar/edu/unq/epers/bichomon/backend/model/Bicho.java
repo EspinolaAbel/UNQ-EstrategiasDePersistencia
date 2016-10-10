@@ -78,6 +78,11 @@ public class Bicho {
 		return this.especie;
 	}
 	
+	public void setEspecie(Especie especie){
+		this.especie= especie;
+		
+	}
+	
 	/**
 	 * @return la cantidad de puntos de energia de este bicho en
 	 * particular. Dicha cantidad crecerá (o decrecerá) conforme

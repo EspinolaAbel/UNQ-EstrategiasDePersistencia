@@ -16,4 +16,13 @@ public class ResultadoCombate {
 		
 	}
 	
+	
+	public  Bicho getGanador (){
+		return this.ganador;
+	}
+
+	public  Bicho getPerdedor (){
+		return this.perdedor;
+	}
+	
 }
