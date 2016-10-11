@@ -2,7 +2,6 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

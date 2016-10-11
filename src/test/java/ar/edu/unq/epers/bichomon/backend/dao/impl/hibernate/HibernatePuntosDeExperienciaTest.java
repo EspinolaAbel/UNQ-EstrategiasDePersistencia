@@ -17,11 +17,9 @@ public class HibernatePuntosDeExperienciaTest {
 	
 	@Before
 	public void setUp(){
-		
 		this.evolucion= new PuntosDeExperiencia("Evolucion",5);
 		this.duelo= new PuntosDeExperiencia("Duelo",10);
 		this.captura= new PuntosDeExperiencia("CapturarBicho",10);
-		
 	}
 	
 	
@@ -33,7 +31,6 @@ public class HibernatePuntosDeExperienciaTest {
 	
 	/**
 	 * Test para persiistir las tres clases de prueba y ver que se  genero la tabala en la BBDD
-	 * 
 	 */
 	@Test
 	public void testPersistirPuntajes() {
@@ -56,8 +53,6 @@ public class HibernatePuntosDeExperienciaTest {
 			assertEquals(10,dueloRecuperado.getPuntaje());
 			return null;
 		});
-		
-		
 	}
 
 }

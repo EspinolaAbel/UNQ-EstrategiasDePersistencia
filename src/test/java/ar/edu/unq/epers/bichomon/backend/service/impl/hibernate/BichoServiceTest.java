@@ -6,10 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mysql.jdbc.AssertionFailedException;
-
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.CondicionDeEvolucionDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
@@ -26,18 +23,14 @@ import ar.edu.unq.epers.bichomon.backend.model.Nivel;
 import ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEnergia;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnVictorias;
-import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeEvolucion;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
-import ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.UbicacionIncorrectaException;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
-import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class BichoServiceTest {
@@ -60,12 +53,10 @@ public class BichoServiceTest {
 	private Especie especieRaiz;
 	private Especie especieEvolucion;
 
-	private CondicionBasadaEnEdad condicionPorEdad;
 	private CondicionBasadaEnVictorias condicionPorVictorias;
 	private CondicionBasadaEnEnergia condicionPorEnergia;
 	private CondicionBasadaEnNivel condicionPorNivel;
 	private HibernateEspecieDAO especieDAO;
-	private CondicionDeEvolucionDAO condicionDeEvolucionDAO;
 	private PuntosDeExperiencia evolucion, duelo, captura;
 	
 	private HibernatePuntosDeExperienciaDAO puntajesDAO;
@@ -95,13 +86,11 @@ public class BichoServiceTest {
 		this.especieRaiz.setEvolucionaA(especieEvolucion);
 		
 		//condicionnes de evolucion para las especies
-		this.condicionPorEdad= new CondicionBasadaEnEdad(1000);
 		this.condicionPorVictorias= new CondicionBasadaEnVictorias(1);
 		this.condicionPorEnergia= new CondicionBasadaEnEnergia(10);
 		this.condicionPorNivel= new CondicionBasadaEnNivel(1);
 		
 		//introduzco las condicoines para que evolucione la especie raiz
-//		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorEdad);
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorVictorias);
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorEnergia);
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorNivel);

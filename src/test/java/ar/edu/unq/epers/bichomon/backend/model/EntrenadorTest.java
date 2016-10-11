@@ -102,7 +102,12 @@ public class EntrenadorTest {
 		assertEquals(nivel2, this.entrenador.getNivelActual());
 	}
 
-//MÉTODOS AUXILIARES PARA TEST		
+//	************************************
+//	************************************
+//	*** MÉTODOS AUXILIARES PARA TEST ***	
+//	*** ---------------------------- ***
+//	************************************
+//	************************************		
 	
 	private Entrenador nuevoEntrenadorOriginal() {
 		Entrenador e = new Entrenador();

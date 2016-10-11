@@ -12,7 +12,6 @@ import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
-import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
 public class HibernateBichoDAOTest {

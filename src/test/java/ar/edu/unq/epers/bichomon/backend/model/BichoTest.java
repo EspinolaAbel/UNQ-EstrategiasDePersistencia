@@ -47,7 +47,12 @@ public class BichoTest {
 			assertNotEquals(bichoOriginal.hashCode(), bichoComparativo.hashCode());
 		}
 
-//MÉTODOS AUXILIARES PARA TEST		
+//		************************************
+//		************************************
+//		*** MÉTODOS AUXILIARES PARA TEST ***	
+//		*** ---------------------------- ***
+//		************************************
+//		************************************		
 		
 		private Bicho nuevoBichoOriginal() {
 			Bicho b = new Bicho(new Especie("EspecieTest", TipoBicho.AGUA));

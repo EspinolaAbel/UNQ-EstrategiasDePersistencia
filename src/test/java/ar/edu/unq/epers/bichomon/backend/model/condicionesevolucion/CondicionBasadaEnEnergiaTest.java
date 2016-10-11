@@ -23,8 +23,7 @@ public class CondicionBasadaEnEnergiaTest extends CondicionDeEvolucionTest {
 	/** Dado un Bicho consulto supera la una condición de evolución definida para su Especie.
 	 * Como el bicho supera dicha condición se responderá true.
 	 * - El bicho dado tiene una energía de 101 y
-	 * - la condición especifica que la energía del bicho debe ser superioir a 100.
-	 * @author ae */
+	 * - la condición especifica que la energía del bicho debe ser superioir a 100. */
 	@Override
 	public void dadoUnBichoDeUnaEspecieConsultoSiSuperaLaCondicionDeEvolucionYMeRespondeTrue() {
 		condicionEvolucion = new CondicionBasadaEnEnergia(100);
@@ -37,8 +36,7 @@ public class CondicionBasadaEnEnergiaTest extends CondicionDeEvolucionTest {
 	/** Dado un Bicho consulto supera la una condición de evolución definida para su Especie.
 	 * Como el bicho no supera dicha condición se responderá false.
 	 * - El bicho dado tiene una energía de 100 y
-	 * - la condición especifica que la energía del bicho debe ser superior a 100.
-	 * @author ae */
+	 * - la condición especifica que la energía del bicho debe ser superior a 100. */
 	@Override
 	public void dadoUnBichoDeUnaEspecieConsultoSiSuperaLaCondicionDeEvolucionYMeRespondeFalse() {
 		condicionEvolucion = new CondicionBasadaEnEnergia(100);

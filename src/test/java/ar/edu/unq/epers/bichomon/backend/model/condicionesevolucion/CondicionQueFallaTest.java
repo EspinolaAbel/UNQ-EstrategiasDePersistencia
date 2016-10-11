@@ -21,8 +21,7 @@ public class CondicionQueFallaTest extends CondicionDeEvolucionTest {
 		//Este caso nunca sucederá con esta condición.
 	}
 
-	/** Dado un bicho generico, consulto si aprueba la condicion de evolución y me responde false.
-	 * @author ae */
+	/** Dado un bicho generico, consulto si aprueba la condicion de evolución y me responde false. */
 	@Override
 	public void dadoUnBichoDeUnaEspecieConsultoSiSuperaLaCondicionDeEvolucionYMeRespondeFalse() {
 		condicionQueFalla = new CondicionQueFalla();

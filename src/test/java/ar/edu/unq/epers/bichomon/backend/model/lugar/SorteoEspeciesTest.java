@@ -17,7 +17,7 @@ public class SorteoEspeciesTest {
 	@Before
 	public void setUp() {
 		/**
-		 * creo  una clase que sorteara ente 5 Elementos
+		 * creo  una clase que sorteara entre 5 Elementos
 		 */
 		
 		this.especies= new ArrayList<EspecieConProbabilidad>();
@@ -34,7 +34,6 @@ public class SorteoEspeciesTest {
 		this.especies.add(new EspecieConProbabilidad(e, 1));
 		
 		sorteoEspecie =new SorteoEspecies(this.especies);
-
 	}
 
 	@Test
@@ -47,7 +46,6 @@ public class SorteoEspeciesTest {
 		
 		assertEquals(sorteoEspecie.getAcumulados().size(),5 );
 		assertEquals(sorteoEspecie.maximo(), 103);
-		
 		assertTrue(sorteoEspecie.getAcumulados().get(0)== 5);
 		assertTrue(sorteoEspecie.getAcumulados().get(1)== 20);
 		assertTrue(sorteoEspecie.getAcumulados().get(2)== 71);
@@ -59,7 +57,7 @@ public class SorteoEspeciesTest {
 	
 	@Test
 	public void testSorteo (){
-		/**realoz un sorteo  con la coleccion de probabilidades acumuladas
+		/**realizo un sorteo  con la coleccion de probabilidades acumuladas
 		 *realizo  el sorteo con el mensaje  que me pasa l resultado de antemano y  con ese numero me 
 		 *debe devolver el elemento que coresponde de la coleccion
 		 *
@@ -84,7 +82,7 @@ public class SorteoEspeciesTest {
 		
 		e= this.sorteoEspecie.sortearEspecie(especies,17);
 		assertEquals(this.especies.get(1), e);
-		}
+	}
 
 	
 }	

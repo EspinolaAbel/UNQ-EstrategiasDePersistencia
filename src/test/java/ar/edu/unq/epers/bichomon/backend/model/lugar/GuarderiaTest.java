@@ -18,8 +18,7 @@ public class GuarderiaTest {
 	}
 
 	/** Dados una guarderia y un bicho que será abandonado en esta ubicación, se abandona dicho bicho en 
-	 * la guardería y luego queda guardado en la lista de bichos abandonados.
-	 * @author ae */
+	 * la guardería y luego queda guardado en la lista de bichos abandonados. */
 	@Test
 	public void dadoUnaGuarderiaAbandonoUnBichoEnEsteLugarYLaGuarderiaLoGuardaEnSuListaDeBichosAbandonados() {
 		Bicho bichoAAbandonar = new Bicho(new Especie());
@@ -30,8 +29,7 @@ public class GuarderiaTest {
 
 	
 	/** Dada una guarderia con bichos abandonados, obtengo un bicho abandonado al azar y compruebo que
-	 * este ya no pertenezca a la lista de bichos abandonados del lugar.
-	 * @author ae */
+	 * este ya no pertenezca a la lista de bichos abandonados del lugar. */
 	@Test
 	public void dadaUnaGuarderiaObtengoUnBichoQueHayaSidoAbandonadoEnEsteLugarYCheckeoQueHayaSidoEliminadoDeLaListaDeBichosAbandonados(){
 		int i;

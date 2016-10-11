@@ -2,8 +2,6 @@ package ar.edu.unq.epers.bichomon.backend.model.combateTest;
 
 import static org.junit.Assert.*;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Combate;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
-public class combateTest {
+public class CombateTest {
 	private Bicho campeon ; 
 	private Bicho retador;
 	private Especie lagartomon= new Especie("Lagartomon", TipoBicho.AGUA);	
@@ -20,12 +18,11 @@ public class combateTest {
 	
 	@Before
 	public void iniciar (){
-	campeon = new Bicho(this.lagartomon );
-	retador = new Bicho (this.lagartomon);
-	campeon.setEnergia(5);
-	retador.setEnergia(5);
-	combate = new Combate(this.retador, this.campeon);
-		
+		campeon = new Bicho(this.lagartomon );
+		retador = new Bicho (this.lagartomon);
+		campeon.setEnergia(5);
+		retador.setEnergia(5);
+		combate = new Combate(this.retador, this.campeon);
 	}
 	
 	
@@ -58,7 +55,6 @@ public class combateTest {
 		combate.setDañoAcumuladoCampeon(5.0) ;
 		assertEquals(retador, combate.getGanador());
 		assertEquals(campeon, combate.getPerdedor());
-		
 	}
 	
 	/** dados dos bichos,  el retador que ataca primero. cuya energia es 10 veces superio a la del
@@ -71,7 +67,6 @@ public class combateTest {
 		this.retador.setEnergia(50);
 		combate.Combatir();
 		assertEquals(retador, combate.getGanador());
-		
 	}
 
 	/** dados dos bichos,  el retador que ataca primero. cuya energia es 10 veces superio a la del
@@ -86,7 +81,6 @@ public class combateTest {
 		//gana el campeon
 		assertEquals(campeon, combate.getGanador());
 		assertTrue(combate.sinEnergia(retador,combate.getDañoAcumuladoRetador())) ;
-		
 	}
 
 	/**
@@ -99,9 +93,7 @@ public class combateTest {
 		this.campeon.setEnergia(8);
 		this.retador.setEnergia(9);
 		combate.CombatirDummy();
-		assertEquals(retador, combate.getGanador());
-		
-	
+		assertEquals(retador, combate.getGanador());	
 	}
 
 	/**
@@ -117,8 +109,6 @@ public class combateTest {
 		combate.CombatirDummy();
 		assertEquals(campeon, combate.getGanador());
 		assertEquals(20, combate.getAtaques().size());
-		
-	
 	}
 
 

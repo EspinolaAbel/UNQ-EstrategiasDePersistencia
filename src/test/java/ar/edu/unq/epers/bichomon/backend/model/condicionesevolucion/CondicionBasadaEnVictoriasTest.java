@@ -18,8 +18,7 @@ public class CondicionBasadaEnVictoriasTest extends CondicionDeEvolucionTest {
 	/** Dado un bicho consulto si su cantidad de victorias es superior a la de la condición.
 	 * Como la cantidad de victorias es superior a la condición se responde true.
 	 * 	- El bicho dado tiene 2 victorias y;
-	 *  - la condición dice que debe tener más de 1 victoria.
-	 * @author ae */
+	 *  - la condición dice que debe tener más de 1 victoria. */
 	@Override
 	public void dadoUnBichoDeUnaEspecieConsultoSiSuperaLaCondicionDeEvolucionYMeRespondeTrue() {
 		condicionDeVictorias = new CondicionBasadaEnVictorias(1);
@@ -31,8 +30,7 @@ public class CondicionBasadaEnVictoriasTest extends CondicionDeEvolucionTest {
 	/** Dado un bicho consulto si su cantidad de victorias es superior a la de la condición.
 	 * Como la cantidad de victorias no supera a la condición se responde false.
 	 * 	- El bicho dado tiene 1 victoria y;
-	 *  - la condición dice que debe tener más de 1 victoria.
-	 * @author ae */
+	 *  - la condición dice que debe tener más de 1 victoria. */
 	@Override
 	public void dadoUnBichoDeUnaEspecieConsultoSiSuperaLaCondicionDeEvolucionYMeRespondeFalse() {
 		condicionDeVictorias = new CondicionBasadaEnVictorias(1);
