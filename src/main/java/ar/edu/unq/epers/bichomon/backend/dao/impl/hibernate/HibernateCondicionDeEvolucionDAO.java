@@ -27,6 +27,7 @@ public class HibernateCondicionDeEvolucionDAO implements CondicionDeEvolucionDAO
 	@Override
 	public Collection<CondicionDeEvolucion> getAllCondiciones() {
 		Session session = Runner.getCurrentSession();
+		
 		String hql = "FROM CondicionDeEvolucion";
 		Query<CondicionDeEvolucion> query = session.createQuery(hql, CondicionDeEvolucion.class); 
 

@@ -118,7 +118,7 @@ public class EspecieServiceImpl implements EspecieService {
 		   this.especieDAO.updateEspecie(especieControl);
 		   return new Bicho(especieControl, nombreBicho);
 		   
-		} catch(EspecieNoExistente e) {//OJO porque esto no lanza esta exepcion, lanza runtime 
+		} catch(EspecieNoExistenteException e) {//OJO porque esto no lanza esta exepcion, lanza runtime 
 			throw new RuntimeException("La especie del bicho no existe.");
 //					{especieControl= new Especie(); //faltaria determinar el tipo de bicho que es
 //					 especieControl.setNombre(nombreEspecie);

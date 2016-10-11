@@ -1,36 +1,30 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * clase  que representa un combate entre dos bichos
+/** Clase  que representa un combate entre dos bichos.
  * 
- * @author Pedro Araoz
- * 
- *
- */
-
-
+ * @author Pedro Araoz */
 public class Combate {
 
 	private Bicho retador;
 	private Bicho campeon;
+	@SuppressWarnings("unused")
 	private Long fecha;
 	private ArrayList<Double> ataques;
 	
 	private Double dañoAcumuladoRetador=0.0;
 	private Double dañoAcumuladoCampeon=0.0;
 	
+	
+	
 	public Combate(Bicho retador, Bicho campeon){
-		
 		this.retador=retador;
 		this.campeon=campeon;
-		this.fecha=System.currentTimeMillis();
-		this.ataques= new  ArrayList<Double>();
+		this.fecha= System.currentTimeMillis();
+		this.ataques= new ArrayList<Double>();
 	}
-	
 	
 	
 	
@@ -94,40 +88,47 @@ public class Combate {
 		
 		return this.retador;
 	}
+	
+	
 	public Bicho getGanador(){		//el campeon pierde solo si se quedo sin energia
 		if (sinEnergia(this.campeon,this.dañoAcumuladoCampeon))
 			return 	this.retador;
 		return this.campeon;
-		}
+	}
+	
+	
 	public  boolean sinEnergia(Bicho bicho, Double dañoAcumulado) {
 		//el combate esta termnado si alguno de los dos esta sin energia
 		return (bicho.getEnergia()<=dañoAcumulado);
-		}
+	}
 
 
 	private Double  atacar(Bicho atacante ){
 		// un bicho atacante , ataca al bicho atacado  produciendole un daño determinado
 		return  atacante.getEnergia()* (Math.random()*0.4+ 0.1);//Random entre 0,1 y 0,4
-		}
+	}
 		
 	public void setDañoAcumuladoRetador(Double daño){
 		this.dañoAcumuladoRetador=daño;
-		}
+	}
+	
+	
 	public void setDañoAcumuladoCampeon(Double daño){
-			this.dañoAcumuladoCampeon=daño;
-		}
+		this.dañoAcumuladoCampeon=daño;
+	}
+	
+	
 	public Double getDañoAcumuladoRetador(){
 		return this.dañoAcumuladoRetador;
-		}
+	}
+	
+	
 	public Double getDañoAcumuladoCampeon(){
-			return this.dañoAcumuladoCampeon;
-		}
-
-
+		return this.dañoAcumuladoCampeon;
+	}
 
 
 	public List<Double> getAtaques() {
-		// TODO Auto-generated method stub
 		return this.ataques;
 	}
 	

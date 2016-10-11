@@ -26,8 +26,7 @@ public class HibernateEspecieDAO implements EspecieDAO {
 
 	@Override
 	public List<Especie> getAllEspecies() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("Este método no está implementado para hibernate.");
 	}
 
 	/** Se consulta a base de datos por aquella especie que tenga más bichos campeones contando todos

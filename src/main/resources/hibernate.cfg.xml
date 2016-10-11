@@ -22,7 +22,16 @@
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 
 
-		<!-- MAPEOS: -->
+	<!-- MAPEOS: -->
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Entrenador" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Bicho" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia" />
+		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.EspecieConProbabilidad"/>
 		
 		<!-- CONDICIONES DE EVOLUCION -->
 		
@@ -33,15 +42,6 @@
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionQueFalla" />
 		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Especie" />
-	
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Entrenador" />
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Bicho" />
-	
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
-		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia" />
-		
 		<!-- LUGARES -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar" />
@@ -49,9 +49,7 @@
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia" />
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo" />
 		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico" />
-		
-		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.EspecieConProbabilidad"/>
+	<!-- FIN MAPEOS -->
 
 	</session-factory>
 </hibernate-configuration>

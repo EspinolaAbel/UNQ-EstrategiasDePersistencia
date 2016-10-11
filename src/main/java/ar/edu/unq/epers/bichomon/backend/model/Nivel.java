@@ -6,8 +6,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-/** Esta clase se va a encargar de representar el {@link Nivel} actual en el que se encuentra un
- * {@link Entrenador} en el juego.*/
+/** Esta clase se va a encargar de representar un {@link Nivel} diponible en los que los {@link Entrenador}es del juego se encontrarán en
+ * determindado momento.
+ * La aplicación consta de un conjunto de niveles preestablecidos y cada nivel tiene un siguiente nivel al que se puede subir con excepción del nivel
+ * máximo que un entrenador puede conseguir. */
 @Entity(name="Niveles")
 public class Nivel {
 	

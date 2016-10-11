@@ -15,11 +15,8 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 @Entity
 public class EspecieConProbabilidad implements Serializable{
 
-	
-	/**
-	 * 
-	 */
-	
+	private static final long serialVersionUID = 4276827986114409625L;
+
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id ;
@@ -43,7 +40,6 @@ public class EspecieConProbabilidad implements Serializable{
 
 
 	public Especie getEspecie() {
-
 		return this.especie;
 	}
 }

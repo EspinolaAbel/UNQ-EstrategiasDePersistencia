@@ -15,14 +15,13 @@ public class EspecieTest {
 	/** Dado un bicho consulto si este puede evolucionar a la siguiente especie. Como el bicho
 	 * esta en condiciones de evolucionar se responde true.
 	 * - El bicho dado pertenece a una especie cuyas condiciones de evolucion son de: energía, edad,
-	 *   nivel y victorias.
-	 * @author ae */
+	 *   nivel y victorias. */
 	@Test
 	public void dadoUnBichoConsultoSiEstePuedeEvolucionarALaSiguienteEspecieYRespondeTrue() {
 		Especie especie = this.especieConCondicionesDeEnergiaNivelEdadYVictorias(1,1,1,1);
 		Bicho bicho = new Bicho(especie);
-		Entrenador entrenadorDeNivel2 = this.entrenadorConNivel(2);
-		this.setBichoConEnergiaNivelEdadYVictorias(bicho, 2, 2, entrenadorDeNivel2, 2);
+		Entrenador entrenadorDeNivel2 = this.generarEntrenadorConNivel(2);
+		this.setBichoConEnergiaNivelEdadYVictoriasAUnEntrenador(bicho, 2, 2, entrenadorDeNivel2, 2);
 		
 		assertTrue(especie.puedeEvolucionar(bicho));
 	}
@@ -30,22 +29,22 @@ public class EspecieTest {
 	/** Dado un bicho consulto si este puede evolucionar a la siguiente especie. Como el bicho
 	 * no esta en condiciones de evolucionar se responde false.
 	 * - El bicho dado pertenece a una especie cuyas condiciones de evolucion son de: energía, edad,
-	 *   nivel y victorias.
-	 * @author ae */
+	 *   nivel y victorias. */
 	@Test
 	public void dadoUnBichoConsultoSiEstePuedeEvolucionarALaSiguienteEspecieYRespondeFalse() {
 		Especie especie = this.especieConCondicionesDeEnergiaNivelEdadYVictorias(1,1,1,1);
 		Bicho bicho = new Bicho(especie);
-		Entrenador entrenador = this.entrenadorConNivel(2);
+		Entrenador entrenador = this.generarEntrenadorConNivel(2);
 		
 		//bicho no supera las condiciones de energia, edad y victorias, pero si la del nivel del entrenador
-		this.setBichoConEnergiaNivelEdadYVictorias(bicho, 1, 1, entrenador, 1);
+		this.setBichoConEnergiaNivelEdadYVictoriasAUnEntrenador(bicho, 1, 1, entrenador, 1);
 		
 		assertFalse(especie.puedeEvolucionar(bicho));
 	}
 	
 	
 //TESTS REDEFINICION EQUALS Y HASHCODE
+//------------------------------------
 	
 	@Test
 	public void dadasDosEspeciesLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
@@ -83,8 +82,13 @@ public class EspecieTest {
 		assertNotEquals(especieOriginal.hashCode(), especieComparativa.hashCode());
 	}
 
-//ALGUNOS MÉTODOS AUXILIARES PARA TEST	
-
+//	************************************
+//	************************************
+//	*** MÉTODOS AUXILIARES PARA TEST ***	
+//	*** ---------------------------- ***
+//	************************************
+//	************************************
+	
 	private Especie nuevaEspecieOriginal() {
 		Especie e = this.especieConCondicionesDeEnergiaNivelEdadYVictorias(1, 2, 3, 4);
 		e.setNombre("EspecieOriginal");
@@ -98,7 +102,7 @@ public class EspecieTest {
 		return e;
 	}
 	
-	private Entrenador entrenadorConNivel(int i) {
+	private Entrenador generarEntrenadorConNivel(int i) {
 		Nivel n = new Nivel();	n.setNumeroDeNivel(i);
 		Entrenador e = new Entrenador();	e.setNivelActual(n);
 		return e;
@@ -122,11 +126,12 @@ public class EspecieTest {
 		return especie;
 	}
 	
-	private Bicho setBichoConEnergiaNivelEdadYVictorias(Bicho bicho, int victorias, int energia, Entrenador owner, int tiempoDeCaptura) {
+	private Bicho setBichoConEnergiaNivelEdadYVictoriasAUnEntrenador(Bicho bicho, int victorias, int energia, Entrenador owner, int tiempoDeCaptura) {
 		bicho.setCantidadDeVictorias(victorias);
 		bicho.setEnergia(energia);
 		bicho.setOwner(owner);
-		bicho.setTiempoDesdeSuCaptura(tiempoDeCaptura);
+		long tiempoDeCapturaEnNanoSegundos = tiempoDeCaptura * (long) Math.pow(10, 9);
+		bicho.setTiempoDesdeSuCaptura(tiempoDeCapturaEnNanoSegundos);
 		return bicho;
 	}
 

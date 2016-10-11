@@ -15,6 +15,7 @@ public class CondicionQueFalla extends CondicionDeEvolucion {
 		super(0);
 	}
 	
+	@SuppressWarnings("unused")
 	private CondicionQueFalla(Integer magnitud) {
 		super(magnitud);
 	}

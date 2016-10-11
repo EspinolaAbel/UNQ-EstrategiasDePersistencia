@@ -7,8 +7,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Nivel;
 
 /** Esta condición será superada solo si el {@link Entrenador} del {@link Bicho} evaluado está
- * en un {@link Nivel} superior al que especifica en está condición.
- * @author ae */
+ * en un {@link Nivel} superior al que especifica en está condición. */
 @Entity
 public class CondicionBasadaEnNivel extends CondicionDeEvolucion {
 
@@ -16,8 +15,8 @@ public class CondicionBasadaEnNivel extends CondicionDeEvolucion {
 		super();
 	}
 	
-	public CondicionBasadaEnNivel(Integer magnitud) {
-		super(magnitud);
+	public CondicionBasadaEnNivel(Integer nroNivel) {
+		super(nroNivel);
 	}
 	
 

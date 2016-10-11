@@ -26,7 +26,7 @@ public class Bicho {
 	private int id;
 	
 	@Transient
-	private String nombre;
+	private String nombre; //No utilizado en hibernate
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Especie especie; 
@@ -34,11 +34,8 @@ public class Bicho {
 	private long tiempoDesdeSuCaptura;
 	private int cantidadDeVictorias;
 	
-	public Bicho(Especie especie, String nombre) {
-		this.especie = especie;
-		this.nombre = nombre;
-	}
-
+	
+	
 	public Bicho() {
 		super();
 	}
@@ -47,7 +44,13 @@ public class Bicho {
 		this();
 		this.especie=especie;	
 	}
+	
+	public Bicho(Especie especie, String nombre) {
+		this.especie = especie;
+		this.nombre = nombre;
+	}
 
+	
 	
 	/** Se setea el {@link Entrenador} propietario del {@link Bicho}.
 	 * @param owner - {@link Entrenador} que será el nuevo propietario.*/
@@ -65,55 +68,51 @@ public class Bicho {
 	
 	/**
 	 * @return el nombre de un bicho (todos los bichos tienen
-	 * nombre). Este NO es el nombre de su especie.
-	 */
+	 * nombre). Este NO es el nombre de su especie. */
 	public String getNombre() {
 		return this.nombre;
 	}
 	
 	/**
-	 * @return la especie a la que este bicho pertenece.
-	 */
+	 * @return la especie a la que este bicho pertenece. */
 	public Especie getEspecie() {
 		return this.especie;
 	}
 	
 	public void setEspecie(Especie especie){
 		this.especie= especie;
-		
 	}
 	
 	/**
 	 * @return la cantidad de puntos de energia de este bicho en
 	 * particular. Dicha cantidad crecerá (o decrecerá) conforme
-	 * a este bicho participe en combates contra otros bichomones.
-	 */
+	 * a este bicho participe en combates contra otros bichomones. */
 	public int getEnergia() {
 		return this.energia;
 	}
+	
 	public void setEnergia(int energia) {
 		this.energia = energia;
 	}
 	
 	
 	/** Se responde con el tiempo transcurrido desde la captura del {@link Bicho}.
-	 * NOTA: El tiempo transcurrido es representado por un {@link Integer}.
-	 * 
-	 * @author ae */
+	 * NOTA: El tiempo transcurrido es representado por un {@link Long}. */
 	public long getTiempoDesdeSuCaptura() {
 		return this.tiempoDesdeSuCaptura;
 	}
 	
+	/** @param tiempo - el tiempo desde que fue capturado por su entrenador actual. 'tiempo' es un valor en nano-segundos.*/
+	public void setTiempoDesdeSuCaptura(long tiempo) {
+		this.tiempoDesdeSuCaptura = tiempo;
+	}
+
 	public int getCantidadDeVictorias() {
 		return this.cantidadDeVictorias;
 	}
 	
 	public void setCantidadDeVictorias(Integer victorias) {
 		this.cantidadDeVictorias = victorias;
-	}
-	
-	public void setTiempoDesdeSuCaptura(long tiempo) {
-		this.tiempoDesdeSuCaptura = tiempo;
 	}
 	
 	public void setId(int id) {
@@ -125,11 +124,9 @@ public class Bicho {
 	}
 	
 	
-	
 	public void recuperarEnergia(){
 		this.energia += (int) 1+(Math.random()*4);
 	}
-	
 	
 	
 	@Override

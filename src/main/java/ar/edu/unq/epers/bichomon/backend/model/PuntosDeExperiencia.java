@@ -5,14 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Esta clase va a representar los puntos de exéroencia que adquiere un entrenador
- *  por las tareas que realiza
+ * Esta clase va a representar los puntos de experiencia que adquiere un entrenador
+ * por las tareas que realiza.
  * 
- * @author pa
- *
- */
-
-
+ * @author pa */
 @Entity (name= "Puntajes")
 public class PuntosDeExperiencia {
 	@Id 
@@ -22,12 +18,14 @@ public class PuntosDeExperiencia {
 	
 	
 	public PuntosDeExperiencia() {
-		
+		super();
 	}
+	
 	public PuntosDeExperiencia(String tarea, int puntaje) {
 		this.tareaRealizada=tarea;
 		this.puntaje=puntaje;
 	}
+	
 	
 	
 	public void setTareaRealizada(String  tarea){

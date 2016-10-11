@@ -1,7 +1,5 @@
 package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
-import java.util.List;
-
 import org.hibernate.Session;
 
 import ar.edu.unq.epers.bichomon.backend.dao.NivelDAO;
@@ -21,14 +19,6 @@ public class HibernateNivelDAO implements NivelDAO {
 		Session session = Runner.getCurrentSession();
 		return session.get(Nivel.class, nroNivel);
 	}
-
-	//TODO
-	@Override
-	public List<Nivel> getNiveles() {
-		Session session = Runner.getCurrentSession();
-		throw new RuntimeException("Todavía no está definido este método.");
-	}
-	
-	
+		
 
 }

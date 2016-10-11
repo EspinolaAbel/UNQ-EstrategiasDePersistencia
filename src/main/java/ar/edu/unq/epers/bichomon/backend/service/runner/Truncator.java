@@ -21,9 +21,6 @@ public class Truncator {
 					session.createNativeQuery("TRUNCATE TABLE "+ tabla).executeUpdate();
 				
 			}
-//			catch(Exception e) {
-//				throw e;
-//			}
 			finally{
 				session.createNativeQuery("SET FOREIGN_KEY_CHECKS=1").executeUpdate();
 			}

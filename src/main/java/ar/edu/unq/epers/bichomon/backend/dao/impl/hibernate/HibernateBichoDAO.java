@@ -30,6 +30,7 @@ public class HibernateBichoDAO implements BichoDAO {
 	@Override
 	public Collection<Bicho> getAllBichos() {
 		Session session = Runner.getCurrentSession();
+		
 		String hql = "FROM Bicho";
 		Query<Bicho> query = session.createQuery(hql, Bicho.class);
 		

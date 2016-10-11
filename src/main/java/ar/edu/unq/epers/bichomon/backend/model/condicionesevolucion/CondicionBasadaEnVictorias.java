@@ -5,8 +5,7 @@ import javax.persistence.Entity;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 
 /** Esta condición será superada solo si el {@link Bicho} evaluado supera la cantidad de victorias que
- * se especifica en está condición.
- * @author ae */
+ * se especifica en está condición. */
 @Entity
 public class CondicionBasadaEnVictorias extends CondicionDeEvolucion {
 
@@ -14,8 +13,8 @@ public class CondicionBasadaEnVictorias extends CondicionDeEvolucion {
 		super();
 	}
 	
-	public CondicionBasadaEnVictorias(Integer magnitud) {
-		super(magnitud);
+	public CondicionBasadaEnVictorias(Integer cantidadDeVictorias) {
+		super(cantidadDeVictorias);
 	}
 
 	@Override

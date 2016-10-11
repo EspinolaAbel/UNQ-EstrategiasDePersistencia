@@ -31,20 +31,11 @@ public class Runner {
 			tx.commit();
 			return resultado;
 		} catch (RuntimeException e) {
-//<<<<<<< HEAD
-//			tx.rollback();
-//			e.printStackTrace();
-//			throw e;
-//		} catch (ExceptionInInitializerError e) {
-//			e.printStackTrace();
-//			tx.rollback();
-//=======
 			//solamente puedo cerrar la transaccion si fue abierta antes,
 			//puede haberse roto el metodo ANTES de abrir una transaccion
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
 			}
-//>>>>>>> refs/remotes/origin/master
 			throw e;
 		} finally {
 			if (session != null) {

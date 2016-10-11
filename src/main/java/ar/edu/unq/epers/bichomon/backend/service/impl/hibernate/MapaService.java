@@ -15,8 +15,8 @@ public class MapaService {
 		super();
 	}
 
-	/** Dado los nombres de un {@link Entrenador} y un {@link Lugar} persistidos en mi BBDD se cambiará
-	 * al entrenador desde su ubicación actual a la especificada por parámetro.
+	/** Dado los nombres de un {@link Entrenador} y un {@link Lugar} persistidos en mi BBDD, se cambiará
+	 * al entrenador desde su ubicación actual al lugar especificado por el parámetro.
 	 * @param nombreEntrenador - nombre del entrenador a recuperar de la BBDD
 	 * @param nombreLugar - nombre del lugar a recuperar de la BBDD */
 	public void mover(String nombreEntrenador, String nombreLugar) {
@@ -28,8 +28,7 @@ public class MapaService {
 			Lugar lugar = lugarDAO.getLugar(nombreLugar);
 			entrenador.setUbicacionActual(lugar);
 			return null;
-		});
-		
+		});	
 	}
 	
 	/** Dado el nombre de un {@link Lugar} persistido en la BBDD se devuelve la cantidad de entrenadores

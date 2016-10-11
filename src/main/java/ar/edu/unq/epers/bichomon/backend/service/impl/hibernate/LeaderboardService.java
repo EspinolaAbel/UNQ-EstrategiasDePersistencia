@@ -28,6 +28,7 @@ public class LeaderboardService {
 		});
 	}
 	
+	
 	public List<Entrenador> lideres() {
 		EntrenadorDAO entrenadorDAO = new HibernateEntrenadorDAO();
 		return

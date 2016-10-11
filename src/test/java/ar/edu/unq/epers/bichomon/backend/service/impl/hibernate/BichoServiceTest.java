@@ -75,50 +75,24 @@ public class BichoServiceTest {
 	
 	@Before
 	public void setUp() {
-		
 
-		this.evolucion= new PuntosDeExperiencia("Evolucion",5);
-		this.duelo= new PuntosDeExperiencia("Duelo",10);
-		this.captura= new PuntosDeExperiencia("CapturarBicho",10);
-		
-		puntajesDAO= new HibernatePuntosDeExperienciaDAO();
-	
-		
+		this.especieDAO= new HibernateEspecieDAO();
+		this.entrenadorDAO = new HibernateEntrenadorDAO();
+		this.lugarDAO = new HibernateLugarDAO();
+		this.bichoDAO = new HibernateBichoDAO();
+		this.nivelDAO = new HibernateNivelDAO();
+		this.puntajesDAO= new HibernatePuntosDeExperienciaDAO();
 		
 		this.entrenador1 = new Entrenador("EntrenadorTest1");
 		this.entrenador2 = new Entrenador("EntrenadorTest2");
 		this.entrenador3 = new Entrenador("EntrenadorTestDeCampeon");
 		this.entrenador4 =new Entrenador("EntrenadorTestEvolucion");
 		
-		this.nivel= new Nivel(1,2,5);
-		this.nivel2= new Nivel(2,2,5);
-		this.nivel.setSiguienteNivel(nivel2);
-		this.nivel2.setSiguienteNivel(nivel2);
-		
-		this.guarderia = new Guarderia("GuarderiaTest");
-		this.dojo= new Dojo("DojoTest");
-				
-		
 		// especies para el test de evolucion
 		this.especieRaiz = new Especie("EspecieRaiz", TipoBicho.TIERRA);
 		this.especieRaiz.setRaiz(especieRaiz);// especieRaiz es la base de la cadena
 		this.especieEvolucion = new Especie("EspecieEvolucion", TipoBicho.TIERRA);
 		this.especieRaiz.setEvolucionaA(especieEvolucion);
-		
-		this.bicho1 = new Bicho(new Especie("EspecieTest1", TipoBicho.AGUA)); 
-		this.bicho2 = new Bicho(new Especie("EspecieTest2", TipoBicho.AIRE));
-		this.bicho3 = new Bicho(new Especie("EspecieTest3", TipoBicho.FUEGO));
-		this.bichoCampeonDeDojo = new Bicho(new Especie("EspecieTest5", TipoBicho.FUEGO));
-		this.bicho4 = new Bicho(new Especie("EspecieTest4", TipoBicho.FUEGO));
-		this.bichoEvolucionador =	new Bicho(especieRaiz);
-		
-		this.bichoEvolucionador.setCantidadDeVictorias(2);
-		this.bichoEvolucionador.setEnergia(20);
-		
-		this.entrenador4.agregarBichoCapturado(bichoEvolucionador);
-		this.entrenador4.setExperiencia(150);
-		this.entrenador4.setNivelActual(nivel2);
-
 		
 		//condicionnes de evolucion para las especies
 		this.condicionPorEdad= new CondicionBasadaEnEdad(1000);
@@ -131,59 +105,82 @@ public class BichoServiceTest {
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorVictorias);
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorEnergia);
 		this.especieRaiz.agregarCondicionDeEvolucion(condicionPorNivel);
-	
-		this.especieDAO= new HibernateEspecieDAO();
-		this.entrenadorDAO = new HibernateEntrenadorDAO();
-		this.lugarDAO = new HibernateLugarDAO();
-		this.bichoDAO = new HibernateBichoDAO();
-		this.nivelDAO = new HibernateNivelDAO();
-	
-		this.bichoService = new BichoService(entrenadorDAO, bichoDAO);
+		
+		this.nivel= new Nivel(1,2,5);
+		this.nivel2= new Nivel(2,2,5);
+		this.nivel.setSiguienteNivel(nivel2);
+		this.nivel2.setSiguienteNivel(nivel2);
+		
+		this.guarderia = new Guarderia("GuarderiaTest");
+		this.dojo= new Dojo("DojoTest");
+		
+		this.bicho1 = new Bicho(new Especie("EspecieTest1", TipoBicho.AGUA)); 
+		this.bicho2 = new Bicho(new Especie("EspecieTest2", TipoBicho.AIRE));
+		this.bicho3 = new Bicho(new Especie("EspecieTest3", TipoBicho.FUEGO));
+		this.bicho4 = new Bicho(new Especie("EspecieTest4", TipoBicho.FUEGO));
+		this.bichoCampeonDeDojo = new Bicho(new Especie("EspecieTest5", TipoBicho.FUEGO));
+		this.bichoEvolucionador =	new Bicho(especieRaiz);
+		
+		Runner.runInSession( () -> {
+			this.lugarDAO.saveLugar(guarderia);
+			this.lugarDAO.saveLugar(dojo);
 
-		this.guarderia.recibirBichoAbandonado(bicho4);
-		// al bichoCampeonDeDojo campeon del dojo le vamos a setear 5 energia
-		this.dojo.setCampeonActual(bichoCampeonDeDojo);
-		this.bichoCampeonDeDojo.setEnergia(5);
-		this.bicho3.setEnergia(50);
-		
-		this.entrenador1.setUbicacionActual(guarderia);
-		this.entrenador2.setUbicacionActual(dojo);
-		this.entrenador3.setUbicacionActual(dojo);
-		
-		this.entrenador1.setNivelActual(nivel);
-		this.entrenador2.setNivelActual(nivel);
-		this.entrenador3.setNivelActual(nivel);
-		
-		this.entrenador1.agregarBichoCapturado(bicho1);
-		this.entrenador1.agregarBichoCapturado(bicho2);
-		this.entrenador2.agregarBichoCapturado(bicho3);
-		this.entrenador3.agregarBichoCapturado(bichoCampeonDeDojo);
-		
-		Runner.runInSession(() -> {
-			
-			puntajesDAO.savePuntosDeExperiencia(this.captura);
-			puntajesDAO.savePuntosDeExperiencia(this.evolucion);
-			puntajesDAO.savePuntosDeExperiencia(this.duelo);
-
+			this.entrenadorDAO.saveEntrenador(entrenador1);
+			this.entrenadorDAO.saveEntrenador(entrenador2);
+			this.entrenadorDAO.saveEntrenador(entrenador3);
+			this.entrenadorDAO.saveEntrenador(entrenador4);
 			
 			this.nivelDAO.saveNivel(this.nivel);
 			this.nivelDAO.saveNivel(this.nivel2);
 			
+			this.especieDAO.saveEspecie(especieEvolucion);
 			this.especieDAO.saveEspecie(especieRaiz);
+			
 			this.bichoDAO.saveBicho(bicho1);
 			this.bichoDAO.saveBicho(bicho2);
 			this.bichoDAO.saveBicho(bicho3);
+			this.bichoDAO.saveBicho(bicho4);
+			this.bichoDAO.saveBicho(bichoCampeonDeDojo);
+			this.bichoDAO.saveBicho(bichoEvolucionador);
 			
-			this.lugarDAO.saveLugar(guarderia);
-			this.lugarDAO.saveLugar(dojo);
+			this.entrenador1.setNivelActual(nivel);
+			this.entrenador2.setNivelActual(nivel);
+			this.entrenador3.setNivelActual(nivel);
 			
-			this.entrenadorDAO.saveEntrenador(entrenador1);
-			this.entrenadorDAO.saveEntrenador(entrenador2);
-			this.entrenadorDAO.saveEntrenador(entrenador3);
-			this.entrenadorDAO.saveEntrenador(entrenador4);//esto me deberia  guardar el entrenadoer, el bicho, las especies
-				
+			this.bichoEvolucionador.setCantidadDeVictorias(2);
+			this.bichoEvolucionador.setEnergia(20);
+			
+			this.entrenador4.agregarBichoCapturado(bichoEvolucionador);
+			this.entrenador4.setExperiencia(150);
+			this.entrenador4.setNivelActual(nivel2);
+
+			this.guarderia.recibirBichoAbandonado(bicho4);
+			// al bichoCampeonDeDojo campeon del dojo le vamos a setear 5 energia
+			this.dojo.setCampeonActual(bichoCampeonDeDojo);
+			this.bichoCampeonDeDojo.setEnergia(5);
+			this.bicho3.setEnergia(50);
+			
+			this.entrenador1.setUbicacionActual(guarderia);
+			this.entrenador2.setUbicacionActual(dojo);
+			this.entrenador3.setUbicacionActual(dojo);
+			
+			this.entrenador1.agregarBichoCapturado(bicho1);
+			this.entrenador1.agregarBichoCapturado(bicho2);
+			this.entrenador2.agregarBichoCapturado(bicho3);
+			this.entrenador3.agregarBichoCapturado(bichoCampeonDeDojo);
+			
+			this.evolucion= new PuntosDeExperiencia("Evolucion",5);
+			this.duelo= new PuntosDeExperiencia("Duelo",10);
+			this.captura= new PuntosDeExperiencia("CapturarBicho",10);
+			
+			puntajesDAO.savePuntosDeExperiencia(this.captura);
+			puntajesDAO.savePuntosDeExperiencia(this.evolucion);
+			puntajesDAO.savePuntosDeExperiencia(this.duelo);
+			
 			return null;
 		});
+		
+		this.bichoService = new BichoService(entrenadorDAO, bichoDAO);
 	}
 	
 	@After

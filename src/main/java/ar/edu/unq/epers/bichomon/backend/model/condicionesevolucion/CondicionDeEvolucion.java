@@ -13,30 +13,28 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
 /** {@link CondicionDeEvolucion} es una clase abstracta que representa una condición que un
  * {@link Bicho} debe cumplir para evolucionar a la siguiente {@link Especie} de su arbol de evolución.
- * Las subclases que hereden de esta clase, deben implementar una condición especifica.
- * @author ae */
+ * Las subclases que hereden de esta clase, deben implementar una condición especifica. */
 @Entity
 @Table(name="Condiciones_de_evolucion")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)				//@IdClass(CondicionDeEvolucionPK.class)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class CondicionDeEvolucion {
 	
 
-//	--Guarda la secuencia de id en la misma tabla de la entidad.	
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	--Guarda la secuencia de id en una tabla separada la cual tiene una fila por cada id de cada tabla que usen esta estrategia.	
-//	@GeneratedValue(strategy=GenerationType.TABLE)
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private Integer magnitudASuperar;
 
 	
-	public CondicionDeEvolucion() {}
+	
+	public CondicionDeEvolucion() {
+		super();
+	}
 	
 	public CondicionDeEvolucion(Integer magnitud) {
 		this.magnitudASuperar = magnitud;
 	}
+	
 	
 	
 	public Integer getMagnitudASuperar() {
@@ -58,8 +56,7 @@ public abstract class CondicionDeEvolucion {
 	
 	/** Se evalua si el {@link Bicho} aprueba la condición.
 	 * @param bicho - {@link Bicho} que será evaluado para la condición.
-	 * @return {@ Boolean} que indica si el {@link Bicho} dado aprueba la condición.
-	 * @author ae */
+	 * @return {@ Boolean} que indica si el {@link Bicho} dado aprueba la condición. */
 	public Boolean apruebaLaCondicion(Bicho bicho) {
 		return this.magnitudDeCondicionDelBicho(bicho) > this.getMagnitudASuperar();
 	}
@@ -67,10 +64,10 @@ public abstract class CondicionDeEvolucion {
 	
 	/** En este método se debe definir cuál es el campo del {@link Bicho} que será evaluado 
 	 * en esta {@link CondicionDeEvalucion}.
-	 * @return El valor númerico a evaluar del {@link Bicho}.
-	 * @author ae */
+	 * @return El valor númerico a evaluar del {@link Bicho}. */
 	public abstract Integer magnitudDeCondicionDelBicho(Bicho bicho);
 
+	
 	
 	@Override
 	public boolean equals(Object o) {

@@ -19,7 +19,7 @@ public class Entrenador {
 	private String  nombre;
 	private Integer experiencia;
 	
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne
 	private Lugar ubicacion;
 	
 	@OneToOne
@@ -28,6 +28,8 @@ public class Entrenador {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner", fetch=FetchType.EAGER)
 	private List<Bicho> bichosCapturados;
 
+	
+	
 	public Entrenador(String nombre) {
 		this();
 		this.nombre = nombre;
@@ -38,6 +40,8 @@ public class Entrenador {
 		this.experiencia = 0;
 	}
 
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -78,8 +82,7 @@ public class Entrenador {
 	
 	/** Dado un {@link Bicho} se lo agrega a la lista de bichos capturados del entrenador.
      * Este método también agrega a este entrenador como el owner del bicho.
-	 * @param bichoCapturado - {@link Bicho} capturado a agregar a la lista de bichos capturados.
-	 * @author ae */
+	 * @param bichoCapturado - {@link Bicho} capturado a agregar a la lista de bichos capturados. */
     public  void agregarBichoCapturado(Bicho bichoCapturado){
     	this.bichosCapturados.add(bichoCapturado);
     	bichoCapturado.setOwner(this);
@@ -87,25 +90,19 @@ public class Entrenador {
     
     /** Dado un {@link Bicho} se lo elimina de la lista de bichos capturados del entrenador.
      * Este método también elimina a este entrenador como el owner del bicho.
-     * @param bicho - El {@link int }establece que bichos de la coleccion sera eliminado
-     * @author ae */
+     * @param bicho - El {@link int }establece que bichos de la coleccion sera eliminado */
     public void descartarBichoCapturado(Bicho bichoADescartar) {
 		this.bichosCapturados.remove(bichoADescartar);
 		bichoADescartar.setOwner(null);
     }	
 	
-    /**
-     * Dado un  entrenador , aumenta la  experiencia que tiene segun el valor pasado por árametro
-     * párametro
-     */
+    /** Dado un  entrenador , aumenta la  experiencia que tiene segun el valor pasado por árametro
+     * párametro */
     public void aumentarExperiencia(int experiencioaGanada){
     	this.experiencia+=experiencioaGanada;
     }
     
-    /**
-     * Dado un  entrenador , aumenta el nivel que tiene segun pueda si se lo epermite la experiencia
-     *
-     */
+    /** Dado un  entrenador , aumenta el nivel que tiene segun pueda si se lo permite la experiencia */
     public void aumentarDeNivelSiTieneExperiencia(){
     	if (this.getExperiencia()>=this.getNivelActual().getPuntosParaSubirDeNivel())
     		this.setNivelActual(nivelActual.getSiguienteNivel());
