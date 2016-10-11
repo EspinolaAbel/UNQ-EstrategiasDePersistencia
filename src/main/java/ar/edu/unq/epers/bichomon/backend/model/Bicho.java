@@ -31,7 +31,7 @@ public class Bicho {
 	@OneToOne(cascade=CascadeType.ALL)
 	private Especie especie; 
 	private int energia;
-	private int tiempoDesdeSuCaptura;
+	private long tiempoDesdeSuCaptura;
 	private int cantidadDeVictorias;
 	
 	public Bicho(Especie especie, String nombre) {
@@ -100,7 +100,7 @@ public class Bicho {
 	 * NOTA: El tiempo transcurrido es representado por un {@link Integer}.
 	 * 
 	 * @author ae */
-	public int getTiempoDesdeSuCaptura() {
+	public long getTiempoDesdeSuCaptura() {
 		return this.tiempoDesdeSuCaptura;
 	}
 	
@@ -112,7 +112,7 @@ public class Bicho {
 		this.cantidadDeVictorias = victorias;
 	}
 	
-	public void setTiempoDesdeSuCaptura(Integer tiempo) {
+	public void setTiempoDesdeSuCaptura(long tiempo) {
 		this.tiempoDesdeSuCaptura = tiempo;
 	}
 	

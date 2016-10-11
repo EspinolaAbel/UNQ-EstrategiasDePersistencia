@@ -4,6 +4,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernatePuntosDeExperienciaDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
@@ -37,13 +38,20 @@ public class BichoService {
 	public Bicho buscar(String entrenador2) {
 		// aca deberia crear una nueva busqueda  y ver la probabilidad de que se recupere un   bicho
 		Bicho bichoRetornado=Runner.runInSession(() -> {
-	
+			HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+			
+			int expPorBusqueda = puntosDAO.getPuntosDeExperiencia("CapturarBicho").getPuntaje();
+			
 			Bicho bichoRecuperado=null;
 			Entrenador entrenador = this.entrenadorDAO.getEntrenador(entrenador2);
 			if ( (entrenador.getBichosCapturados().size()) <  entrenador.getNivelActual().getMaxCantidadDeBichos() ){
 				bichoRecuperado=entrenador.getUbicacionActual().retornarUnBichoDelLugar();
 				entrenador.agregarBichoCapturado(bichoRecuperado);
-				entrenador.setExperiencia(entrenador.getExperiencia()+10);}
+				entrenador.aumentarExperiencia(expPorBusqueda);
+				bichoRecuperado.setTiempoDesdeSuCaptura(System.nanoTime());
+			}
+			
+			
 			return bichoRecuperado;
 			});
 		
@@ -64,10 +72,11 @@ public class BichoService {
 		Runner.runInSession(() -> {
 			Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
 			Bicho b= this.bichoDAO.getBicho(bicho)	;	
+			//solo lo deja si no se queda sin bichos
 			if (e.getBichosCapturados().size()>1){
 				e.getUbicacionActual().recibirBichoAbandonado(b);
 				e.descartarBichoCapturado(b);
-				}//solo lo de
+				}
 		return null;
 		});
 	}
@@ -85,6 +94,10 @@ public class BichoService {
 	public ResultadoCombate duelo(String entrenador, int bicho) {
 			
 		return		Runner.runInSession(() -> {
+			
+					HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+					int expPorCombate = puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
+			
 					
 					Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
 					Bicho bichoRetador= this.bichoDAO.getBicho(bicho)	;	
@@ -111,9 +124,12 @@ public class BichoService {
 					 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
 					
 					// los entrenadores deben adquirir experiencia
-					ganador.getOwner().setExperiencia(ganador.getOwner().getExperiencia()+10);//aca hay que areglar.
-					perdedor.getOwner().setExperiencia(perdedor.getOwner().getExperiencia()+10);
+					ganador.getOwner().aumentarExperiencia(expPorCombate);//aca hay que areglar.
+					perdedor.getOwner().aumentarExperiencia(expPorCombate);
 					
+					//los entrenadores deberian aumentar de nivel si pueden
+					ganador.getOwner().aumentarDeNivelSiTieneExperiencia();
+					perdedor.getOwner().aumentarDeNivelSiTieneExperiencia();
 					return resultadoDeCombate;
 			
 					});
@@ -149,17 +165,20 @@ public class BichoService {
 	
 	
 	public Bicho evolucionar(String entrenador, int bicho) {
-		//no utilizo el entrenador para nada, ya que la consulta al nivel del  entrenador
-		//lo obtengo del bicho q conoce a su entrenador
-		int expPorEvolucionar=5;
+		HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+
 		Bicho bi;
 		if (puedeEvolucionar(entrenador, bicho)){
 				bi= Runner.runInSession(() -> {
+						
+							int expPorEvolucionar = puntosDAO.getPuntosDeExperiencia("Evolucion").getPuntaje();
+						
 							Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
 							Bicho b= this.bichoDAO.getBicho(bicho)	;	
 							Especie esp =b.getEspecie().getEvolucionaA();
 							b.setEspecie(esp);
-							e.setExperiencia(e.getExperiencia()+expPorEvolucionar);
+							e.aumentarExperiencia(expPorEvolucionar);
+							e.aumentarDeNivelSiTieneExperiencia();
 							return b;
 							});
 				return bi;

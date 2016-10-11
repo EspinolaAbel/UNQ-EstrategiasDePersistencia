@@ -40,6 +40,8 @@
 	
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.Nivel" />
 		
+		<mapping class="ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia" />
+		
 		<!-- LUGARES -->
 		
 		<mapping class="ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar" />

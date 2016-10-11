@@ -94,6 +94,23 @@ public class Entrenador {
 		bichoADescartar.setOwner(null);
     }	
 	
+    /**
+     * Dado un  entrenador , aumenta la  experiencia que tiene segun el valor pasado por árametro
+     * párametro
+     */
+    public void aumentarExperiencia(int experiencioaGanada){
+    	this.experiencia+=experiencioaGanada;
+    }
+    
+    /**
+     * Dado un  entrenador , aumenta el nivel que tiene segun pueda si se lo epermite la experiencia
+     *
+     */
+    public void aumentarDeNivelSiTieneExperiencia(){
+    	if (this.getExperiencia()>=this.getNivelActual().getPuntosParaSubirDeNivel())
+    		this.setNivelActual(nivelActual.getSiguienteNivel());
+    	}
+    
     
 	@Override
 	public boolean equals(Object o) {

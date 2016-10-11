@@ -77,6 +77,30 @@ public class EntrenadorTest {
 		assertNotEquals(entrenadorOriginal.hashCode(), entrenadorComparativo.hashCode());
 	}
 
+	
+	
+	@Test
+	public void dadosUnEntrenadorQueEstaEnCondicionesDeCambiarDeNivelLoHace(){
+		
+		// genero dos niveles de experiencia  para test
+		Nivel nivel1 = new Nivel(1,100, 20);
+		Nivel nivel2 = new Nivel(2,200, 10);
+		nivel1.setSiguienteNivel(nivel2);
+		nivel2.setSiguienteNivel(nivel2);
+
+		this.entrenador.setNivelActual(nivel1);
+		
+		//inicialmente no lo puede hacer, pero luego adquiere experiencia
+		this.entrenador.setExperiencia(90);
+		
+		
+		assertEquals(this.entrenador.getNivelActual(), nivel1);
+		
+		this.entrenador.aumentarExperiencia(20);
+		this.entrenador.aumentarDeNivelSiTieneExperiencia();
+		
+		assertEquals(nivel2, this.entrenador.getNivelActual());
+	}
 
 //MÉTODOS AUXILIARES PARA TEST		
 	

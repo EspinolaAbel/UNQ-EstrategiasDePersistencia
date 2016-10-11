@@ -18,10 +18,12 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorD
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateNivelDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernatePuntosDeExperienciaDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.Nivel;
+import ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEdad;
@@ -48,7 +50,7 @@ public class BichoServiceTest {
 	private BichoService bichoService;
 	private Bicho bicho1,bicho2,bicho3, bicho4, 
 		     	  bichoObtenidoDeGuarderia, bichoObtenidoDeDojo, bichoCampeonDeDojo, bichoEvolucionador;
-	private Nivel nivel;
+	private Nivel nivel, nivel2;
 	
 	private EntrenadorDAO entrenadorDAO;
 	private LugarDAO lugarDAO;
@@ -64,12 +66,25 @@ public class BichoServiceTest {
 	private CondicionBasadaEnNivel condicionPorNivel;
 	private HibernateEspecieDAO especieDAO;
 	private CondicionDeEvolucionDAO condicionDeEvolucionDAO;
-	private Nivel nivel2;
+	private PuntosDeExperiencia evolucion, duelo, captura;
+	
+	private HibernatePuntosDeExperienciaDAO puntajesDAO;
+
 	
 	
 	
 	@Before
 	public void setUp() {
+		
+
+		this.evolucion= new PuntosDeExperiencia("Evolucion",5);
+		this.duelo= new PuntosDeExperiencia("Duelo",10);
+		this.captura= new PuntosDeExperiencia("CapturarBicho",10);
+		
+		puntajesDAO= new HibernatePuntosDeExperienciaDAO();
+	
+		
+		
 		this.entrenador1 = new Entrenador("EntrenadorTest1");
 		this.entrenador2 = new Entrenador("EntrenadorTest2");
 		this.entrenador3 = new Entrenador("EntrenadorTestDeCampeon");
@@ -77,6 +92,8 @@ public class BichoServiceTest {
 		
 		this.nivel= new Nivel(1,2,5);
 		this.nivel2= new Nivel(2,2,5);
+		this.nivel.setSiguienteNivel(nivel2);
+		this.nivel2.setSiguienteNivel(nivel2);
 		
 		this.guarderia = new Guarderia("GuarderiaTest");
 		this.dojo= new Dojo("DojoTest");
@@ -144,13 +161,13 @@ public class BichoServiceTest {
 		
 		Runner.runInSession(() -> {
 			
+			puntajesDAO.savePuntosDeExperiencia(this.captura);
+			puntajesDAO.savePuntosDeExperiencia(this.evolucion);
+			puntajesDAO.savePuntosDeExperiencia(this.duelo);
+
+			
 			this.nivelDAO.saveNivel(this.nivel);
 			this.nivelDAO.saveNivel(this.nivel2);
-			
-			//this.condicionDeEvolucionDAO.saveCondicion(condicionPorEdad);
-			//this.condicionDeEvolucionDAO.saveCondicion(condicionPorNivel);
-			//this.condicionDeEvolucionDAO.saveCondicion(condicionPorEnergia);
-			//this.condicionDeEvolucionDAO.saveCondicion(condicionPorVictorias);
 			
 			this.especieDAO.saveEspecie(especieRaiz);
 			this.bichoDAO.saveBicho(bicho1);
@@ -195,9 +212,11 @@ public class BichoServiceTest {
 		
 		Runner.runInSession(() -> {
 			Bicho b= this.bichoDAO.getBicho(this.bichoObtenidoDeDojo.getId());
-			assertEquals(b.getId(),bichoObtenidoDeDojo.getId());
 			
+			assertEquals(b.getId(),bichoObtenidoDeDojo.getId());
 			assertEquals(2, b.getOwner().getBichosCapturados().size());
+			// el tiempo de captura es distindo de cero, fue establecido en la operacion de busqueda
+			assertTrue(b.getTiempoDesdeSuCaptura()>0);
 			return null;
 		});
 		
@@ -210,9 +229,9 @@ public class BichoServiceTest {
 		this.bichoService.abandonar(this.entrenador1.getNombre(), 2);
 		
 		Runner.runInSession(() -> {
-
 				Entrenador entrenadorRecuperado= this.entrenadorDAO.getEntrenador("EntrenadorTest1");
 				Guarderia guarderiaRcuperada=(Guarderia) entrenadorRecuperado.getUbicacionActual();
+
 				assertEquals(entrenadorRecuperado.getBichosCapturados().size(),1);
 				assertEquals(guarderiaRcuperada.getBichosAbandonados().size(),2);
 				//la guarderia debe tener el bicho con  id = 2
@@ -231,59 +250,50 @@ public class BichoServiceTest {
 		this.bichoService.abandonar(this.entrenador2.getNombre(), 3);
 		} catch (UbicacionIncorrectaException uIE){
 		Runner.runInSession(() -> {
-
 				Entrenador entrenadorRecuperado= this.entrenadorDAO.getEntrenador("EntrenadorTest2");
+			
 				assertEquals(1,entrenadorRecuperado.getBichosCapturados().size());
-				//la guarderia debe tener el bicho con  id = 2
-				
-			return null;
-		});
+				return null;
+			});
 		}
-		
 	}
+	
 	
 	/**
 	 * el test se realiza entre el campeon del dojo con 5 puntos de energia y el bicho de un  
 	 * entrenador con 50 puntos de enregia, dad esta circunstancia  y las caracteristicas del combate
 	 * el bicho del retador ganara y se consagrara campeon del dojo.
-	 *  c
-	 * 
-	 * 
 	 */
+	
 	@Test
 	public void testCombateEntreUnBichoDeUnEntrenadorYElCampeonDelDojo(){
 		//el entrenador tiene un solo bichocen su lista
 		
 		ResultadoCombate resultado;
-	//	try{
-			resultado=	this.bichoService.duelo(this.entrenador2.getNombre(), this.entrenador2.getBichosCapturados().get(0).getId());
-		//} catch (UbicacionIncorrectaException uIE){
-			
+		resultado=	this.bichoService.duelo(this.entrenador2.getNombre(), this.entrenador2.getBichosCapturados().get(0).getId());
 		Runner.runInSession(() -> {
 				Dojo dojoRec= (Dojo)this.lugarDAO.getLugar("DojoTest");
 				
-				/**
-				 * el campeon del dojo es el bicho del entrenador 2  que acaba de convatir
-				 */
+				// el campeon del dojo es el bicho del entrenador 2  que acaba de convatir
 				assertEquals(this.entrenador2.getBichosCapturados().get(0).getId(),dojoRec.getCampeonActual().getBichoCampeon().getId());
 				assertEquals(resultado.getGanador().getId(),dojoRec.getCampeonActual().getBichoCampeon().getId());				
 				
-			return null;
-		});
+				return null;
+			});
 		}
 	
 	/**
 	 * Dado un entrenador con un bicho de su lista, se consulta acerca de si el bicho puede evolucionar, y
 	 *  como este aprueva las condiciones de  evolucion,devuelve True
-	 * 
 	 */
+	
 	@Test
 	public void testUnEntrenadorPreguntasiPuedeEvolucionarUnBicho(){
 	
 		boolean puedeEvolucionar = this.bichoService.puedeEvolucionar(this.entrenador4.getNombre(),bichoEvolucionador.getId());
 		
-		assertTrue(puedeEvolucionar);// como el bicho estaba en  condiciones de evolucionar debedar verdadero
-				
+		// como el bicho estaba en  condiciones de evolucionar debedar verdadero
+		assertTrue(puedeEvolucionar);		
 	}	
 	
 
@@ -303,6 +313,7 @@ public class BichoServiceTest {
 			assertEquals(bichoEvolucionado.getEspecie(),this.especieEvolucion);// como el bicho estaba en  condiciones de evolucionar evoluciona a la siguiente especie
 			assertEquals(bichoEvolucionado.getId(), bichoTest.getId());// es el mismo bicho  pero evolucionado
 			assertEquals(entrenadorTest.getExperiencia(), 155);// el entrenador comenzo con 150 puntos de experiencia
+			assertEquals(entrenadorTest.getNivelActual().getNumeroDeNivel(),nivel2.getNumeroDeNivel() );// 
 			return null;
 		});	
 	}
