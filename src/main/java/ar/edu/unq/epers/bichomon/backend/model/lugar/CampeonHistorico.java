@@ -13,7 +13,7 @@ public class CampeonHistorico {
 	@Id
 	private Long fechaCoronadoCampeon;
 	private Long fechaDepuesto;
-	@OneToOne(cascade= CascadeType.ALL)
+	@OneToOne //(cascade= CascadeType.ALL)
 	private Bicho bichoCampeon;
 	@OneToOne
 	private Dojo lugarDondeEsCampeon;
