@@ -31,7 +31,7 @@ public class Dojo extends Lugar {
 	@Override
 	public ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException {
 		Combate combate = new Combate(bicho, this.getCampeonActual().getBichoCampeon());
-		return combate.Combatir();
+		return combate.combatir();
 	}
 
 	public CampeonHistorico getCampeonActual(){

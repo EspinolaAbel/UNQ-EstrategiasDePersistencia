@@ -98,12 +98,15 @@ public class Entrenador {
 	
     /** Dado un  entrenador , aumenta la  experiencia que tiene segun el valor pasado por árametro
      * párametro */
-    public void aumentarExperiencia(int experiencioaGanada){
-    	this.experiencia+=experiencioaGanada;
-    }
+  //  public void aumentarExperiencia(int experiencioaGanada){
+  //  	this.experiencia+=experiencioaGanada;
+  //  }
     
-    /** Dado un  entrenador , aumenta el nivel que tiene segun pueda si se lo permite la experiencia */
-    public void aumentarDeNivelSiTieneExperiencia(){
+    /** Dado un  entrenador , aumenta la experiencia  en las unidades que se pasan por parametros
+     * y si con  el nuevo valor  puede , aumenta el nivel que tiene.
+     */
+    public void aumentarDeNivelSiTieneExperiencia(int experiencioaGanada){
+    	this.experiencia+=experiencioaGanada;
     	if (this.getExperiencia()>=this.getNivelActual().getPuntosParaSubirDeNivel())
     		this.setNivelActual(nivelActual.getSiguienteNivel());
     	}

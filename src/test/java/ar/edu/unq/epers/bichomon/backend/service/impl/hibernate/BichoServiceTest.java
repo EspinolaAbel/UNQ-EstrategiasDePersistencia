@@ -169,7 +169,7 @@ public class BichoServiceTest {
 			return null;
 		});
 		
-		this.bichoService = new BichoService(entrenadorDAO, bichoDAO);
+		this.bichoService = new BichoService(entrenadorDAO, bichoDAO,puntajesDAO);
 	}
 	
 	@After

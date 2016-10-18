@@ -28,7 +28,7 @@ public class Combate {
 	
 	
 	
-	public ResultadoCombate Combatir(){
+	public ResultadoCombate combatir(){
 	
 		int  numAtaques=0;
 		boolean combTerminado=false;
@@ -51,7 +51,7 @@ public class Combate {
 
 //combate dummy  para simular ataques de magnitud fija igual a la 
 //un punto de energia  del bicho, ya que los ataques reales  son de magnitud aleatoria
-	public ResultadoCombate CombatirDummy(){
+	public ResultadoCombate combatirDummy(){
 	
 		int  numAtaques=0;
 		boolean combTerminado=false;

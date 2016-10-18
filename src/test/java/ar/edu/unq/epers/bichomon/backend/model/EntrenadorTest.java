@@ -96,8 +96,9 @@ public class EntrenadorTest {
 		
 		assertEquals(this.entrenador.getNivelActual(), nivel1);
 		
-		this.entrenador.aumentarExperiencia(20);
-		this.entrenador.aumentarDeNivelSiTieneExperiencia();
+		//this.entrenador.aumentarExperiencia(20);
+		//adquiere 20 puntos de experiencia y luego aumenta el nivel
+		this.entrenador.aumentarDeNivelSiTieneExperiencia(20);
 		
 		assertEquals(nivel2, this.entrenador.getNivelActual());
 	}

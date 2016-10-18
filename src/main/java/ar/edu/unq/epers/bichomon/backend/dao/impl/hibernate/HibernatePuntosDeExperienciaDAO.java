@@ -2,10 +2,11 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate;
 
 import org.hibernate.Session;
 
+import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
 import ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
-public class HibernatePuntosDeExperienciaDAO {
+public class HibernatePuntosDeExperienciaDAO implements PuntosDAO {
 
 	public HibernatePuntosDeExperienciaDAO() {
 		super();

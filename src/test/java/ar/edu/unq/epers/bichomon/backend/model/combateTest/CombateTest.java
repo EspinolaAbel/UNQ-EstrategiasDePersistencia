@@ -65,7 +65,7 @@ public class CombateTest {
 	@Test
 	public void testRetadorDiezVecesMasPoderosoCombateYyDebeGanar(){
 		this.retador.setEnergia(50);
-		combate.Combatir();
+		combate.combatir();
 		assertEquals(retador, combate.getGanador());
 	}
 
@@ -77,7 +77,7 @@ public class CombateTest {
 	@Test
 	public void testCampeonDiezVecesMasPoderosoCombateYyDebeGanar(){
 		this.campeon.setEnergia(50);
-		combate.Combatir();
+		combate.combatir();
 		//gana el campeon
 		assertEquals(campeon, combate.getGanador());
 		assertTrue(combate.sinEnergia(retador,combate.getDañoAcumuladoRetador())) ;
@@ -92,7 +92,7 @@ public class CombateTest {
 		//gana e retador ya que tiene mas energia y el campeon se quedara sin energia antes de los 10 ataques
 		this.campeon.setEnergia(8);
 		this.retador.setEnergia(9);
-		combate.CombatirDummy();
+		combate.combatirDummy();
 		assertEquals(retador, combate.getGanador());	
 	}
 
@@ -106,7 +106,7 @@ public class CombateTest {
 		//x lo que se agotan los ataques
 		this.campeon.setEnergia(18);
 		this.retador.setEnergia(19);
-		combate.CombatirDummy();
+		combate.combatirDummy();
 		assertEquals(campeon, combate.getGanador());
 		assertEquals(20, combate.getAtaques().size());
 	}

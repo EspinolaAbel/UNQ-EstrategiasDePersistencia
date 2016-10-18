@@ -2,7 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernatePuntosDeExperienciaDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
@@ -15,13 +15,14 @@ public class BichoService {
 
 	private EntrenadorDAO entrenadorDAO ;
 	private BichoDAO bichoDAO;
+	private PuntosDAO puntosDAO;
 	
 	
 	
-	
-	public BichoService (EntrenadorDAO entrenadorDAO, BichoDAO bichoDAO ){
+	public BichoService (EntrenadorDAO entrenadorDAO, BichoDAO bichoDAO, PuntosDAO puntosDAO ){
 		this.entrenadorDAO=entrenadorDAO;
 		this.bichoDAO=bichoDAO;
+		this.puntosDAO=puntosDAO;// cree la interface y la utilizo como parametro
 	}
 	
 	/**
@@ -31,20 +32,20 @@ public class BichoService {
 	 * servicio.
 	 */
 
-	public Bicho buscar(String entrenador2) {
+	public Bicho buscar(String nombreDelEntrenador) {
 		// aca deberia crear una nueva busqueda  y ver la probabilidad de que se recupere un   bicho
 		Bicho bichoRetornado =
 			Runner.runInSession(() -> {
-				HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+//				HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
 				
-				int expPorBusqueda = puntosDAO.getPuntosDeExperiencia("CapturarBicho").getPuntaje();
+				int expPorBusqueda = this.puntosDAO.getPuntosDeExperiencia("CapturarBicho").getPuntaje();
 				
 				Bicho bichoRecuperado=null;
-				Entrenador entrenador = this.entrenadorDAO.getEntrenador(entrenador2);
+				Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 				if ( (entrenador.getBichosCapturados().size()) <  entrenador.getNivelActual().getMaxCantidadDeBichos() ){
 					bichoRecuperado=entrenador.getUbicacionActual().retornarUnBichoDelLugar();
 					entrenador.agregarBichoCapturado(bichoRecuperado);
-					entrenador.aumentarExperiencia(expPorBusqueda);
+					entrenador.aumentarDeNivelSiTieneExperiencia(expPorBusqueda);
 					bichoRecuperado.setTiempoDesdeSuCaptura(System.nanoTime());
 				}
 				
@@ -91,8 +92,8 @@ public class BichoService {
 			
 		return	Runner.runInSession(() -> {
 			
-					HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
-					int expPorCombate = puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
+		//			HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+					int expPorCombate =this.puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
 			
 					
 					Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
@@ -120,12 +121,11 @@ public class BichoService {
 					 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
 					
 					// los entrenadores deben adquirir experiencia
-					ganador.getOwner().aumentarExperiencia(expPorCombate);//aca hay que areglar.
-					perdedor.getOwner().aumentarExperiencia(expPorCombate);
+					//ganador.getOwner().aumentarExperiencia(expPorCombate);
+					//perdedor.getOwner().aumentarExperiencia(expPorCombate);
 					
-					//los entrenadores deberian aumentar de nivel si pueden
-					ganador.getOwner().aumentarDeNivelSiTieneExperiencia();
-					perdedor.getOwner().aumentarDeNivelSiTieneExperiencia();
+					//los entrenadores deberian aumentar de nivel si pueden, luego de adqueirir experiencia					ganador.getOwner().aumentarDeNivelSiTieneExperiencia(expPorCombate);
+					perdedor.getOwner().aumentarDeNivelSiTieneExperiencia(expPorCombate);
 					return resultadoDeCombate;
 			
 				});		
@@ -155,24 +155,23 @@ public class BichoService {
 	 * @param entrenador
 	 * @param bicho
 	 * @return	 */
-	public Bicho evolucionar(String entrenador, int bicho) {
-		HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+	public Bicho evolucionar(String entrenador, int idBicho) {
+	//	HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
 
-		Bicho bi;
-		if (puedeEvolucionar(entrenador, bicho)){
-			bi= Runner.runInSession(() -> {
+		Bicho bichoQueEvoluciono;
+		if (puedeEvolucionar(entrenador, idBicho)){
+			bichoQueEvoluciono= Runner.runInSession(() -> {
 					
-						int expPorEvolucionar = puntosDAO.getPuntosDeExperiencia("Evolucion").getPuntaje();
-					
+						int expPorEvolucionar = this.puntosDAO.getPuntosDeExperiencia("Evolucion").getPuntaje();
 						Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
-						Bicho b= this.bichoDAO.getBicho(bicho)	;	
-						Especie esp =b.getEspecie().getEvolucionaA();
-						b.setEspecie(esp);
-						e.aumentarExperiencia(expPorEvolucionar);
-						e.aumentarDeNivelSiTieneExperiencia();
-						return b;
+						Bicho bicho= this.bichoDAO.getBicho(idBicho)	;	
+						Especie esp =bicho.getEspecie().getEvolucionaA();
+						bicho.setEspecie(esp);
+						//e.aumentarExperiencia(expPorEvoluciona);
+						e.aumentarDeNivelSiTieneExperiencia(expPorEvolucionar);
+						return bicho;
 						});
-			return bi;
+			return bichoQueEvoluciono;
 		}
 		else
 			return null;
