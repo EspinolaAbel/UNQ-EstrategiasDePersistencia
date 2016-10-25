@@ -3,6 +3,8 @@ package ar.edu.unq.epers.bichomon.backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
+
 /** Clase  que representa un combate entre dos bichos.
  * 
  * @author Pedro Araoz */
@@ -29,10 +31,11 @@ public class Combate {
 	
 	
 	public ResultadoCombate combatir(){
-	
+		
 		int  numAtaques=0;
 		boolean combTerminado=false;
-		
+		Bicho ganador, perdedor;
+				
 		while (numAtaques<10 && !combTerminado ){
 			Double daño=atacar(retador);
 			this.dañoAcumuladoCampeon+=daño;
@@ -45,7 +48,20 @@ public class Combate {
 				combTerminado=sinEnergia(retador,dañoAcumuladoRetador);
 			}
 			numAtaques++;
-		}
+		}// hasta aqui, solo se realizo  el combate entre  bichos 
+		
+		//ahora realizo las actualizaciones sobre los luchadores que le conciernan  al combate
+		this.actualizLuchadores();
+		perdedor= getPerdedor();
+		ganador= getGanador();
+		ganador.aumentarVictorias();
+		
+		//ahora debo reestablescer campeondel dojo, pero esta responsabilidad le 
+		//corresponde al lugar actualizarla,  
+		
+		
+		
+		
 		return new ResultadoCombate(getGanador(), getPerdedor(), this.ataques);
 	}
 
@@ -71,6 +87,16 @@ public class Combate {
 		return new ResultadoCombate(getGanador(), getPerdedor(), this.ataques);
 	}
 
+	
+	public void actualizLuchadores(){
+		// los bichos debenrecuperar energia
+		
+		this.campeon.recuperarEnergia();
+		this.retador.recuperarEnergia();
+		//el bicho ganador  incrementa su cantidad de victoraias
+//		 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
+		
+	}
 	
 	
 	private Double atacarDummy(Bicho bicho) {

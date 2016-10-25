@@ -73,10 +73,10 @@ public class BichoService {
 	 * @param entrenador - es el nombre del entrenador
 	 * @param bicho - es el identificador del bicho
 	 */
-	public void abandonar(String nombreEntrenador, int idBicho) {
+	public void abandonar(String nombreDelEntrenador, int idBicho) {
 		
 		Runner.runInSession(() -> {
-			Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreEntrenador);
+			Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 			Bicho bicho= this.bichoDAO.getBicho(idBicho)	;	
 			entrenador.abandonarBicho(bicho);
 			
@@ -101,23 +101,28 @@ public class BichoService {
 	 * @param bicho
 	 * @return
 	 */
-	public ResultadoCombate duelo(String entrenador, int bicho) {
+	public ResultadoCombate duelo(String nombreDelEntrenador, int idBicho) {
 			
 		return	Runner.runInSession(() -> {
 			
 		//			HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
 					int expPorCombate =this.puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
-			
 					
-					Entrenador e= this.entrenadorDAO.getEntrenador(entrenador);
-					Bicho bichoRetador= this.bichoDAO.getBicho(bicho)	;	
-					ResultadoCombate resultadoDeCombate =e.getUbicacionActual().combatir(bichoRetador);
+					Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
+					Bicho bichoRetador= this.bichoDAO.getBicho(idBicho)	;	
+
+					ResultadoCombate resultadoDeCombate =entrenador.combatir(bichoRetador,expPorCombate);
+					
+					
+//					ResultadoCombate resultadoDeCombate =e.getUbicacionActual().combatir(bichoRetador);
 					/**
 					 * hasta aca solo se combatio, ahora hay que actualizar
 					 * los valores segun el resultado
 					 */
 					
-					Bicho ganador;
+/**
+ * 					Bicho ganador;
+ 
 					Bicho perdedor;
 					
 					// el dojo debe tner un  nuevo campeon
@@ -132,9 +137,9 @@ public class BichoService {
 					
 					//el bicho ganador  incrementa su cantidad de victoraias
 					 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
-					
-					//los entrenadores deberian aumentar de nivel si pueden, luego de adqueirir experiencia					ganador.getOwner().aumentarDeNivelSiTieneExperiencia(expPorCombate);
+				
 					perdedor.getOwner().aumentarDeNivelSiTieneExperiencia(expPorCombate);
+*/
 					return resultadoDeCombate;
 			
 				});		

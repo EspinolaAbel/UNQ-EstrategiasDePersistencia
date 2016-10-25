@@ -175,5 +175,10 @@ public class Bicho {
 		
 	}
 
+	public void aumentarVictorias() {
+		this.cantidadDeVictorias+=1;
+		
+	}
+
 	
 }

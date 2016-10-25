@@ -180,6 +180,20 @@ public class Entrenador {
 	private boolean puedeAbandonar() {
 		return (this.getBichosCapturados().size()>1);
 	}
+
+	public ResultadoCombate combatir(Bicho bichoRetador, int expPorCombate) {
+
+		ResultadoCombate resultado=	this.getUbicacionActual().combatir(bichoRetador);
+		
+		Entrenador entrenadorGanador= resultado.getGanador().getOwner();
+		entrenadorGanador.aumentarDeNivelSiTieneExperiencia(expPorCombate);
+		
+		Entrenador entrenadorPerdedor= resultado.getPerdedor().getOwner();
+		entrenadorPerdedor.aumentarDeNivelSiTieneExperiencia(expPorCombate);
+		
+		
+		return resultado;
+	}
 	
 	
 }
