@@ -94,13 +94,9 @@ public class Entrenador {
     public void descartarBichoCapturado(Bicho bichoADescartar) {
 		this.bichosCapturados.remove(bichoADescartar);
 		bichoADescartar.setOwner(null);
+		bichoADescartar.setIdUltimoDueño(this.getNombre());
     }	
 	
-    /** Dado un  entrenador , aumenta la  experiencia que tiene segun el valor pasado por árametro
-     * párametro */
-  //  public void aumentarExperiencia(int experiencioaGanada){
-  //  	this.experiencia+=experiencioaGanada;
-  //  }
     
     /** Dado un  entrenador , aumenta la experiencia  en las unidades que se pasan por parametros
      * y si con  el nuevo valor  puede , aumenta el nivel que tiene.
@@ -132,4 +128,58 @@ public class Entrenador {
 		
 		return result;
 	}
+
+	public Bicho buscarBicho(int expPorBusqueda) {
+		
+		Bicho bichoRecuperado=null;
+		
+		if ( this.puedeCapturar()){
+			// el lugar puedo no devolver bichos si no se dan las condiciones adecuadas
+			bichoRecuperado=this.getUbicacionActual().retornarUnBichoDelLugar(this);
+			if (bichoRecuperado!= null){
+				this.agregarBichoCapturado(bichoRecuperado);
+				this.aumentarDeNivelSiTieneExperiencia(expPorBusqueda);
+				bichoRecuperado.setTiempoDesdeSuCaptura(System.nanoTime());
+				}
+			}
+		return bichoRecuperado;
+			
+	}
+	
+	public boolean puedeCapturar(){
+		return (this.getBichosCapturados().size() <  this.getNivelActual().getMaxCantidadDeBichos());
+		
+	}
+
+	/**
+	 * Evoluciona un bicho de su  coleccion, el bicjo debe estar en condiciones de evolucionr 
+	 * @param expPorEvolucionar
+	 */
+	public void evolucionarBicho(int expPorEvolucionar, Bicho bichoAEvolucionar) {
+		
+		bichoAEvolucionar.evolucionar();
+		this.aumentarDeNivelSiTieneExperiencia(expPorEvolucionar);
+		
+	}
+/**
+ * el entrenador abandona un bicho de su lista, 
+ * precondicion :el bicho debe pertenecerle 
+ * @param bicho
+ */
+	public void abandonarBicho(Bicho bicho) {
+		if (this.puedeAbandonar()){
+			this.getUbicacionActual().recibirBichoAbandonado(bicho);
+			this.descartarBichoCapturado(bicho);
+		}
+	}
+
+	/**
+	 * un entrenador puede abandonar un  bicho solo si no se queda sin ninguno
+	 * @return
+	 */
+	private boolean puedeAbandonar() {
+		return (this.getBichosCapturados().size()>1);
+	}
+	
+	
 }

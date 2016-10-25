@@ -28,8 +28,8 @@ public class Busqueda {
 	}
 	
 	/** Devuelve un bicho de un lugar según las reglas  establecidas. */
-	public Bicho obtenerBicho(Lugar lugar){
-		return lugar.retornarUnBichoDelLugar();
+	public Bicho obtenerBicho(Entrenador entrenador){
+		return entrenador.getUbicacionActual().retornarUnBichoDelLugar(entrenador);
 	}
 		
 		

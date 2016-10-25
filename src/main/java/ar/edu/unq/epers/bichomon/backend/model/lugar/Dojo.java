@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Combate;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**
@@ -42,11 +43,17 @@ public class Dojo extends Lugar {
 		this.campeonActual= new CampeonHistorico(this, bicho);
 	}
 
+	public boolean hayCampeon(){
+		return this.campeonActual!=null;
+	}
+	
 	/** Devuelve un bicho sin dueño */
 	@Override
-	public Bicho retornarUnBichoDelLugar() {
-		Bicho bicho = this.getCampeonActual().getBichoCampeon();
-		return (new Bicho(bicho.getEspecie().dameRaiz()));
+	public Bicho retornarUnBichoDelLugar(Entrenador entrenador) {
+		
+		if (hayCampeon()){
+			Bicho bichoCampeon = this.getCampeonActual().getBichoCampeon();
+			return (new Bicho(bichoCampeon.getEspecie().dameRaiz()));
+			}else return null;
 	}
-
 }

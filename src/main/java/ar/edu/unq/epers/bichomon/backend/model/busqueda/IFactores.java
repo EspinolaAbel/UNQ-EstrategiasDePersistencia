@@ -15,6 +15,7 @@ public interface IFactores {
 	public double factorPoblacion (Lugar pueblo);
 	
 	public double factorNivel (Entrenador entreneador);
+	public boolean busquedaExitosa();
 	
 	
 }

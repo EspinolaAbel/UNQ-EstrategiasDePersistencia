@@ -6,6 +6,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**@author pa*/
@@ -28,7 +29,7 @@ public abstract class Lugar {
 
 	public abstract ResultadoCombate combatir(Bicho bicho) throws UbicacionIncorrectaException ;
 
-	public abstract Bicho retornarUnBichoDelLugar();
+	public abstract Bicho retornarUnBichoDelLugar(Entrenador entrenador);
 	
 	public String  getNombre(){
 		return this.nombre;

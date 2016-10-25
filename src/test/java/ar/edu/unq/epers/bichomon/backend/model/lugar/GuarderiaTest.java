@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 
 public class GuarderiaTest {
@@ -35,13 +36,55 @@ public class GuarderiaTest {
 		int i;
 		for(i=1; i<=5; i++) {
 			Bicho b = new Bicho(new Especie());
+			//pongo un nombre de ultimo dueño
+			b.setIdUltimoDueño("Ninguno");
 			b.setId(i);
 			guarderia.recibirBichoAbandonado(b);
 		}
-			
-		Bicho bichoObtenido = guarderia.retornarUnBichoDelLugar();
+		Entrenador entrenadorTest = new Entrenador("entrenadorDeTest");	
+		Bicho bichoObtenido = guarderia.retornarUnBichoDelLugar(entrenadorTest);
 		
 		assertFalse(guarderia.getBichosAbandonados().contains(bichoObtenido));
 	}
+	
+	/** Dada una un Entrenador y una guarderia con bichos abandonados,los cuales fuero suyos con anterioridad
+	 *  pidoUnbichoDelLugar y compruebo que no me devuelve ninguno. */
+	@Test
+	public void dadaUnaGuarderiaYUnEntrenadorNoObtengoUnBichoAbandonadoEnEsteLugarPorQiueTodosLePertenecieronAnteriormente(){
+		int i;
+		for(i=1; i<=5; i++) {
+			Bicho b = new Bicho(new Especie());
+			//pongo un nombre de ultimo dueño
+			b.setIdUltimoDueño("entrenadorDeTest");
+			b.setId(i);
+			guarderia.recibirBichoAbandonado(b);
+		}
+		Entrenador entrenadorTest = new Entrenador("entrenadorDeTest");	
+		Bicho bichoObtenido = guarderia.retornarUnBichoDelLugar(entrenadorTest);
+		
+		assertNull(bichoObtenido);
+	}
+
+	/** Dada una un Entrenador y una guarderia con bichos abandonados,los cuales fuero suyos con anterioridad, 
+	 * salvo el ultimo, pidoUnbichoDelLugar y compruebo que me devuelve el ultimo con id 5. */
+	@Test
+	public void dadaUnaGuarderiaYUnEntrenadorObtengoElUnicoBichoAbandonadoEnEsteLugarPorQiueElRestoLePertenecieronAnteriormente(){
+		int i;
+		for(i=1; i<=5; i++) {
+			Bicho b = new Bicho(new Especie());
+			//pongo un nombre de ultimo dueño
+			b.setIdUltimoDueño("entrenadorDeTest");
+			b.setId(i);
+			if (i==5)
+				{b.setIdUltimoDueño("ninguno");}
+			guarderia.recibirBichoAbandonado(b);
+		}
+		Entrenador entrenadorTest = new Entrenador("entrenadorDeTest");	
+		Bicho bichoObtenido = guarderia.retornarUnBichoDelLugar(entrenadorTest);
+		
+		assertNotNull(bichoObtenido);
+		assertEquals(bichoObtenido.getId(),5);
+	}
+
 	
 }

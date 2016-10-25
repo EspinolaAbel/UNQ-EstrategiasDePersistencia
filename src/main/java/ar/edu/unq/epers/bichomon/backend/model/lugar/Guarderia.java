@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 /**@author pa*/
@@ -42,18 +43,40 @@ public class Guarderia extends Lugar {
 	 * de esta guardería.
 	 * @return {@link Bicho} que fue abandonado en la guardería. */
 	@Override
-	public Bicho retornarUnBichoDelLugar() {
-		// este número va del 0 a (this.getBichosAbandonados.size() - 1)
-		Integer posicionAlAzarDeLaListaDeBichos = (int) (Math.random() * this.getBichosAbandonados().size());
-	
-		Bicho bichoRecuperado = this.getBichosAbandonados().get(posicionAlAzarDeLaListaDeBichos);
-		this.getBichosAbandonados().remove(bichoRecuperado);
+	public Bicho retornarUnBichoDelLugar(Entrenador entrenador) {
 		
+		Bicho bichoRecuperado= null;
+		List <Bicho> bichosFiltrados = descartarExBichosDelEntrenador(entrenador);
+
+		if (!bichosFiltrados.isEmpty()){
+			// este número va del 0 a (this.getBichosAbandonados.size() - 1)
+			Integer posicionAlAzarDeLaListaDeBichos = (int) (Math.random() * bichosFiltrados.size());
+			bichoRecuperado = bichosFiltrados.get(posicionAlAzarDeLaListaDeBichos);
+			this.getBichosAbandonados().remove(bichoRecuperado);
+			}
 		return bichoRecuperado;
 	}
 	
 	public List<Bicho> getBichosAbandonados() {
 		return this.bichosAbandonados;
 	}
+	
+	
+	/**
+	 * este metodo filtra los bichos de la lista de bichos abandonados cuyo ultimo duenño  es el pasado 
+	 * por parametro. como resultado se devuelve una lista de bichos los cuales  el entrenador puede capturar
+	 * @param entrenadorAFiltrar
+	 * @return
+	 */
+	 public List<Bicho> descartarExBichosDelEntrenador(Entrenador entrenadorAFiltrar ){
+		 
+		 List <Bicho> listaDeBichosFiltrados= new ArrayList <Bicho>();
+		 for (Bicho b : this.bichosAbandonados){
+			 if (b.getIdUltimoDueño()!=entrenadorAFiltrar.getNombre()){
+				 listaDeBichosFiltrados.add(b);
+			 	}
+		 	}
+		 return listaDeBichosFiltrados;
+	 }
 
 }

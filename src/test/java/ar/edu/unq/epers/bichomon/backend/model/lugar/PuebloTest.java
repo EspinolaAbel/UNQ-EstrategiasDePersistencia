@@ -14,6 +14,7 @@ public class PuebloTest {
 
 	@Before
 	public void setUp() throws Exception {
+		//el pueblp se  crea con la lista de speciesConProbabilidad vacia
 		this.pueblo = new Pueblo("PuebloGenerico"); 
 	}
 
@@ -31,5 +32,14 @@ public class PuebloTest {
 		catch(UbicacionIncorrectaException e) {
 			assertEquals(e.getMessage(), "En el lugar \""+pueblo.getNombre()+"\" no se permite abandonar bichos.");
 		}
+	}
+	
+	/**
+	 * retornarBichoDelLugarDevuelve nul si la lista de especie esta vacia mo en su defecto devuelve un bicho 
+	 * segun sea sorteado
+	 */
+	@Test 
+	public void dadoUnPuebloSinEspeciesConProbabilidadNoDevuelveBichos(){
+		assertNull(this.pueblo.retornarUnBichoDelLugar(null));// no le paso ningun entrenador  xq no lo presisisa
 	}
 }

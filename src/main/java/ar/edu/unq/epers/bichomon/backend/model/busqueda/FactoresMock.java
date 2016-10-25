@@ -6,8 +6,7 @@ import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 public class FactoresMock implements IFactores {
 /**
  * Esta clase se utiliza para dar una implementacion mock a la interface IFactores de busqueda,
- *  todos  factores devolveran "1" y con esto, dada la caractereistica de las busquedas, 
- *   la  prbabilidad de que una busqueda sea  exitosa sera del 50%
+ *  todos  factores devolveran "1" y la busqueda exitosa devolvera  true.
  * 
  */
 	public FactoresMock() {
@@ -30,6 +29,12 @@ public class FactoresMock implements IFactores {
 	public double factorNivel(Entrenador entreneador) {
 		// TODO Auto-generated method stub
 		return 1;
+	}
+
+	@Override
+	public boolean busquedaExitosa() {
+		
+		return true;
 	}
 
 }

@@ -23,6 +23,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Nivel;
 import ar.edu.unq.epers.bichomon.backend.model.PuntosDeExperiencia;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.model.busqueda.FactoresMock;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnEnergia;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnNivel;
 import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionBasadaEnVictorias;
@@ -168,8 +169,8 @@ public class BichoServiceTest {
 			
 			return null;
 		});
-		
-		this.bichoService = new BichoService(entrenadorDAO, bichoDAO,puntajesDAO);
+		//utilizo factores mock que devuelve siempre una  busqueda exitosa
+		this.bichoService = new BichoService(entrenadorDAO, bichoDAO,puntajesDAO,new FactoresMock());
 	}
 	
 	@After

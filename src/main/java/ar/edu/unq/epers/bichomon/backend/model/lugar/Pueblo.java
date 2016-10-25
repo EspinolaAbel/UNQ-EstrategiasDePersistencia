@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
+import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 
 
@@ -54,11 +55,20 @@ public class Pueblo extends Lugar {
 	public List <EspecieConProbabilidad> getEspecies(){
 		return this.especies;
 	}
-
+	/**
+	 * devuelve un bicho del lugar, lo devuelve sin dueño.
+	 */
 	@Override
-	public Bicho retornarUnBichoDelLugar() {
-		SorteoEspecies sorteo= new SorteoEspecies(this.especies);
-		return  new Bicho( sorteo.sortearEspecie(this.especies).getEspecie() );
+	public Bicho retornarUnBichoDelLugar(Entrenador entrenador) {
+		// la lista de especies  siempre esta inicializada, 
+		// si la lista de especies esta vacia devuelve null
+		if (this.especies.isEmpty()){
+			return null;
+			}
+			else{
+				SorteoEspecies sorteo= new SorteoEspecies(this.especies);
+				return  new Bicho( sorteo.sortearEspecie(this.especies).getEspecie() );
+					}	
 	}
 
 	

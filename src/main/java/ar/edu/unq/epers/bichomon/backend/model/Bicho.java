@@ -33,8 +33,7 @@ public class Bicho {
 	private int energia;
 	private long tiempoDesdeSuCaptura;
 	private int cantidadDeVictorias;
-	
-	
+	private String idUltimoDueño;
 	
 	public Bicho() {
 		super();
@@ -149,5 +148,32 @@ public class Bicho {
 		
 		return result;
 	}
+
+	public void setIdUltimoDueño(String idUltimoDueño) {
+		this.idUltimoDueño=idUltimoDueño;
+		
+	}
+
+	public String getIdUltimoDueño() {
+		
+		return this.idUltimoDueño;
+	}
+
+	public boolean puedeEvolucionar(){
+		return this.getEspecie().puedeEvolucionar(this);
+		
+		
+	}
+	
+	/**
+	 *evoluciona el bicho, 
+	 *precondicion , el bicho puede evolucionar   
+	 */
+	public void evolucionar() {
+		Especie esp =this.getEspecie().getEvolucionaA();
+		this.setEspecie(esp);
+		
+	}
+
 	
 }

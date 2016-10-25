@@ -49,9 +49,19 @@ public class DojoTest {
 		especieEvolucionada.setRaiz(especieRaiz);		
 		Bicho bichoCampeon = new Bicho(especieEvolucionada);		
 		dojo.setCampeonActual(bichoCampeon);
-		
-		Bicho bichoDelLugar = dojo.retornarUnBichoDelLugar();
+		// no necesita el enrenador 
+		Bicho bichoDelLugar = dojo.retornarUnBichoDelLugar(null);
 		
 		assertEquals(bichoDelLugar.getEspecie().getNombre(), "EspecieRaiz");
+	}
+	
+	
+	@Test 
+	public void testHayCampeon(){
+		Dojo dojo = new Dojo();
+		assertNull(dojo.getCampeonActual());
+		
+		dojo.setCampeonActual(null);
+		assertNotNull(dojo.getCampeonActual());
 	}
 }
