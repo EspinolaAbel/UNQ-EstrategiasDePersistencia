@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ public class Especie {
 	private String nombre;
 	private int altura;
 	private int peso;
+	@Column(columnDefinition="varchar(20)")
 	private TipoBicho tipo;
 	private int energiaInicial;
 	private String urlFoto;
@@ -38,7 +40,7 @@ public class Especie {
 	
 	
 	public Especie(){
-//		super();
+		super();
 	}
 
 	public Especie(String nombre, TipoBicho tipo) {
@@ -70,7 +72,6 @@ public class Especie {
 	public Integer getAltura() {
 		return this.altura;
 	}
-	
 	public void setAltura(int altura) {
 		this.altura = altura;
 	}
@@ -80,7 +81,6 @@ public class Especie {
 	public Integer getPeso() {
 		return this.peso;
 	}
-	
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
@@ -91,7 +91,6 @@ public class Especie {
 	public String getUrlFoto() {
 		return this.urlFoto;
 	}
-	
 	public void setUrlFoto(String urlFoto) {
 		this.urlFoto = urlFoto;
 	}
@@ -102,7 +101,6 @@ public class Especie {
 	public Integer getEnergiaInicial() {
 		return this.energiaInicial;
 	}
-	
 	public void setEnergiaInicial(int energiaInicial) {
 		this.energiaInicial = energiaInicial;
 	}
@@ -112,7 +110,6 @@ public class Especie {
 	public TipoBicho getTipo() {
 		return this.tipo;
 	}
-	
 	public void setTipo(TipoBicho tipo) {
 		this.tipo = tipo;
 	}
@@ -123,17 +120,13 @@ public class Especie {
 	public Integer getCantidadBichos() {
 		return this.cantidadBichos;
 	}
-	
 	public void setCantidadBichos(int i) {
 		this.cantidadBichos = i;
 	}
 	
-	
-	
 	public List<CondicionDeEvolucion> getCondicionesDeEvolucion() {
 		return condicionesDeEvolucion;
 	}
-
 	public void setCondicionesDeEvolucion(List<CondicionDeEvolucion> condicionesDeEvolucion) {
 		this.condicionesDeEvolucion = condicionesDeEvolucion;
 	}
@@ -141,12 +134,20 @@ public class Especie {
 	public Especie getRaiz() {
 		return this.raiz;
 	}
-	
 	public void setRaiz(Especie especieRaiz) {
 		this.raiz = especieRaiz;
 	}
+	
+	
+	/** Retorna un nuevo {@link Bicho} de esta especie y se actualiza la cantidad de
+	 * bichos de esta especie. */
+	public Bicho crearBichoConNombre(String nombreBicho) {
+		Bicho nuevoBicho = new Bicho(this, nombreBicho);
+		this.setCantidadBichos(this.getCantidadBichos() + 1);
+		return nuevoBicho;
+	}
+	
 
-	//TODO
 	public Especie dameRaiz (){
 		return this.raiz;
 	}
@@ -154,7 +155,6 @@ public class Especie {
 	public Especie getEvolucionaA() {
 		return this.evolucionaA;
 	}
-	
 	public void setEvolucionaA(Especie evolucion) {
 		this.evolucionaA = evolucion;
 	}
@@ -180,6 +180,7 @@ public class Especie {
 	}
 	
 	
+	
 	@Override
 	public boolean equals(Object o) {
 		if(this == o) return true;
@@ -199,7 +200,6 @@ public class Especie {
 		result =	num * result + this.nombre.hashCode();
 		
 		return result;
-	}
-	
+	}	
 	
 }

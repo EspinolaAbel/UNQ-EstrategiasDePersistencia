@@ -1,11 +1,11 @@
 package ar.edu.unq.epers.bichomon.backend.service.data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.ConnectionBlock;
+import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.JDBCEspecieDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.Runner;
+import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 
 /**
@@ -13,15 +13,12 @@ import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
  * */
 public class EspecieDataServiceImpl implements DataService {
 
-	/**
-	 * Se eliminan todos las filas de la tabla Especie de mi base de datos que hayan sido cargados por el método crearSetDatosIniciales
-	 * de la clase EspecieDataServiceImpl.
-	 * 
-	 * @author Abel Espínola*/
+	/** Se eliminan todas las filas de la tabla "Especies" de la base de datos ejecutando una
+	 * query JDBC. */
 	@Override
 	public void eliminarDatos() {
-		this.executeWithConnection(conn -> {
-			String sql = "DELETE FROM Especie WHERE nombre LIKE 'XXXX-XXX%'";
+		Runner.executeWithConnection(conn -> {
+			String sql = "DELETE FROM Especies";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.execute();
@@ -32,83 +29,27 @@ public class EspecieDataServiceImpl implements DataService {
 	}
 
 	/**
-	 * Este método tiene como función cargar un set filas en mi tabla Especie de mi base de datos con el único fin de poder
+	 * Este método tiene como función cargar un set filas en mi tabla Especies de mi base de datos con el único fin de poder
 	 * realizar testeos sobre ella.
-	 * Todos los nombres de Especies en mis filas ingresadas empiezan con el patrón 'XXXX-XXX' y terminan con un número del 0-9.
-	 * Todos los campos numéricos están cargados con el número 9999.
-	 * El TipoBicho elegido para todas las Especies ingresadas por este método es AGUA.
-	 * El campo url_foto esta seteado con el String '--URL NO EXISTENTE--'
-	 * 
-	 * @author Abel Espínola*/
+	 * - Todos los nombres de Especies en mis filas ingresadas empiezan con el patrón 'XXXX-XXX' y terminan con un número del 0-9.
+	 * - Todos los campos numéricos están cargados con el número 9999.
+	 * - El TipoBicho elegido para todas las Especies ingresadas por este método es AGUA.
+	 * - El campo urlFoto esta seteado con el String '--URL NO EXISTENTE--' */
 	@Override
 	public void crearSetDatosIniciales() {
-		this.executeWithConnection(conn -> {
-			Integer i;
-			String sql = "INSERT INTO "
-					+ "Especie (nombre, tipo, altura, peso, cantidad_de_bichos, energia_inicial, url_foto)"
-					+ "VALUES(?,?,?,?,?,?,?)";
-			PreparedStatement ps = null;
+		EspecieDAO especieDAO = new JDBCEspecieDAO();
+		Especie especieTest;
+		for(int i=0; i<10; i++) { 
+			especieTest = new Especie("XXXX-XXX"+i, TipoBicho.AGUA);
+			especieTest.setAltura(9999);
+			especieTest.setCantidadBichos(9999);
+			especieTest.setEnergiaInicial(9999);
+			especieTest.setPeso(9999);
+			especieTest.setUrlFoto("--URL NO EXISTENTE--");
 			
-			for(i=0; i<10; i++) { 
-				ps = conn.prepareStatement(sql);
-				ps.setString(1, "XXXX-XXX"+i);
-				ps.setString(2, TipoBicho.AGUA.toString());
-				ps.setInt(3, 9999);
-				ps.setInt(4, 9999);
-				ps.setInt(5, 9999);
-				ps.setInt(6, 9999);
-				ps.setString(7, "--URL NO EXISTENTE--");
-				
-				ps.execute();
-				ps.close();
-			}
-			
-			return null;
-		});
-		
-	}
-	
-	
-	
-	
-	/**
-	 * Ejecuta un bloque de código contra una conexión.
-	 */
-	private <T> T executeWithConnection(ConnectionBlock<T> bloque) {
-		Connection connection = this.openConnection("jdbc:mysql://localhost:3307/Bichomon?user=root&password=root&useSSL=false");
-		try {
-			return bloque.executeWith(connection);
-		} catch (SQLException e) {
-			throw new RuntimeException("Error no esperado", e);
-		} finally {
-			this.closeConnection(connection);
-		}
-	}
-	
-	
-	/**
-	 * Establece una conexión a la url especificada
-	 * @param url - la url de conexión a la base de datos
-	 * @return la conexión establecida
-	 */
-	private Connection openConnection(String url) {
-		try {
-			return DriverManager.getConnection(url);
-		} catch (SQLException e) {
-			throw new RuntimeException("No se puede establecer una conexion", e);
+			especieDAO.saveEspecie(especieTest);
 		}
 	}
 
-	/**
-	 * Cierra una conexion con la base de datos (libera los recursos utilizados por la misma)
-	 * @param connection - la conexion a cerrar.
-	 */
-	private void closeConnection(Connection connection) {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			throw new RuntimeException("Error al cerrar la conexion", e);
-		}
-	}
 	
 }

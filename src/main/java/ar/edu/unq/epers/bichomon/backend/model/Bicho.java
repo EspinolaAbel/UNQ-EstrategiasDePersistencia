@@ -41,11 +41,11 @@ public class Bicho {
 	
 	public Bicho(Especie especie){
 		this();
-		this.especie=especie;	
+		this.setEspecie(especie);	
 	}
 	
 	public Bicho(Especie especie, String nombre) {
-		this.especie = especie;
+		this(especie);
 		this.nombre = nombre;
 	}
 

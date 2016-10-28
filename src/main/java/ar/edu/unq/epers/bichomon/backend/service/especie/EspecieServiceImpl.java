@@ -20,11 +20,7 @@ public class EspecieServiceImpl implements EspecieService {
 	
 	public EspecieServiceImpl(){
 		especieDAO = new JDBCEspecieDAO();
-		/**
-		 *	esto solo establece  la conexion debereia 
-		 *  puede lanzar  RuntimeExeption, deberia  manejar la excepcion?
-		 **/
-		}	
+	}	
 	
 	
 	/**
@@ -40,15 +36,8 @@ public class EspecieServiceImpl implements EspecieService {
 	 */
 	@Override
 	public void crearEspecie(Especie especie) {
-		 
-			 
-			 	this.especieDAO.saveEspecie(especie);
-			 	
-		
+	 	this.especieDAO.saveEspecie(especie);
 	}
-	
-	
-	
 	
 
 	/**
@@ -60,31 +49,20 @@ public class EspecieServiceImpl implements EspecieService {
 	 * @param nombreEspecie - el nombre de la especie que se busca
 	 * @return la especie encontrada
 	 * @throws la excepción {@link EspecieNoExistente} (no chequeada)
-	 * @author Pedro Araoz
-	 */
-	
-		@Override
+	 * @author Pedro Araoz */
+	@Override
 	public Especie getEspecie(String nombreEspecie) {
-			
-			// el DAO get especie deberia devolver null si la especie no existe
-			Especie especieControl=this.especieDAO.getEspecie(nombreEspecie);
-			return especieControl;
-				
+		return this.especieDAO.getEspecie(nombreEspecie);
 	}
 
 		
 
-	/**
-	 * @return una lista de todas los objetos {@link Especie} existentes ordenados
+	/**@return una lista de todas los objetos {@link Especie} existentes ordenados
 	 * @author Pedro Araoz
 	 * 
-	 * alfabéticamente por su nombre en forma ascendente
-	 */
+	 * alfabéticamente por su nombre en forma ascendente */
 	@Override
 	public List<Especie> getAllEspecies() {
-
-		// el DAO get especie deberia devolver null si la especie no existe
-		// y la lista deberia estar ordenada, 
 		List<Especie> especiesControl=this.especieDAO.getAllEspecies();
 		return especiesControl;
 	}
@@ -102,36 +80,13 @@ public class EspecieServiceImpl implements EspecieService {
 	 * @param nombreEspecie - el nombre de la especie del bicho a crear
 	 * @param nombreBicho - el nombre del bicho a ser creado
 	 * @return un objeto {@link Bicho} instanciado
-	 * @author Pedro Araoz
-	 */
-
+	 * @author Pedro Araoz */
 	@Override
 	public Bicho crearBicho(String nombreEspecie, String nombreBicho) {
-		Especie especieControl=null;
-		
-		//obtener la especie 
-		// el DAO get especie deberia devolver null si la especie no existe
-		
-		try{
-		   especieControl=this.especieDAO.getEspecie(nombreEspecie);
-		   especieControl.setCantidadBichos(especieControl.getCantidadBichos()+1);
-		   this.especieDAO.updateEspecie(especieControl);
-		   return new Bicho(especieControl, nombreBicho);
-		   
-		} catch(EspecieNoExistenteException e) {//OJO porque esto no lanza esta exepcion, lanza runtime 
-			throw new RuntimeException("La especie del bicho no existe.");
-//					{especieControl= new Especie(); //faltaria determinar el tipo de bicho que es
-//					 especieControl.setNombre(nombreEspecie);
-//					 especieControl.setCantidadBichos(0);// lo inicializo con cero xq despues actualzo 
-//					 this.especieDAO.saveEspecie(especieControl);
-		}
-		   
-		   // si no esta , la creo
-		//si esta actualizo el contador
-		
-						// this.especieDAO.updateEspecie(especieControl); //deberia haber algun tipo de apdate
-		         //para persistir la modificacion
-		
+		Especie especie = this.especieDAO.getEspecie(nombreEspecie);
+		Bicho nuevoBicho = especie.crearBichoConNombre(nombreBicho);
+		this.especieDAO.updateEspecie(especie);
+		return nuevoBicho;
 	}
 
 }
