@@ -27,6 +27,8 @@ public class Entrenador {
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="owner", fetch=FetchType.EAGER)
 	private List<Bicho> bichosCapturados;
+	
+	private int monedas;
 
 	
 	
@@ -78,8 +80,15 @@ public class Entrenador {
 	public List<Bicho> getBichosCapturados() {
 		return this.bichosCapturados;
 	}
-
 	
+	public int getMonedas() {
+		return monedas;
+	}
+
+	public void setMonedas(int monedas) {
+		this.monedas = monedas;
+	}
+
 	/** Dado un {@link Bicho} se lo agrega a la lista de bichos capturados del entrenador.
      * Este método también agrega a este entrenador como el owner del bicho.
 	 * @param bichoCapturado - {@link Bicho} capturado a agregar a la lista de bichos capturados. */
@@ -193,6 +202,12 @@ public class Entrenador {
 		
 		
 		return resultado;
+	}
+	
+	/** Se agregan monedas al entrenador.
+	 * @param cantMonedas - cantidad de monedas que se agregaran al entrenador.*/
+	public void agregarMonedas(int cantMonedas) {
+		this.monedas = this.monedas + cantMonedas;
 	}
 	
 	

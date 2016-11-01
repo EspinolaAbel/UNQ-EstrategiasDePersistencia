@@ -2,6 +2,9 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
@@ -126,6 +129,26 @@ public class MapaServiceTest {
 	}
 
 
+	@Test
+	public void intentoMoverUnEntrenadorAUnaUbicacionQuePuedePagarLoMuevoYComprueboQueSeHayaMovidoCorrectamente() {
+		//SETEO EL ENTORNO DEL TEST
+		LugarDAO lugarDAO = new LugarFakeDAO();
+		EntrenadorDAO entrenadorDAO = new EntrenadorDummyDAO();
+		Lugar partida = new Dojo("Tibet Dojo");
+		Lugar destFinal = new Pueblo("Lagartolandia");
+		lugarDAO.saveLugar(destFinal);
+		this.crearGrafoEnBaseDeDatos();
+		
+		//TEST
+		MapaService mapaService = new MapaService(null, lugarDAO);
+		Entrenador entrenador = new Entrenador("EntrenadorTest");
+		entrenador.agregarMonedas(100);
+		
+		mapaService.moverMasCorto("EntrenadorTest", "Lagartolandia");
+		
+		assertEquals(entrenador.getUbicacionActual(), destFinal);
+	}
+	
 	
 //MÉTODOS AUXILIARES PARA TESTS	
 	
@@ -161,5 +184,105 @@ public class MapaServiceTest {
 			this.entrenadorDAO.saveEntrenador(e);
 		}
 	}
+	
+	private void crearGrafoEnBaseDeDatos() {
+		MapaService mapaSvc = new MapaService(null, new Neo4jLugarDAO());
+		
+		Lugar stBlah = new Guarderia("St. Blah");
+		Lugar plantalandia = new Pueblo("Plantalandia");
+		Lugar agualandia = new Pueblo("Agualandia");
+		Lugar lagartolandia = new Pueblo("Lagartolandia");
+		Lugar tibetDojo = new Dojo("Tibet Dojo");
+		Lugar bicholandia = new Pueblo("bicholandia");
+		
+		mapaSvc.crearUbicacion(stBlah);
+		mapaSvc.crearUbicacion(plantalandia);
+		mapaSvc.crearUbicacion(agualandia);
+		mapaSvc.crearUbicacion(lagartolandia);
+		mapaSvc.crearUbicacion(tibetDojo);
+		mapaSvc.crearUbicacion(bicholandia);
+		
+		mapaSvc.conectar("St. Blah", "Agualandia", "terrestre");
+		mapaSvc.conectar("St. Blah", "Plantalandia", "aereo");
+		
+		mapaSvc.conectar("Plantalandia", "Agualandia", "maritimo");
+		
+		mapaSvc.conectar("Agualandia", "St. Blah", "terrestre");
+		mapaSvc.conectar("Agualandia", "Plantalandia", "maritimo");
+		mapaSvc.conectar("Agualandia", "Bicholandia", "maritimo");
+		mapaSvc.conectar("Agualandia", "Lagartolandia", "maritimo");
+		
+		mapaSvc.conectar("Lagartolandia", "Agualandia", "maritimo");
+		mapaSvc.conectar("Lagartolandia", "Bicholandia", "terrestre");
+		
+		mapaSvc.conectar("Tibet Dojo", "Plantalandia", "terrestre");
+		mapaSvc.conectar("Tibet Dojo", "Bicholandia", "aereo");
+		
+		mapaSvc.conectar("Bicholandia", "Tibet Dojo", "aereo");
+		mapaSvc.conectar("Bicholandia", "Lagartolandia", "terrestre");
+	}
 
+}
+
+//TEST DOUBLES:
+
+/** Finge ser un dao con conexión a una base de datos.*/
+class LugarFakeDAO implements LugarDAO {
+	
+	List<Lugar> repoLugares = new ArrayList<Lugar>();
+	
+	@Override
+	public void saveLugar(Lugar lugar) {
+		this.repoLugares.add(lugar);
+	}
+
+	@Override
+	public Lugar getLugar(String nombre) {
+		for(Lugar each: this.repoLugares) {
+			if(each.getNombre().equals(nombre))
+				return each;
+		}
+		return null;
+	}
+
+	@Override
+	public Bicho getBichoCampeonActualDelDojo(String nombreDojo) {
+		return null;
+	}
+
+	@Override
+	public Bicho getCampeonHistoricoDelDojo(String dojoNombre) {
+		return null;
+	}	
+}
+
+class EntrenadorDummyDAO implements EntrenadorDAO {
+	
+	Entrenador entrenador;
+
+	@Override
+	public void saveEntrenador(Entrenador entrenador) {
+		this.entrenador = entrenador;
+	}
+
+	@Override
+	public Entrenador getEntrenador(String nombre) {
+		return this.entrenador;
+	}
+
+	@Override
+	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {
+		return 0;
+	}
+
+	@Override
+	public List<Entrenador> getEntrenadoresConBichosCampeones() {
+		return null;
+	}
+
+	@Override
+	public List<Entrenador> getLideres() {
+		return null;
+	}
+	
 }

@@ -11,8 +11,16 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
 public class MapaService {
 
+	private LugarDAO lugarDAO;
+	private EntrenadorDAO enternadorDAO;
+
 	public MapaService() {
 		super();
+	}
+	
+	public MapaService(EntrenadorDAO entDAO, LugarDAO lugDAO) {
+		this.lugarDAO = lugDAO;
+		this.enternadorDAO = entDAO;
 	}
 
 	/** Dado los nombres de un {@link Entrenador} y un {@link Lugar} persistidos en mi BBDD, se cambiará
@@ -63,5 +71,29 @@ public class MapaService {
 		return Runner.runInSession(() -> {
 			return lugarDAO.getCampeonHistoricoDelDojo(nombreDojo);
 		});
+	}
+	
+	public void moverMasCorto(String nombreEntrenador, String nombreUbicacion) {
+		Entrenador entrenador;
+		Lugar destino;
+		
+		//(1)recupero al entrenador y el lugar destino.
+		Runner.runInSession(()->{
+			entrenador = this.entrenadorDAO.getEntrenador(nombreEntrenador);
+			destino = this.lugarDAO.getLugar(nombreUbicacion);
+			return null;
+		});
+		
+		//(2)obtengo el nombre de la ubicación actual del entrenador
+		
+		
+		//(3)con el nombre de la ubicacion actual calculo el costo dde moverse a la ubicacion nueva
+		//(4)si el entrenador puede pagar el costo de moverse
+		if(entrenador.getMonedas() >= this.costoDelViaje(entrenador.getUbicacionActual().getNombre(), nombreUbicacion))
+			System.out.println();
+			//-(6) se setea al entrenador la nueva ubicacion
+			//-(7) se el cobra al entrenador el costo del viaje
+		else
+			throw new RuntimeException();
 	}
 }
