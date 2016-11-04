@@ -1,10 +1,12 @@
-package ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc;
+package ar.edu.unq.epers.bichomon.backend.service.runner;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Runner  {
+import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.ConnectionBlock;
+
+public class RunnerJDBC  {
 
 	/** Ejecuta un bloque de código contra una conexión. */
 	public static <T> T executeWithConnection(ConnectionBlock<T> bloque) {

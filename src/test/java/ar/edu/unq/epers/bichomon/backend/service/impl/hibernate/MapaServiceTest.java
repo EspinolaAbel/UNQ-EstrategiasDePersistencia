@@ -137,12 +137,12 @@ public class MapaServiceTest {
 		Lugar partida = new Dojo("Tibet Dojo");
 		Lugar destFinal = new Pueblo("Lagartolandia");
 		lugarDAO.saveLugar(destFinal);
-		this.crearGrafoEnBaseDeDatos();
+		this.crearGrafoEnBaseDeDatos();//TODO: crear grafo dedicado para este test.
 		
 		//TEST
-		MapaService mapaService = new MapaService(null, lugarDAO);
+		MapaService mapaService = new MapaService(entrenadorDAO, lugarDAO);
 		Entrenador entrenador = new Entrenador("EntrenadorTest");
-		entrenador.agregarMonedas(100);
+		entrenador.agregarMonedas(100);//TODO: setear las monedas en el costo real de viaje. 
 		
 		mapaService.moverMasCorto("EntrenadorTest", "Lagartolandia");
 		
@@ -246,14 +246,9 @@ class LugarFakeDAO implements LugarDAO {
 	}
 
 	@Override
-	public Bicho getBichoCampeonActualDelDojo(String nombreDojo) {
-		return null;
-	}
-
+	public Bicho getBichoCampeonActualDelDojo(String nombreDojo) {return null;}
 	@Override
-	public Bicho getCampeonHistoricoDelDojo(String dojoNombre) {
-		return null;
-	}	
+	public Bicho getCampeonHistoricoDelDojo(String dojoNombre) {return null;}	
 }
 
 class EntrenadorDummyDAO implements EntrenadorDAO {
@@ -271,18 +266,10 @@ class EntrenadorDummyDAO implements EntrenadorDAO {
 	}
 
 	@Override
-	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {
-		return 0;
-	}
-
+	public int getCantidadDeEntrenadoresUbicadosEnLugar(String nombreLugar) {return 0;}
 	@Override
-	public List<Entrenador> getEntrenadoresConBichosCampeones() {
-		return null;
-	}
-
+	public List<Entrenador> getEntrenadoresConBichosCampeones() {return null;}
 	@Override
-	public List<Entrenador> getLideres() {
-		return null;
-	}
+	public List<Entrenador> getLideres() {return null;}
 	
 }

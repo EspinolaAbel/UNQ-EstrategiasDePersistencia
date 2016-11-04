@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.JDBCEspecieDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.jdbc.Runner;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.service.runner.RunnerJDBC;
 
 /**
  * EspecieDataServiceImpl tiene como función cargar datos a mi base de datos en la tabla Especies para poder realizar testeos sobre ella.
@@ -17,7 +17,7 @@ public class EspecieDataServiceImpl implements DataService {
 	 * query JDBC. */
 	@Override
 	public void eliminarDatos() {
-		Runner.executeWithConnection(conn -> {
+		RunnerJDBC.executeWithConnection(conn -> {
 			String sql = "DELETE FROM Especies";
 
 			PreparedStatement ps = conn.prepareStatement(sql);

@@ -42,7 +42,7 @@ public class Entrenador {
 		this.experiencia = 0;
 	}
 
-	
+//	GETTERS Y SETTERS:
 	
 	public String getNombre() {
 		return nombre;
@@ -88,7 +88,21 @@ public class Entrenador {
 	public void setMonedas(int monedas) {
 		this.monedas = monedas;
 	}
+	
+// NIVEL DEL ENTRENADOR:
+    
+    /** Dado un  entrenador , aumenta la experiencia  en las unidades que se pasan por parametros
+     * y si con  el nuevo valor  puede , aumenta el nivel que tiene.
+     */
+    public void aumentarDeNivelSiTieneExperiencia(int experiencioaGanada){
+    	this.experiencia+=experiencioaGanada;
+    	if (this.getExperiencia()>=this.getNivelActual().getPuntosParaSubirDeNivel())
+    		this.setNivelActual(nivelActual.getSiguienteNivel());
+    	}
+    
 
+//	ACCIONES CON BICHOS:
+    
 	/** Dado un {@link Bicho} se lo agrega a la lista de bichos capturados del entrenador.
      * Este método también agrega a este entrenador como el owner del bicho.
 	 * @param bichoCapturado - {@link Bicho} capturado a agregar a la lista de bichos capturados. */
@@ -106,38 +120,6 @@ public class Entrenador {
 		bichoADescartar.setIdUltimoDueño(this.getNombre());
     }	
 	
-    
-    /** Dado un  entrenador , aumenta la experiencia  en las unidades que se pasan por parametros
-     * y si con  el nuevo valor  puede , aumenta el nivel que tiene.
-     */
-    public void aumentarDeNivelSiTieneExperiencia(int experiencioaGanada){
-    	this.experiencia+=experiencioaGanada;
-    	if (this.getExperiencia()>=this.getNivelActual().getPuntosParaSubirDeNivel())
-    		this.setNivelActual(nivelActual.getSiguienteNivel());
-    	}
-    
-    
-	@Override
-	public boolean equals(Object o) {
-		if(this == o) return true;
-		if(o instanceof Entrenador) {
-			Entrenador otroEntrenador = (Entrenador) o;
-			boolean idemNombre= this.nombre.equals(otroEntrenador.getNombre());
-	
-			return 	idemNombre;
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int num = 44;
-		int result = 111;
-		result =	num * result + this.nombre.hashCode();
-		
-		return result;
-	}
-
 	public Bicho buscarBicho(int expPorBusqueda) {
 		
 		Bicho bichoRecuperado=null;
@@ -204,11 +186,48 @@ public class Entrenador {
 		return resultado;
 	}
 	
+// ACCIONES CON MONEDAS:	
+	
 	/** Se agregan monedas al entrenador.
 	 * @param cantMonedas - cantidad de monedas que se agregaran al entrenador.*/
 	public void agregarMonedas(int cantMonedas) {
 		this.monedas = this.monedas + cantMonedas;
 	}
+
+	/**@param monto - un monto en monedas. 
+	 * @return Se responde si puede pagar el monto dado con las monedas que posee actualmente.*/
+	public boolean puedePagar(Integer monto) {
+		return this.getMonedas() >= monto;
+	}
+
+	/** El entrenador paga un monto dado con las monedas que posee actualmente.
+	 * @param monto - un monto en monedas.*/
+	public void pagar(Integer monto) {
+		this.setMonedas(this.getMonedas() - monto);
+	}
 	
+
+//	REDEFINICIÓN EQUALS Y HASHCODE:
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Entrenador) {
+			Entrenador otroEntrenador = (Entrenador) o;
+			boolean idemNombre= this.nombre.equals(otroEntrenador.getNombre());
+			
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 44;
+		int result = 111;
+		result =	num * result + this.nombre.hashCode();
+		
+		return result;
+	}
 	
 }

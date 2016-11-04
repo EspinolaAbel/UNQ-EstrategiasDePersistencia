@@ -9,6 +9,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieNoExistenteException;
+import ar.edu.unq.epers.bichomon.backend.service.runner.RunnerJDBC;
 
 /** Clase que define la comunicación entre java y mi base de datos utilizando JDBC. */
 public class JDBCEspecieDAO implements EspecieDAO {
@@ -22,7 +23,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	 * @param e - Una especie.*/
 	@Override
 	public void saveEspecie(Especie e) {
-		Runner.executeWithConnection(conn -> {
+		RunnerJDBC.executeWithConnection(conn -> {
 			String sql = "INSERT INTO "
 						+ "Especies (nombre, tipo, altura, peso, cantidadBichos, energiaInicial, urlFoto)"
 						+ "VALUES(?,?,?,?,?,?,?)";
@@ -51,7 +52,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	 * @return La especie buscada. */
 	@Override
 	public Especie getEspecie(String nombreEspecie) {
-		return Runner.executeWithConnection(conn -> {
+		return RunnerJDBC.executeWithConnection(conn -> {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Especies WHERE nombre = ?");
 			ps.setString(1, nombreEspecie);
 			
@@ -83,7 +84,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	 * @return Lista con todas las especies de la base de datos. */
 	@Override
 	public List<Especie> getAllEspecies() {
-		return Runner.executeWithConnection(conn -> {
+		return RunnerJDBC.executeWithConnection(conn -> {
 			List<Especie> lsEspecie = new ArrayList<Especie>();
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Especies");
 			
@@ -112,7 +113,7 @@ public class JDBCEspecieDAO implements EspecieDAO {
 	/** Dada una {@link Especie}, la cual ya fué persistida en mi BD, la actualizo con JDBC .
 	 * @param especie - Una especie. */
 	public void updateEspecie(Especie especie) {
-		Runner.executeWithConnection(conn -> {
+		RunnerJDBC.executeWithConnection(conn -> {
 			PreparedStatement ps = conn.prepareStatement("UPDATE Especies SET"
 					+ "  tipo = ? "
 					+ ", altura = ? "
