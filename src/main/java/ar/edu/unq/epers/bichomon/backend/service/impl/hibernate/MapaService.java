@@ -7,6 +7,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorD
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.FondosInsuficientesException;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.RunnerNeo4J;
@@ -32,7 +33,7 @@ public class MapaService {
 	/** Dado los nombres de un {@link Entrenador} y un {@link Lugar} persistidos en mi BBDD, se cambiará
 	 * al entrenador desde su ubicación actual al lugar especificado por el parámetro.
 	 * @param nombreEntrenador - nombre del entrenador a recuperar de la BBDD
-	 * @param nombreLugar - nombre del lugar a recuperar de la BBDD */
+	 * @param nombreLugar - nombre del lugar a recuperar de la BBDD * /
 	public void mover(String nombreEntrenador, String nombreLugar) {
 		LugarDAO lugarDAO = new HibernateLugarDAO();
 		EntrenadorDAO entrenadorDAO = new HibernateEntrenadorDAO();
@@ -43,7 +44,7 @@ public class MapaService {
 			entrenador.setUbicacionActual(lugar);
 			return null;
 		});	
-	}
+	}*/
 	
 	/** Dado el nombre de un {@link Lugar} persistido en la BBDD se devuelve la cantidad de entrenadores
 	 * que se encuentran actualmente en dicho lugar.
@@ -79,30 +80,46 @@ public class MapaService {
 		});
 	}
 	
-	public void moverMasCorto(String nombreEntrenador, String nombreUbicacionDestino) {
+	public void mover(String nombreEntrenador, String nombreDestino) {
 		Runner.runInSession(()->{
-			Entrenador entrenador;
-			Lugar destino;
-			entrenador = this.entrenadorDAO.getEntrenador(nombreEntrenador);
-			destino = this.lugarDAO.getLugar(nombreUbicacionDestino);
-			String nombreUbicacionActual = entrenador.getUbicacionActual().getNombre();
-			Integer costoDelViaje = this.costoDelViaje(nombreUbicacionActual, nombreUbicacionDestino);
-		
-			if(entrenador.puedePagar(costoDelViaje)) {
-				entrenador.pagar(costoDelViaje);
-				entrenador.setUbicacionActual(destino);
-			}
-			else
-				throw new CaminoMuyCostosoException(entrenador, destino, costoDelViaje);
+			Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreEntrenador);
+			Lugar partida = entrenador.getUbicacionActual();
+			Lugar destino = this.lugarDAO.getLugar(nombreDestino);
 			
+			Integer costoDelViaje =
+					RunnerNeo4J.runInSession(() -> {
+						return mapaDAO.costoDelViajeDirecto(partida.getNombre(), destino.getNombre());
+					});
+			
+			try{
+				entrenador.viajarALugar(destino, costoDelViaje);
+			}
+			catch(FondosInsuficientesException e) {
+				throw new CaminoMuyCostosoException(entrenador, destino, costoDelViaje);
+			}
+			return null;
+		});
+	}
+	
+	public void moverMasCorto(String nombreEntrenador, String nombreDestino) {
+		Runner.runInSession(()->{
+			Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreEntrenador);
+			Lugar partida = entrenador.getUbicacionActual();
+			Lugar destino = this.lugarDAO.getLugar(nombreDestino);
+			
+			Integer costoDelViaje =
+					RunnerNeo4J.runInSession(() -> {
+						return mapaDAO.costoDelViajeMasCorto(partida.getNombre(), destino.getNombre());
+					});
+			
+			try{
+				entrenador.viajarALugar(destino, costoDelViaje);
+			}
+			catch(FondosInsuficientesException e) {
+				throw new CaminoMuyCostosoException(entrenador, destino, costoDelViaje);
+			}
 			return null;
 		});
 	}
 
-	
-	private Integer costoDelViaje(String nombrePartida, String nombreDestino) {
-		return RunnerNeo4J.runInSession(() -> {
-			return mapaDAO.calcularCostoDelViaje(nombrePartida, nombreDestino);
-		});
-	}
 }

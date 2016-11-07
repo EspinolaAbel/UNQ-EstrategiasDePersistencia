@@ -1,7 +1,8 @@
 package ar.edu.unq.epers.bichomon.backend.model.lugar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -11,6 +12,8 @@ import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 public class CampeonHistorico {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 	private Long fechaCoronadoCampeon;
 	private Long fechaDepuesto;
 	@OneToOne

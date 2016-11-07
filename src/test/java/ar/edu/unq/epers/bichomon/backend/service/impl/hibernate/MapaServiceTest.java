@@ -38,7 +38,7 @@ public class MapaServiceTest {
 		this.lugarDAO = new HibernateLugarDAO();
 		this.bichoDAO = new HibernateBichoDAO();
 
-		this.mapaService = new MapaService();
+		this.mapaService = new MapaService(entrenadorDAO,lugarDAO);
 	}
 	
 	@After
@@ -130,7 +130,7 @@ public class MapaServiceTest {
 
 
 	@Test
-	public void intentoMoverUnEntrenadorAUnaUbicacionQuePuedePagarLoMuevoYComprueboQueSeHayaMovidoCorrectamente() {
+	public void muevoUnEntrenadorAUnaUbicacionQuePuedePagarYComprueboQueSeHayaMovidoCorrectamente() {
 		//SETEO EL ENTORNO DEL TEST
 		LugarDAO lugarDAO = new LugarFakeDAO();
 		EntrenadorDAO entrenadorDAO = new EntrenadorDummyDAO();
@@ -147,6 +147,32 @@ public class MapaServiceTest {
 		mapaService.moverMasCorto("EntrenadorTest", "Lagartolandia");
 		
 		assertEquals(entrenador.getUbicacionActual(), destFinal);
+	}
+	
+	
+	@Test
+	public void intentoMoverUnEntrenadorAUnaUbicacionQueNoPuedePagarYSeLanzaUnaExcepcionYNoSeMueve() {
+		//SETEO EL ENTORNO DEL TEST
+		LugarDAO lugarDAO = new LugarFakeDAO();
+		EntrenadorDAO entrenadorDAO = new EntrenadorDummyDAO();
+		Lugar partida = new Dojo("Tibet Dojo");
+		Lugar destFinal = new Pueblo("Lagartolandia");
+		lugarDAO.saveLugar(destFinal);
+		this.crearGrafoEnBaseDeDatos();//TODO: crear grafo dedicado para este test.
+		
+		//TEST
+		MapaService mapaService = new MapaService(entrenadorDAO, lugarDAO);
+		Entrenador entrenador = new Entrenador("EntrenadorTest");
+		entrenador.agregarMonedas(1);//TODO: setear las monedas en el costo real de viaje. 
+		
+		try{
+			mapaService.moverMasCorto("EntrenadorTest", "Lagartolandia");
+		}
+		catch(CaminoMuyCostosoException e){
+			assertEquals(entrenador.getUbicacionActual(), partida);
+		}
+		
+		fail("El entrenador se movio de lugar y no debía...");
 	}
 	
 	

@@ -191,7 +191,7 @@ public class Entrenador {
 	/** Se agregan monedas al entrenador.
 	 * @param cantMonedas - cantidad de monedas que se agregaran al entrenador.*/
 	public void agregarMonedas(int cantMonedas) {
-		this.monedas = this.monedas + cantMonedas;
+		this.setMonedas(this.getMonedas() + cantMonedas);
 	}
 
 	/**@param monto - un monto en monedas. 
@@ -201,9 +201,27 @@ public class Entrenador {
 	}
 
 	/** El entrenador paga un monto dado con las monedas que posee actualmente.
-	 * @param monto - un monto en monedas.*/
+	 * El pago se realizará solo si el entrenador tiene suficientes monedas para pagar el monto.
+	 * @param monto - un monto en monedas.
+	 * @throws {@link FondosInsuficientesException} si no tiene suficientes monedas para realizar 
+	 * el pago.*/
 	public void pagar(Integer monto) {
-		this.setMonedas(this.getMonedas() - monto);
+		if(this.puedePagar(monto))
+			this.setMonedas(this.getMonedas() - monto);
+		else
+			throw new FondosInsuficientesException(monto);
+	}
+	
+//	VIAJES:
+	
+	/** El entrenador viaja al destino dado como parámetro. 
+	 * El viaje solo se realizará si el entrenador puede pagar el costo del viaje. Caso contrario
+	 * fallará con una excepción.
+	 * @param destino - {@link Lugar} a donde el entrenador viajará.
+	 * @param costoDelViaje - cantidad de monedas a pagar para poder realizar el viaje.*/
+	public void viajarALugar(Lugar destino, Integer costoDelViaje){
+		this.pagar(costoDelViaje);
+		this.setUbicacionActual(destino);
 	}
 	
 

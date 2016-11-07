@@ -31,7 +31,7 @@ public class HibernateLugarDAO implements LugarDAO {
 	public Bicho getBichoCampeonActualDelDojo(String nombreDojo) {
 		Session session = Runner.getCurrentSession();
 		
-		String hql = "FROM Bichos WHERE id=( SELECT d.campeonActual.bichoCampeon FROM Dojo d WHERE nombre=:nombreDojo )";
+		String hql = "select d.campeonActual.bichoCampeon FROM Dojo d WHERE nombre=:nombreDojo";
 		Query<Bicho> query = session.createQuery(hql, Bicho.class);
 		query.setParameter("nombreDojo", nombreDojo);
 		
