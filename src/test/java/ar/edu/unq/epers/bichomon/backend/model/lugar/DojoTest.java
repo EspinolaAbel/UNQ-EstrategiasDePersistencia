@@ -50,7 +50,7 @@ public class DojoTest {
 		Bicho bichoCampeon = new Bicho(especieEvolucionada);		
 		dojo.setCampeonActual(bichoCampeon);
 		// no necesita el enrenador 
-		Bicho bichoDelLugar = dojo.retornarUnBichoDelLugar(null);
+		Bicho bichoDelLugar =  dojo.retornarUnBichoDelLugar(null);
 		
 		assertEquals(bichoDelLugar.getEspecie().getNombre(), "EspecieRaiz");
 	}

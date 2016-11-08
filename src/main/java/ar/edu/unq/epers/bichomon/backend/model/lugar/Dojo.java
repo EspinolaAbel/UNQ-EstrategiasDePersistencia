@@ -68,4 +68,10 @@ public class Dojo extends Lugar {
 			return (new Bicho(bichoCampeon.getEspecie().dameRaiz()));
 			}else return null;
 	}
+
+	@Override
+	public String tipoDeLugar() {
+		// TODO Auto-generated method stub
+		return "Dojo";
+	}
 }

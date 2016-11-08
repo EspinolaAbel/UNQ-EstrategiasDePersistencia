@@ -175,7 +175,7 @@ public class BichoServiceTest {
 	
 	@After
 	public void cleanUp() {
-//		Truncator.cleanUpTables();
+		Truncator.cleanUpTables();
 	}
 
 

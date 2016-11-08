@@ -38,6 +38,11 @@ public abstract class Lugar {
 	public void setNombre(String nombre){
 		this.nombre = nombre;
 	}
+	/**
+	 * devuelve el tipo del lugar en  formato string
+	 * @return
+	 */
+	public abstract String tipoDeLugar();
 		
 }
 

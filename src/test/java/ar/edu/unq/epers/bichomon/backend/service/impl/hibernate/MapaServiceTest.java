@@ -2,19 +2,26 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.driver.v1.StatementResult;
 
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.LugarDAONeo4j;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateBichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4jLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.*;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
@@ -27,6 +34,7 @@ public class MapaServiceTest {
 	private LugarDAO lugarDAO;
 	private BichoDAO bichoDAO;
 
+	private LugarDAONeo4j lugarDAONeo4j;
 	@Before
 	public void setUp() {
 		this.entrenador = new Entrenador("EntrenadorTest");
@@ -34,6 +42,7 @@ public class MapaServiceTest {
 		this.entrenadorDAO = new HibernateEntrenadorDAO();
 		this.lugarDAO = new HibernateLugarDAO();
 		this.bichoDAO = new HibernateBichoDAO();
+		this.lugarDAONeo4j = new  Neo4jLugarDAO();
 
 		this.mapaService = new MapaService();
 	}
@@ -126,6 +135,105 @@ public class MapaServiceTest {
 	}
 
 
+	@Test 
+	public void dadoUnNuevoLoPersiteEnLaBBDDHibernateYNeo4j(){
+		Lugar lugar = new Pueblo("unPueblo");
+		this.mapaService.crearUvicacion(lugar);
+		
+		
+		
+		Runner.runInSession(()->{
+			Pueblo puebloRecuperado	= (Pueblo) this.lugarDAO.getLugar(lugar.getNombre());
+			assertEquals("unPueblo", puebloRecuperado.getNombre());
+			return null;
+		});
+		// debo recuperar el pueblo desde la base de datos de neo
+		StatementResult lugarRecuperadoNeo4j = this.lugarDAONeo4j.recuperarLugar(lugar);
+		assertEquals("unPueblo",lugarRecuperadoNeo4j.single().get("nombre"));
+		
+	}
+
+	@Test 
+	public void dadoDosLugaresCreaUnaConeccionYLaPersisteEnNeo4j(){
+		Pueblo puebloTest 		= new Pueblo("FarTown");
+		Dojo dojoTest 			= new Dojo("Akido");
+		Guarderia guarderiaTest = new Guarderia("BichoBaby");		
+		
+		
+		TipoDeCamino caminoAereo		= new TipoDeCamino(5,"AEREO");
+		TipoDeCamino caminoMaritimo		= new TipoDeCamino(2,"MARITIMO");
+		TipoDeCamino caminoTerrestre	= new TipoDeCamino(1,"TERRESTRE");
+		
+		this.lugarDAONeo4j.saveLugar(puebloTest);
+		this.lugarDAONeo4j.saveLugar(dojoTest);
+		this.lugarDAONeo4j.saveLugar(guarderiaTest);
+		
+		this.lugarDAONeo4j.crearConeccion(dojoTest.getNombre(), puebloTest.getNombre(), caminoAereo);
+		//Aca tengo redefinido el mensaje crear coneccion para de distintaas maneras 
+		this.lugarDAONeo4j.crearConeccion(dojoTest.getNombre(), guarderiaTest.getNombre(), caminoTerrestre);
+				
+		this.lugarDAONeo4j.crearConeccion(puebloTest.getNombre(), dojoTest.getNombre(), caminoMaritimo); 
+		this.lugarDAONeo4j.crearConeccion(puebloTest.getNombre(), guarderiaTest.getNombre(), caminoTerrestre);
+		
+		this.lugarDAONeo4j.crearConeccion(guarderiaTest.getNombre(), puebloTest.getNombre(), caminoAereo); 
+		this.lugarDAONeo4j.crearConeccion(guarderiaTest.getNombre(), guarderiaTest.getNombre(), caminoMaritimo);
+		
+		// debo recuperar el pueblo desde la base de datos de neo
+		StatementResult lugarRecuperadoNeo4j = this.lugarDAONeo4j.recuperarRelacion(puebloTest.getNombre(),dojoTest.getNombre());
+		assertNotNull(lugarRecuperadoNeo4j);
+		
+	}
+	@Test
+	public void dadoUnPuebloLePidoLasConeccionesTerrestresYMeDevuelveDosPueblos(){
+		//String lugar = "unPueblo";
+		
+		Pueblo puebloTest 		= new Pueblo("FarTown");
+		Dojo dojoTest 			= new Dojo("Akido");
+		Guarderia guarderiaTest = new Guarderia("BichoBaby");		
+		
+		
+		TipoDeCamino caminoAereo		= new TipoDeCamino(5,"AEREO");
+		TipoDeCamino caminoMaritimo		= new TipoDeCamino(2,"MARITIMO");
+		TipoDeCamino caminoTerrestre	= new TipoDeCamino(1,"TERRESTRE");
+		
+		this.lugarDAONeo4j.saveLugar(puebloTest);
+		this.lugarDAONeo4j.saveLugar(dojoTest);
+		this.lugarDAONeo4j.saveLugar(guarderiaTest);
+		
+		this.lugarDAONeo4j.crearConeccion(dojoTest.getNombre(), puebloTest.getNombre(), caminoAereo);
+		//Aca tengo redefinido el mensaje crear coneccion para de distintaas maneras 
+		this.lugarDAONeo4j.crearConeccion(dojoTest.getNombre(), guarderiaTest.getNombre(), caminoTerrestre);
+				
+		this.lugarDAONeo4j.crearConeccion(puebloTest.getNombre(), dojoTest.getNombre(), caminoMaritimo); 
+		this.lugarDAONeo4j.crearConeccion(puebloTest.getNombre(), guarderiaTest.getNombre(), caminoTerrestre);
+		
+		this.lugarDAONeo4j.crearConeccion(guarderiaTest.getNombre(), puebloTest.getNombre(), caminoMaritimo); 
+		this.lugarDAONeo4j.crearConeccion(guarderiaTest.getNombre(), dojoTest.getNombre(), caminoMaritimo);
+		
+	// testeo las conecciones del pueblo	
+		List<String> lugaresConectados= this.lugarDAONeo4j.conectados(puebloTest.getNombre(), "TERRESTRE");
+		assertEquals (1,lugaresConectados.size());
+		assertEquals ("BichoBaby",lugaresConectados.get(0));
+	
+	// testeo las conecciones del dojo				
+		lugaresConectados= this.lugarDAONeo4j.conectados(dojoTest.getNombre(), "MARITIMO");
+		assertEquals (0,lugaresConectados.size());
+		
+
+	// testeo las conecciones del pueblo	
+		lugaresConectados= this.lugarDAONeo4j.conectados(guarderiaTest.getNombre(), "MARITIMO");
+		assertEquals (2,lugaresConectados.size());
+		//assertTrue (lugaresConectados.contains("FarTown"));
+		//assertTrue (lugaresConectados.contains("BichoBaby"));
+
+	this.lugarDAONeo4j.eliminarLugar("FarTown");
+	this.lugarDAONeo4j.eliminarLugar("Akido");
+	this.lugarDAONeo4j.eliminarLugar("BichoBaby");
+		
+	}
+	
+	
+	
 	
 //MÉTODOS AUXILIARES PARA TESTS	
 	

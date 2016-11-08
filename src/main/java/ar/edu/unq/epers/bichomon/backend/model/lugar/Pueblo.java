@@ -71,6 +71,13 @@ public class Pueblo extends Lugar {
 					}	
 	}
 
+
+	@Override
+	public String tipoDeLugar() {
+		// TODO Auto-generated method stub
+		return "Pueblo";
+	}
+
 	
 	
 }

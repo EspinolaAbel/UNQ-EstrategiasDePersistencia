@@ -79,4 +79,10 @@ public class Guarderia extends Lugar {
 		 return listaDeBichosFiltrados;
 	 }
 
+	@Override
+	public String tipoDeLugar() {
+		// TODO Auto-generated method stub
+		return "Guarderia";
+	}
+
 }

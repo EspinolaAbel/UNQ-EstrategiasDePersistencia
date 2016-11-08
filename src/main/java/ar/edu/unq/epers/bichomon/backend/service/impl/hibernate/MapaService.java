@@ -2,8 +2,10 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.LugarDAONeo4j;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4jLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
@@ -64,4 +66,40 @@ public class MapaService {
 			return lugarDAO.getCampeonHistoricoDelDojo(nombreDojo);
 		});
 	}
+	
+	
+	/**
+	 * Persiste la uvicacion  pasada por parametro en la base de datos de hibernate y neo4j
+	 * 
+	 * @param lugar
+	 */
+	
+	public void crearUvicacion(Lugar lugar){
+		
+		LugarDAO lugarDAOHibernate= new HibernateLugarDAO();
+		LugarDAONeo4j lugarDAONeo4j= new Neo4jLugarDAO();
+		
+		Runner.runInSession(()->{
+			lugarDAOHibernate.saveLugar(lugar);
+			return null;
+		});
+		lugarDAONeo4j.saveLugar(lugar);
+		
+	}
+	
+	
+/**
+ * conectar(String ubicacion1, String ubicacion2, String tipoCamino)  conecta dos ubicaciones 
+ * (se asumen preexistentes) por medio de un tipo de camino.
+ * @param 
+ */
+	public void conectar(String ubicacion1, String ubicacion2, String tipoCamino){
+		
+		LugarDAONeo4j lugarDAONeo4j= new Neo4jLugarDAO();
+		lugarDAONeo4j.crearConeccion(ubicacion1, ubicacion2, tipoCamino);
+		
+		
+		
+	}
+
 }
