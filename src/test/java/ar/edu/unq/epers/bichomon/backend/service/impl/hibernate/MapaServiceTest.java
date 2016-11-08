@@ -273,8 +273,8 @@ public class MapaServiceTest {
 	// testeo las conecciones del pueblo	
 		lugaresConectados= this.lugarDAONeo4j.conectados(guarderiaTest.getNombre(), "MARITIMO");
 		assertEquals (2,lugaresConectados.size());
-		//assertTrue (lugaresConectados.contains("FarTown"));
-		//assertTrue (lugaresConectados.contains("BichoBaby"));
+		assertTrue (lugaresConectados.contains("FarTown"));
+		assertTrue (lugaresConectados.contains("Akido"));
 
 	this.lugarDAONeo4j.eliminarLugar("FarTown");
 	this.lugarDAONeo4j.eliminarLugar("Akido");
