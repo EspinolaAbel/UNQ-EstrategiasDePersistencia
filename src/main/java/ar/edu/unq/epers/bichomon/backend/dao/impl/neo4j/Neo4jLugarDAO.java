@@ -109,7 +109,6 @@ public void crearConeccion(String ubicacion1, String ubicacion2, TipoDeCamino ti
 			session.close();
 		}
 		
-		
 	}
 	
 	

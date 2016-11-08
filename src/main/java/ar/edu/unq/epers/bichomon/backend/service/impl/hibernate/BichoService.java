@@ -5,11 +5,8 @@ import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
-import ar.edu.unq.epers.bichomon.backend.model.busqueda.Busqueda;
 import ar.edu.unq.epers.bichomon.backend.model.busqueda.IFactores;
-import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
 public class BichoService {
@@ -44,20 +41,11 @@ public class BichoService {
 		if (this.busqueda.busquedaExitosa()){
 			bichoRetornado =
 					Runner.runInSession(() -> {
-//						HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+ 
 						int expPorBusqueda = this.puntosDAO.getPuntosDeExperiencia("CapturarBicho").getPuntaje();
 						Bicho bichoRecuperado=null;
 						Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 						bichoRecuperado= entrenador.buscarBicho(expPorBusqueda);
-
-		/**
-				if ( (entrenador.getBichosCapturados().size()) <  entrenador.getNivelActual().getMaxCantidadDeBichos() ){
-					bichoRecuperado=entrenador.getUbicacionActual().retornarUnBichoDelLugar(entrenador);
-					entrenador.agregarBichoCapturado(bichoRecuperado);
-					entrenador.aumentarDeNivelSiTieneExperiencia(expPorBusqueda);
-					bichoRecuperado.setTiempoDesdeSuCaptura(System.nanoTime());
-				}
-		*/		
 						return bichoRecuperado;
 					});
 			}
@@ -80,12 +68,6 @@ public class BichoService {
 			Bicho bicho= this.bichoDAO.getBicho(idBicho)	;	
 			entrenador.abandonarBicho(bicho);
 			
-			//solo lo deja si no se queda sin bichos
-/**			if (entrenador.getBichosCapturados().size()>1){
-				entrenador.getUbicacionActual().recibirBichoAbandonado(b);
-				entrenador.descartarBichoCapturado(b);
-				}
-	*/
 		return null;
 		});
 	}
@@ -105,41 +87,14 @@ public class BichoService {
 			
 		return	Runner.runInSession(() -> {
 			
-		//			HibernatePuntosDeExperienciaDAO puntosDAO= new HibernatePuntosDeExperienciaDAO(); 
+ 
 					int expPorCombate =this.puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
 					
 					Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 					Bicho bichoRetador= this.bichoDAO.getBicho(idBicho)	;	
 
 					ResultadoCombate resultadoDeCombate =entrenador.combatir(bichoRetador,expPorCombate);
-					
-					
-//					ResultadoCombate resultadoDeCombate =e.getUbicacionActual().combatir(bichoRetador);
-					/**
-					 * hasta aca solo se combatio, ahora hay que actualizar
-					 * los valores segun el resultado
-					 */
-					
-/**
- * 					Bicho ganador;
- 
-					Bicho perdedor;
-					
-					// el dojo debe tner un  nuevo campeon
-					Dojo d=(Dojo) e.getUbicacionActual();
-					d.setCampeonActual(resultadoDeCombate.getGanador());
-					
-					// los bichos debenrecuperar energia
-					ganador=resultadoDeCombate.getGanador();
-					ganador.recuperarEnergia();
-					perdedor=resultadoDeCombate.getPerdedor();
-					perdedor.recuperarEnergia();
-					
-					//el bicho ganador  incrementa su cantidad de victoraias
-					 ganador.setCantidadDeVictorias(ganador.getCantidadDeVictorias()+1);
-				
-					perdedor.getOwner().aumentarDeNivelSiTieneExperiencia(expPorCombate);
-*/
+
 					return resultadoDeCombate;
 			
 				});		
