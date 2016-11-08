@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +23,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
+import ar.edu.unq.epers.bichomon.backend.service.impl.EspecieService;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
@@ -43,7 +44,7 @@ public class EspecieServiceTest {
 		this.guarderiaDAO = new HibernateLugarDAO();
 		this.bichoDAO = new HibernateBichoDAO();
 		this.cargarTodasLasEspeciesPopularesEImpopularesEnLaBD();
-		this.especieService = new EspecieService();
+		this.especieService = new EspecieService(especieDAO);
 	}
 
 	@After

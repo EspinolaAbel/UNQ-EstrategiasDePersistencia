@@ -10,7 +10,7 @@ import org.neo4j.driver.v1.Driver;
 public class RunnerNeo4J {
 	
 	private static final ThreadLocal<Session> CONTEXTO = new ThreadLocal<>();
-	private static Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "1234" ) );
+	private static Driver driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "root" ) );
 	
 	public static <T> T runInSession(Supplier<T> bloque) {
 

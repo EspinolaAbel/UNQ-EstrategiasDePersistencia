@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import static org.junit.Assert.*;
 
@@ -31,6 +31,7 @@ import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.UbicacionIncorrectaException;
+import ar.edu.unq.epers.bichomon.backend.service.impl.BichoService;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
@@ -175,7 +176,7 @@ public class BichoServiceTest {
 	
 	@After
 	public void cleanUp() {
-//		Truncator.cleanUpTables();
+		Truncator.cleanUpTables();
 	}
 
 

@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;

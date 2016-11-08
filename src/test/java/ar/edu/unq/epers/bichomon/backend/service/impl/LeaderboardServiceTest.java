@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +23,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.TipoBicho;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.CampeonHistorico;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
+import ar.edu.unq.epers.bichomon.backend.service.impl.LeaderboardService;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Truncator;
 
@@ -41,7 +42,12 @@ public class LeaderboardServiceTest {
 
 	@Before
 	public void setUp() {
-		this.leaderboardService = new LeaderboardService();
+		this.entDAO = new HibernateEntrenadorDAO();
+		this.bicDAO = new HibernateBichoDAO();
+		this.espDAO = new HibernateEspecieDAO();
+		this.lugDAO = new HibernateLugarDAO();
+
+		this.leaderboardService = new LeaderboardService(entDAO, espDAO);
 		
 		//Datos iniciales
 		ent1 = new Entrenador("ent1");	ent2 = new Entrenador("ent2");	campXMasTiempo = new Entrenador("Campeon x mas tiempo");
@@ -55,10 +61,6 @@ public class LeaderboardServiceTest {
 		doj1 = new Dojo("doj1"); doj2 = new Dojo("doj2"); doj3 = new Dojo("doj3");
 		
 		Runner.runInSession(() -> {
-			this.entDAO = new HibernateEntrenadorDAO();
-			this.bicDAO = new HibernateBichoDAO();
-			this.espDAO = new HibernateEspecieDAO();
-			this.lugDAO = new HibernateLugarDAO();
 			
 			espDAO.saveEspecie(esp1);	espDAO.saveEspecie(esp2);	espDAO.saveEspecie(especieLider);
 			
