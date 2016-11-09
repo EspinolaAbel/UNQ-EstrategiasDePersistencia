@@ -19,7 +19,6 @@ public class Neo4jLugarDAO implements LugarDAONeo4j {
 
 	private Driver driver;
 	
-	
 	public Neo4jLugarDAO() {
 		this.driver = GraphDatabase.driver( "bolt://localhost", AuthTokens.basic( "neo4j", "root" ) );
 	}
@@ -35,24 +34,6 @@ public class Neo4jLugarDAO implements LugarDAONeo4j {
 			}
 		}
 
-	@Override
-	public StatementResult recuperarLugar(Lugar lugarARecuperar) {
-		
-		Session session = this.driver.session();
-
-		try {
-
-			String query = "MATCH (l {nombre: {unNombreDeLugar}}) "+
-			"RETURN l";
-			StatementResult result = session.run(query, Values.parameters("unNombreDeLugar", lugarARecuperar.getNombre()));
-				return  result;	
-		} finally {
-			session.close();
-		}
-	}
-	
-	
-	
 	public void crearConeccion(String ubicacion1, String ubicacion2, String tipoCamino){
 		
 		Session session = this.driver.session();
@@ -68,20 +49,16 @@ public class Neo4jLugarDAO implements LugarDAONeo4j {
 			String query= "MATCH (lugar1 {nombre: {unLugar}}) " +
 					"MATCH (lugar2  {nombre: {otroLugar}}) " +
 					"MERGE (lugar1)-[r:" + tipoCamino + "]->(lugar2) "+
-					"ON CREATE SET r.costo = {unCosto}";//CREATE
+					"ON CREATE SET r.costo = {unCosto}";
 					session.run(query, Values.parameters("unLugar",ubicacion1, "otroLugar", ubicacion2,"unCosto",costo));
-
 		} finally {
 			session.close();
-		}
-			
+			}
 		}
 
 public void crearConeccion(String ubicacion1, String ubicacion2, TipoDeCamino tipoCamino){
 		
 		Session session = this.driver.session();
-		
-		
 		try {
 			String query= "MATCH (lugar1 {nombre: {unLugar}}) " +
 					"MATCH (lugar2  {nombre: {otroLugar}}) " +
@@ -92,19 +69,37 @@ public void crearConeccion(String ubicacion1, String ubicacion2, TipoDeCamino ti
 		} finally {
 			session.close();
 			}
-			
 	}
 
 
+@Override
+public String recuperarLugar(Lugar lugarARecuperar) {
+	
+	Session session = this.driver.session();
+	try {
+		String query = "MATCH (lugar {nombre: {unNombreDeLugar}}) "+
+		"RETURN l";
+		StatementResult result = session.run(query, Values.parameters("unNombreDeLugar", lugarARecuperar.getNombre()));
+		return result.single().get("lugar").get("nombre").asString();	
+		} finally {
+			session.close();
+			}
+	}
+
+
+
 	@Override
-	public StatementResult recuperarRelacion(String ubicacion1, String ubicacion2) {
+public List<String> recuperarRelacion(String ubicacion1, String ubicacion2) {
 		Session session= this.driver.session();
-		
 		try{
 			String query= 	"MATCH (lugar1 {nombre: {unLugar}})-[r]->(lugar2 {nombre: {otroLugar}}) " +
 							"return r";
 			StatementResult result=	session.run(query, Values.parameters("unLugar",ubicacion1, "otroLugar", ubicacion2));
-		 return result;
+			return  result.list(record -> {
+				Value relacion = record.get(0);
+				String nombreDeRelacion = relacion.asRelationship().type();
+				return nombreDeRelacion;
+			});
 		}finally {
 			session.close();
 		}

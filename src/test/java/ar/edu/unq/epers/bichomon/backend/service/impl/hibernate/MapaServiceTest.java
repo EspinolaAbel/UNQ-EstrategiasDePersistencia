@@ -2,7 +2,7 @@ package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
 
 import static org.junit.Assert.*;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -148,8 +148,9 @@ public class MapaServiceTest {
 			return null;
 		});
 		// debo recuperar el pueblo desde la base de datos de neo
-		StatementResult lugarRecuperadoNeo4j = this.lugarDAONeo4j.recuperarLugar(lugar);
-		assertEquals("unPueblo",lugarRecuperadoNeo4j.single().get("nombre"));
+		String lugarRecuperadoNeo4j = this.lugarDAONeo4j.recuperarLugar(lugar);
+		assertEquals("unPueblo",lugarRecuperadoNeo4j);
+		this.lugarDAONeo4j.eliminarLugar("unPueblo");
 		
 	}
 
@@ -179,8 +180,8 @@ public class MapaServiceTest {
 		this.lugarDAONeo4j.crearConeccion(guarderiaTest.getNombre(), guarderiaTest.getNombre(), caminoMaritimo);
 		
 		// debo recuperar el pueblo desde la base de datos de neo
-		StatementResult lugarRecuperadoNeo4j = this.lugarDAONeo4j.recuperarRelacion(puebloTest.getNombre(),dojoTest.getNombre());
-		assertNotNull(lugarRecuperadoNeo4j);
+		List<String> coneccionesRecuperadas = this.lugarDAONeo4j.recuperarRelacion(puebloTest.getNombre(),dojoTest.getNombre());
+		assertNotNull(coneccionesRecuperadas);
 		
 	}
 	@Test
