@@ -1,22 +1,17 @@
-package ar.edu.unq.epers.bichomon.backend.service.impl.hibernate;
+package ar.edu.unq.epers.bichomon.backend.service.impl;
 
-import org.neo4j.driver.v1.Session;
+import java.util.List;
 
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.MapaDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.LugarDAONeo4j;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4JMapaDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4jLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.FondosInsuficientesException;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
-import ar.edu.unq.epers.bichomon.backend.model.lugar.Pueblo;
-import ar.edu.unq.epers.bichomon.backend.service.impl.CaminoMuyCostosoException;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.RunnerNeo4J;
 
@@ -99,7 +94,6 @@ public class MapaService {
 					RunnerNeo4J.runInSession(() -> {
 						return mapaDAO.costoDelViajeDirecto(partida.getNombre(), destino.getNombre());
 					});
-			
 			try{
 				entrenador.viajarALugar(destino, costoDelViaje);
 			}
@@ -151,27 +145,19 @@ public class MapaService {
 	 * @param */
 	public void conectar(String ubicacion1, String ubicacion2, String tipoCamino){
 		RunnerNeo4J.runInSession(()->{
-			this.mapaDAO.crearConeccion(ubicacion1, ubicacion2, tipoCamino);
+			this.mapaDAO.crearConexion(ubicacion1, ubicacion2, tipoCamino);
 			return null;
 		});
 	}
 	
-	public static void main(String[] args) {
-		Lugar p = new Pueblo("Pueblito");
-		Lugar d = new Dojo("Dojito");
-		MapaDAO mapaDAO = new Neo4JMapaDAO();
-		LugarDAO lugarDAO = new HibernateLugarDAO();
-		MapaService ms =new MapaService(null, lugarDAO, mapaDAO);
-		
-//		ms.conectar("Pueblito", "Dojito", "Aereo");	//ANDANDO
-		
-//		ms.crearUbicacion(d);	//ANDANDO
-//		ms.crearUbicacion(p);
-		
-//		RunnerNeo4J.runInSession(()->{
-//			dao.saveLugar(l);
-//			return null;
-//		});
-	}
 
+	/**
+	 * Responde con una lista de los lugares adyacentes al lugar dado por un tipo de camino.
+	 * @param */
+	public List<String> conectados(String ubicacion, String tipoCamino){
+		return
+		RunnerNeo4J.runInSession(()->{
+			return this.mapaDAO.lugaresAdyacentes(ubicacion, tipoCamino);
+		});
+	}
 }

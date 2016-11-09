@@ -71,7 +71,29 @@ public class Dojo extends Lugar {
 
 	@Override
 	public String tipoDeLugar() {
-		// TODO Auto-generated method stub
 		return "Dojo";
+	}
+	
+//	REDEFINICIÓN EQUALS Y HASHCODE:
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Dojo) {
+			Dojo otroDojo = (Dojo) o;
+			boolean idemNombre= this.getNombre().equals(otroDojo.getNombre());
+			
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 42;
+		int result = 724;
+		result =	num * result + this.getNombre().hashCode();
+		
+		return result;
 	}
 }

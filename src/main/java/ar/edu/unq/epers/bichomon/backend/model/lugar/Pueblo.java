@@ -78,5 +78,27 @@ public class Pueblo extends Lugar {
 	}
 
 	
+//	REDEFINICIÓN EQUALS Y HASHCODE:
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Pueblo) {
+			Pueblo otroPueblo = (Pueblo) o;
+			boolean idemNombre= this.getNombre().equals(otroPueblo.getNombre());
+			
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 45;
+		int result = 211;
+		result =	num * result + this.getNombre().hashCode();
+		
+		return result;
+	}
 	
 }

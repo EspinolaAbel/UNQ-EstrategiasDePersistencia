@@ -44,5 +44,27 @@ public abstract class Lugar {
 	 */
 	public abstract String tipoDeLugar();
 		
+//	REDEFINICIÓN EQUALS Y HASHCODE:
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Lugar) {
+			Lugar otroLugar = (Lugar) o;
+			boolean idemNombre= this.getNombre().equals(otroLugar.getNombre());
+			
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 95;
+		int result = 291;
+		result =	num * result + this.getNombre().hashCode();
+		
+		return result;
+	}
 }
 

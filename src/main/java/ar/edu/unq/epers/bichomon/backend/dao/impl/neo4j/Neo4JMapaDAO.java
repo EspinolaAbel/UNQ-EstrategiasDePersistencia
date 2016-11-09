@@ -103,7 +103,7 @@ public class Neo4JMapaDAO implements MapaDAO {
 	@Override
 	public List<String> lugaresAdyacentes(String ubicacion, String tipoCamino){
 		Session session = RunnerNeo4J.getCurrentSession();
-		String query= 	"MATCH (puntoDePartida:Lugar {nombre: {nombrePartida}})-[r:" + tipoCamino.toUpperCase() + " ]->(adyacentes) " +
+		String query= 	"MATCH (puntoDePartida:Lugar {nombre: {nombrePartida}})-[r:"+tipoCamino.toUpperCase()+" ]->(adyacentes) " +
 						"return adyacentes";
 		StatementResult result=	session.run(query, Values.parameters("nombrePartida",ubicacion));
 		return result.list(record -> {

@@ -93,7 +93,7 @@ public class EntrenadorTest {
 //TESTS REDEFINICION EQUALS Y HASHCODE
 
 	@Test
-	public void dadosDosBichosLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
+	public void dadosDosEntrenadoresLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
 		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
 		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
 		
@@ -101,7 +101,7 @@ public class EntrenadorTest {
 	} 
 	
 	@Test
-	public void dadosDosBichosLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeFalseDebidoAQueTienenDistintoId() {
+	public void dadosDosEntrenadoresLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeFalseDebidoAQueTienenDistintoId() {
 		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
 		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
 		entrenadorComparativo.setNombre("EntrenadorComparativo");
@@ -110,7 +110,7 @@ public class EntrenadorTest {
 	}
 	
 	@Test
-	public void dadosDosBichosLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeTrue() {
+	public void dadosDosEntrenadoresLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeTrue() {
 		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
 		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
 		
@@ -118,7 +118,7 @@ public class EntrenadorTest {
 	} 
 	
 	@Test
-	public void dadosDosBichosLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeFalse() {
+	public void dadosDosEntrenadoresLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeFalse() {
 		Entrenador entrenadorOriginal = this.nuevoEntrenadorOriginal();
 		Entrenador entrenadorComparativo = this.nuevoEntrenadorOriginal();
 		entrenadorComparativo.setNombre("EntrenadorComparativo");

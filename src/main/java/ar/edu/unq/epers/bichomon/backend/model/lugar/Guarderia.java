@@ -3,7 +3,6 @@ package ar.edu.unq.epers.bichomon.backend.model.lugar;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -81,8 +80,29 @@ public class Guarderia extends Lugar {
 
 	@Override
 	public String tipoDeLugar() {
-		// TODO Auto-generated method stub
 		return "Guarderia";
 	}
 
+//	REDEFINICIÓN EQUALS Y HASHCODE:
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o instanceof Guarderia) {
+			Guarderia otraGuarderia = (Guarderia) o;
+			boolean idemNombre= this.getNombre().equals(otraGuarderia.getNombre());
+			
+			return 	idemNombre;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int num = 44;
+		int result = 111;
+		result =	num * result + this.getNombre().hashCode();
+		
+		return result;
+	}
 }

@@ -3,8 +3,6 @@ package ar.edu.unq.epers.bichomon.backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
-
 /** Clase  que representa un combate entre dos bichos.
  * 
  * @author Pedro Araoz */

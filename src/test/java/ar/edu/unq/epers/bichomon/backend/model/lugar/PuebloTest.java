@@ -42,4 +42,54 @@ public class PuebloTest {
 	public void dadoUnPuebloSinEspeciesConProbabilidadNoDevuelveBichos(){
 		assertNull(this.pueblo.retornarUnBichoDelLugar(null));// no le paso ningun entrenador  xq no lo presisisa
 	}
+	
+	
+//TESTS REDEFINICION EQUALS Y HASHCODE
+
+	@Test
+	public void dadosDosEntrenadoresLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeTrue() {
+		Pueblo puebloOriginal = this.nuevoPuebloOriginal();
+		Pueblo puebloComparativo = this.nuevoPuebloOriginal();
+		
+		assertEquals(puebloOriginal, puebloComparativo);
+	} 
+	
+	@Test
+	public void dadosDosEntrenadoresLosComparoConEqualsParaComprobarSiSonIgualesYMeRespondeFalseDebidoAQueTienenDistintoId() {
+		Pueblo puebloOriginal = this.nuevoPuebloOriginal();
+		Pueblo puebloComparativo = this.nuevoPuebloOriginal();
+		puebloComparativo.setNombre("PuebloComparativo");
+		
+		assertNotEquals(puebloOriginal, puebloComparativo);
+	}
+	
+	@Test
+	public void dadosDosEntrenadoresLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeTrue() {
+		Pueblo puebloOriginal = this.nuevoPuebloOriginal();
+		Pueblo puebloComparativo = this.nuevoPuebloOriginal();
+		
+		assertEquals(puebloOriginal.hashCode(), puebloComparativo.hashCode());
+	} 
+	
+	@Test
+	public void dadosDosEntrenadoresLosComparoSusHashCodeParaComprobarSiSonIgualesYMeRespondeFalse() {
+		Pueblo puebloOriginal = this.nuevoPuebloOriginal();
+		Pueblo puebloComparativo = this.nuevoPuebloOriginal();
+		puebloComparativo.setNombre("PuebloComparativo");
+		
+		assertNotEquals(puebloOriginal.hashCode(), puebloComparativo.hashCode());
+	}
+	
+//		************************************
+//		************************************
+//		*** MÉTODOS AUXILIARES PARA TEST ***	
+//		*** ---------------------------- ***
+//		************************************
+//		************************************		
+	
+	private Pueblo nuevoPuebloOriginal() {
+		Pueblo e = new Pueblo();
+		e.setNombre("PuebloOriginal");
+		return e;
+	} 
 }
