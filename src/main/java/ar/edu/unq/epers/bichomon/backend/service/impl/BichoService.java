@@ -3,8 +3,10 @@ package ar.edu.unq.epers.bichomon.backend.service.impl;
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.DocumentoDeJugadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.busqueda.IFactores;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
@@ -16,6 +18,7 @@ public class BichoService {
 	private BichoDAO bichoDAO;
 	private PuntosDAO puntosDAO;
 	private IFactores busqueda;
+	private DocumentoDeJugadorDAO documentoDAO;
 	
 	
 	public BichoService (EntrenadorDAO entrenadorDAO, BichoDAO bichoDAO, PuntosDAO puntosDAO, IFactores factresDeBusqueda ){
@@ -23,6 +26,8 @@ public class BichoService {
 		this.bichoDAO=bichoDAO;
 		this.puntosDAO=puntosDAO;// cree la interface y la utilizo como parametro
 		this.busqueda= factresDeBusqueda;
+		
+		this.documentoDAO= new DocumentoDeJugadorDAO();
 		
 	}
 	
@@ -46,6 +51,13 @@ public class BichoService {
 						Bicho bichoRecuperado=null;
 						Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 						bichoRecuperado= entrenador.buscarBicho(expPorBusqueda);
+						//aca inserto el evento  para la base de datos de mongo
+						
+						Evento evento = new Evento("Captura", entrenador.getUbicacionActual().getNombre());
+						this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
+						
+						
+						
 						return bichoRecuperado;
 					});
 			}
