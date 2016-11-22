@@ -180,5 +180,15 @@ public class Bicho {
 		
 	}
 
+	public boolean noTieneDueño() {
+		return this.owner==null;
+	}
+
+	public String getNombreDelDueño() {
+		
+		return this.owner.getNombre();
+	}
+	
+
 	
 }

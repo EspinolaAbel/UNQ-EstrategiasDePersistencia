@@ -7,8 +7,10 @@ import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.MapaDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.DocumentoDeJugadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.FondosInsuficientesException;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
@@ -20,10 +22,12 @@ public class MapaService {
 	private LugarDAO lugarDAO;
 	private EntrenadorDAO entrenadorDAO;
 	private MapaDAO mapaDAO;
+	private DocumentoDeJugadorDAO documentoDAO;
 	
 	public MapaService(EntrenadorDAO entrenadorDAO, LugarDAO lugarDAO){
 		this.lugarDAO = lugarDAO;
 		this.entrenadorDAO = entrenadorDAO;
+		this.documentoDAO = new DocumentoDeJugadorDAO(); 
 	}
 
 	public MapaService(EntrenadorDAO entrenadorDAO, LugarDAO lugarDAO, MapaDAO mapaDAO) {
@@ -96,6 +100,11 @@ public class MapaService {
 					});
 			try{
 				entrenador.viajarALugar(destino, costoDelViaje);
+				//aca inserto el evento  para la base de datos de mongo
+				//si no se puede pagar, se arroja la excepcion y no se guarda el evento
+				Evento evento = new Evento("Arribo", entrenador.getUbicacionActual().getNombre());
+				this.documentoDAO.insertarEvento(nombreEntrenador, evento);
+			
 			}
 			catch(FondosInsuficientesException e) {
 				throw new CaminoMuyCostosoException(entrenador, destino, costoDelViaje);
@@ -117,6 +126,11 @@ public class MapaService {
 			
 			try{
 				entrenador.viajarALugar(destino, costoDelViaje);
+				//aca inserto el evento  para la base de datos de mongo
+				//si no se puede pagar, se arroja la excepcion y no se guarda el evento
+				Evento evento = new Evento("Arribo", entrenador.getUbicacionActual().getNombre());
+				this.documentoDAO.insertarEvento(nombreEntrenador, evento);
+			
 			}
 			catch(FondosInsuficientesException e) {
 				throw new CaminoMuyCostosoException(entrenador, destino, costoDelViaje);

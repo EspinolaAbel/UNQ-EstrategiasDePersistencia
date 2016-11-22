@@ -79,7 +79,12 @@ public class BichoService {
 			Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
 			Bicho bicho= this.bichoDAO.getBicho(idBicho)	;	
 			entrenador.abandonarBicho(bicho);
-			
+			//aca inserto el evento  para la base de datos de mongo
+			//esto ocurre solo si el bicho no pertenece al entrenador
+			if ( bicho.noTieneDueño()){
+				Evento evento = new Evento("Abandono", entrenador.getUbicacionActual().getNombre());
+				this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
+				}
 		return null;
 		});
 	}
@@ -106,7 +111,24 @@ public class BichoService {
 					Bicho bichoRetador= this.bichoDAO.getBicho(idBicho)	;	
 
 					ResultadoCombate resultadoDeCombate =entrenador.combatir(bichoRetador,expPorCombate);
+					
+					Bicho ganador=  resultadoDeCombate.getGanador();
+					Bicho perdedor= resultadoDeCombate.getPerdedor();
+					
+					//aca inserto el evento  para la base de datos de mongo
+					// la logiga para determinar la generacion de un evento es la siguiente:
+					//si el entrenador retador gana,  ocurren dos eventos, coronado y destronado
+					//si el entrenador retador pierde, entonces no ocurre ningun evento
+					if (ganador.getNombreDelDueño()==nombreDelEntrenador){
+						
+						Evento evento = new Evento("Coronado", entrenador.getUbicacionActual().getNombre());
+						this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
 
+						evento.setTipo("Depuesto");
+						this.documentoDAO.insertarEvento(perdedor.getNombreDelDueño(), evento);
+						
+						}
+					
 					return resultadoDeCombate;
 			
 				});		
