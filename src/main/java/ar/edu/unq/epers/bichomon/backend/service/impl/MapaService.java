@@ -7,7 +7,8 @@ import ar.edu.unq.epers.bichomon.backend.dao.LugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.MapaDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.DocumentoDeJugadorDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.MongoDocumentoDeEntrenadorDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Evento;
@@ -22,12 +23,12 @@ public class MapaService {
 	private LugarDAO lugarDAO;
 	private EntrenadorDAO entrenadorDAO;
 	private MapaDAO mapaDAO;
-	private DocumentoDeJugadorDAO documentoDAO;
+	private MongoDocumentoDeEntrenadorDAO documentoDAO;
 	
 	public MapaService(EntrenadorDAO entrenadorDAO, LugarDAO lugarDAO){
 		this.lugarDAO = lugarDAO;
 		this.entrenadorDAO = entrenadorDAO;
-		this.documentoDAO = new DocumentoDeJugadorDAO(); 
+		this.documentoDAO = new MongoDocumentoDeEntrenadorDAO(); 
 	}
 
 	public MapaService(EntrenadorDAO entrenadorDAO, LugarDAO lugarDAO, MapaDAO mapaDAO) {
@@ -157,7 +158,7 @@ public class MapaService {
 	/**
 	 * Conecta dos ubicaciones preexistentes por medio de un tipo de camino.
 	 * @param */
-	public void conectar(String ubicacion1, String ubicacion2, String tipoCamino){
+	public void conectar(String ubicacion1, String ubicacion2, TipoDeCamino tipoCamino){
 		RunnerNeo4J.runInSession(()->{
 			this.mapaDAO.crearConexion(ubicacion1, ubicacion2, tipoCamino);
 			return null;
@@ -168,7 +169,7 @@ public class MapaService {
 	/**
 	 * Responde con una lista de los lugares adyacentes al lugar dado por un tipo de camino.
 	 * @param */
-	public List<String> conectados(String ubicacion, String tipoCamino){
+	public List<String> conectados(String ubicacion, TipoDeCamino tipoCamino){
 		return
 		RunnerNeo4J.runInSession(()->{
 			return this.mapaDAO.lugaresAdyacentes(ubicacion, tipoCamino);

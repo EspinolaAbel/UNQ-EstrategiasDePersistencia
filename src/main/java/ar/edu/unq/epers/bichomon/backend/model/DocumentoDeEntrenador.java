@@ -6,7 +6,7 @@ import java.util.List;
 import org.jongo.marshall.jackson.oid.MongoId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
-public class DocumentoDeJugador {
+public class DocumentoDeEntrenador {
 	
 	@MongoId
 	@MongoObjectId
@@ -15,10 +15,10 @@ public class DocumentoDeJugador {
 	private String nombre;
 	private List <Evento> eventos= new ArrayList<Evento>();
 
-	public DocumentoDeJugador() {
+	public DocumentoDeEntrenador() {
 	}
 	
-	public DocumentoDeJugador(String nombreDeJugador){
+	public DocumentoDeEntrenador(String nombreDeJugador){
 		this.nombre=nombreDeJugador;
 		
 	}

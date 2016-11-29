@@ -84,26 +84,39 @@ public class Neo4JMapaDAO implements MapaDAO {
 	
 	
 	@Override
-	public void crearConexion(String ubicacion1, String ubicacion2, String tipoCamino){
+	public void crearConexion(String ubicacion1, String ubicacion2, TipoDeCamino tipoCamino){
 		Session session = RunnerNeo4J.getCurrentSession();
-		int costo=0;
-		switch (tipoCamino.toUpperCase()){
-			case "AEREO"	: costo=5; break;
-			case "MARITIMO"	: costo=2; break;
-			case "TERRESTRE": costo=1;
-		}
+		//int costo=0;
+		//switch (tipoCamino.toUpperCase()){
+		//	case "AEREO"	: costo=5; break;
+		//	case "MARITIMO"	: costo=2; break;
+		//	case "TERRESTRE": costo=1;
+		//}
 		String query= "MATCH (lugar1 {nombre: {unLugar} }	) "
 					+ "MATCH (lugar2 {nombre: {otroLugar} }	) "
-					+ "MERGE (lugar1)-[r:"+tipoCamino.toUpperCase()+"]->(lugar2) "
+					+ "MERGE (lugar1)-[r:"+tipoCamino.toString()+"]->(lugar2) "
 					+ "ON CREATE SET r.costo = {unCosto}";
-		session.run(query, Values.parameters("unLugar",ubicacion1, "otroLugar", ubicacion2,"unCosto",costo));
+		session.run(query, Values.parameters("unLugar",ubicacion1, "otroLugar", ubicacion2,"unCosto",tipoCamino.getCosto()));
 	}
 	
 	
 	@Override
-	public List<String> lugaresAdyacentes(String ubicacion, String tipoCamino){
+	public List<String> lugaresAdyacentes(String ubicacion, TipoDeCamino tipoCamino){
 		Session session = RunnerNeo4J.getCurrentSession();
-		String query= 	"MATCH (puntoDePartida:Lugar {nombre: {nombrePartida}})-[r:"+tipoCamino.toUpperCase()+" ]->(adyacentes) " +
+		String query= 	"MATCH (puntoDePartida:Lugar {nombre: {nombrePartida}})-[r:"+tipoCamino.toString()+" ]->(adyacentes) " +
+						"return adyacentes";
+		StatementResult result=	session.run(query, Values.parameters("nombrePartida",ubicacion));
+		return result.list(record -> {
+				Value lugar = record.get(0);
+				String nombreDeLugar = lugar.get("nombre").asString();
+				return nombreDeLugar;
+		});
+	}
+	
+	@Override
+	public List<String> lugaresAdyacentesDeCualquierTipo(String ubicacion){
+		Session session = RunnerNeo4J.getCurrentSession();
+		String query= 	"MATCH (puntoDePartida:Lugar {nombre: {nombrePartida}})-[ ]-(adyacentes) " +
 						"return adyacentes";
 		StatementResult result=	session.run(query, Values.parameters("nombrePartida",ubicacion));
 		return result.list(record -> {

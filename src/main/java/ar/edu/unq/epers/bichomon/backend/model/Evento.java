@@ -4,6 +4,8 @@ public class Evento {
 
 	private String tipo;
 	private String uvicacion;
+	//se implementa con el tiempo actual en milisegundo
+	private Long fecha; 
 	
 	
 	public Evento(){};
@@ -13,6 +15,8 @@ public class Evento {
 		super();
 		this.tipo = tipo;
 		this.uvicacion = uvicacion;
+		this.fecha= System.currentTimeMillis();
+	
 	}	
 	
 	public String getTipo() {
@@ -28,7 +32,16 @@ public class Evento {
 		this.uvicacion = uvicacion;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "{"+ tipo + ", " + uvicacion + ", "+ fecha+"}";
+	}
+
+
+	public Long getFecha() {
+		// TODO Auto-generated method stub
+		return this.fecha;
+	}
 	
 	
 	

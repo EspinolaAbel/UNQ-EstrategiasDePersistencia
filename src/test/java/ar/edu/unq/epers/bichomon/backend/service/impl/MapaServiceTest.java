@@ -17,6 +17,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateBichoDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.hibernate.HibernateLugarDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4JMapaDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.UbicacionMuyLejanaException;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
@@ -296,10 +297,10 @@ public class MapaServiceTest {
 			this.mapaDAO.saveLugar(destinoIndirecto);
 			this.mapaDAO.saveLugar(destinoInalcanzable);
 			
-			this.mapaDAO.crearConexion("Partida", "Intermedio", "terrestre");
-			this.mapaDAO.crearConexion("Intermedio", "Destino", "terrestre");
-			this.mapaDAO.crearConexion("Partida", "Destino", "terrestre");
-			this.mapaDAO.crearConexion("Destino", "DestinoIndirecto", "terrestre");
+			this.mapaDAO.crearConexion("Partida", "Intermedio", TipoDeCamino.TERRESTRE);//"terrestre");
+			this.mapaDAO.crearConexion("Intermedio", "Destino", TipoDeCamino.TERRESTRE);//"terrestre");
+			this.mapaDAO.crearConexion("Partida", "Destino", TipoDeCamino.TERRESTRE);//"terrestre");
+			this.mapaDAO.crearConexion("Destino", "DestinoIndirecto", TipoDeCamino.TERRESTRE);//"terrestre");
 
 			return null;
 		});
