@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import javax.persistence.OneToOne;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 
 @Entity(name="Entrenadores")
-public class Entrenador {
+public class Entrenador implements Serializable {
+	
+	private static final long serialVersionUID = -4161386306977110596L;
 	
 	@Id
 	private String  nombre;
@@ -181,7 +184,6 @@ public class Entrenador {
 		
 		Entrenador entrenadorPerdedor= resultado.getPerdedor().getOwner();
 		entrenadorPerdedor.aumentarDeNivelSiTieneExperiencia(expPorCombate);
-		
 		
 		return resultado;
 	}

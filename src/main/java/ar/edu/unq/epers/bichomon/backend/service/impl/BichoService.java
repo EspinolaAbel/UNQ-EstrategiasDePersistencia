@@ -9,6 +9,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.busqueda.IFactores;
+import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
 public class BichoService {
@@ -103,14 +104,13 @@ public class BichoService {
 	public ResultadoCombate duelo(String nombreDelEntrenador, int idBicho) {
 			
 		return	Runner.runInSession(() -> {
-			
  
 					int expPorCombate =this.puntosDAO.getPuntosDeExperiencia("Duelo").getPuntaje();
 					
-					Entrenador entrenador= this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
-					Bicho bichoRetador= this.bichoDAO.getBicho(idBicho)	;	
+					Entrenador entrenador = this.entrenadorDAO.getEntrenador(nombreDelEntrenador);
+					Bicho bichoRetador = this.bichoDAO.getBicho(idBicho)	;	
 
-					ResultadoCombate resultadoDeCombate =entrenador.combatir(bichoRetador,expPorCombate);
+					ResultadoCombate resultadoDeCombate = entrenador.combatir(bichoRetador,expPorCombate);
 					
 					Bicho ganador=  resultadoDeCombate.getGanador();
 					Bicho perdedor= resultadoDeCombate.getPerdedor();
@@ -127,7 +127,11 @@ public class BichoService {
 						evento.setTipo("Depuesto");
 						this.documentoDAO.insertarEvento(perdedor.getNombreDelDueño(), evento);
 						
-						}
+					}
+					
+					//Al haber un nuevo campeón, la cache está desactualizada y debo borrar los datos cacheados para
+					//forzar la actualización la próxima vez que se consulte la cache
+					CacheProvider.getInstance().getEntrenadoresCampeonesCache().removeCampeones();
 					
 					return resultadoDeCombate;
 			
