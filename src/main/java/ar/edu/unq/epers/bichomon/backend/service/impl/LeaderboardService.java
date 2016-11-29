@@ -6,7 +6,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Especie;
-import ar.edu.unq.epers.bichomon.backend.service.cache.EntrenadoresCampeonesCache;
+import ar.edu.unq.epers.bichomon.backend.service.cache.GenericCache;
 import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -14,7 +14,7 @@ public class LeaderboardService {
 	
 	private EntrenadorDAO entrenadorDAO;
 	private EspecieDAO especieDAO;
-	private EntrenadoresCampeonesCache cacheCampeones;
+	private GenericCache<String, List<Entrenador>> cacheCampeones;
 
 
 	public LeaderboardService(EntrenadorDAO entrenadorDAO, EspecieDAO especieDAO){

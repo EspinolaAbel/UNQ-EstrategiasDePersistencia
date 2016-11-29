@@ -10,6 +10,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.busqueda.IFactores;
+import ar.edu.unq.epers.bichomon.backend.service.cache.GenericCache;
 import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -132,7 +133,7 @@ public class BichoService {
 					
 					//Al haber un nuevo campeón, la cache está desactualizada y debo borrar los datos cacheados para
 					//forzar la actualización la próxima vez que se consulte la cache
-					CacheProvider.getInstance().getEntrenadoresCampeonesCache().removeCampeones();
+					CacheProvider.getInstance().getEntrenadoresCampeonesCache().datosInconsistentes();
 					
 					return resultadoDeCombate;
 			

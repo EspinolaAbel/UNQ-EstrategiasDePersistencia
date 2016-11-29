@@ -7,8 +7,7 @@ import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.service.cache.CantidadEntrenadoresCache;
-import ar.edu.unq.epers.bichomon.backend.service.cache.EntrenadoresCampeonesCache;
+import ar.edu.unq.epers.bichomon.backend.service.cache.GenericCache;
 
 
 public class CacheProvider {
@@ -19,8 +18,8 @@ public class CacheProvider {
 	private RemoteCacheManager cacheManager;
 	
 	//Caches:
-	private CantidadEntrenadoresCache cantEntrenadoresCache;
-	private EntrenadoresCampeonesCache entCampeonesCache;
+	private GenericCache<String, Integer> cantEntrenadoresCache;
+	private GenericCache<String, List<Entrenador>> entCampeonesCache;
 	
 	
 	private CacheProvider() {
@@ -47,20 +46,20 @@ public class CacheProvider {
 	private void loadCaches() {
 		//Lugar - Cant.Entrenadores en el lugar
 		RemoteCache<String, Integer> cache1 = this.cacheManager.getCache("entrenadores-en-lugar");
-		this.cantEntrenadoresCache = new CantidadEntrenadoresCache(cache1);
+		this.cantEntrenadoresCache = new GenericCache<String,Integer>(cache1);
 
 		//Entrenadores campeones
 		RemoteCache<String, List<Entrenador>> cache2 = this.cacheManager.getCache("entrenadores-campeones");
-		this.entCampeonesCache = new EntrenadoresCampeonesCache(cache2);
+		this.entCampeonesCache = new GenericCache<String,List<Entrenador>>(cache2, "ENTRENADORES");
 	}
 	
 
 	
-	public CantidadEntrenadoresCache getCantidadEntrenadoresCache() {
+	public GenericCache<String, Integer> getCantidadEntrenadoresCache() {
 		return this.cantEntrenadoresCache;
 	}
 	
-	public EntrenadoresCampeonesCache getEntrenadoresCampeonesCache() {
+	public GenericCache<String, List<Entrenador>> getEntrenadoresCampeonesCache() {
 		return this.entCampeonesCache;
 	}
 	

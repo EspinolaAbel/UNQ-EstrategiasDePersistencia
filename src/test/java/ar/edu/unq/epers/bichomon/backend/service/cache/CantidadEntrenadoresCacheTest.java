@@ -10,7 +10,7 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 
 public class CantidadEntrenadoresCacheTest {
 
-	private CantidadEntrenadoresCache cache;
+	private GenericCache<String,Integer> cache;
 
 	@Before
 	public void setUp() {

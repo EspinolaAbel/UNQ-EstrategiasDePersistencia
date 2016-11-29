@@ -14,7 +14,7 @@ import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.FondosInsuficientesException;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
-import ar.edu.unq.epers.bichomon.backend.service.cache.CantidadEntrenadoresCache;
+import ar.edu.unq.epers.bichomon.backend.service.cache.GenericCache;
 import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import ar.edu.unq.epers.bichomon.backend.service.runner.RunnerNeo4J;
@@ -26,7 +26,7 @@ public class MapaService {
 	private MapaDAO mapaDAO;
 	
 	//private DocumentoDeJugadorDAO documentoDAO;
-	private CantidadEntrenadoresCache cacheCantEnt;
+	private GenericCache<String, Integer> cacheCantEnt;
 	
 	private MongoDocumentoDeEntrenadorDAO documentoDAO;
 	
