@@ -17,20 +17,20 @@ public class Neo4JMapaDAO implements MapaDAO {
 	
 	@Override
 	public Integer costoDelViajeMasCorto(String ubicacionPartida, String ubicacionDestino) {
-		String query =	"MATCH (i:Lugar) WHERE i.nombre={partida} "
-					+ 	"MATCH (f:Lugar) WHERE f.nombre={destino} "
-					+ 	"MATCH shortestPath((i)-[rs*]->(f)) "
-					+ 	"RETURN REDUCE (total = 0, r IN rs | total + r.costo)";
+		String query =	"MATCH (partida:Lugar { nombre={partida} } "
+					+ 	"MATCH (destino:Lugar) { nombre={destino} } "
+					+ 	"MATCH shortestPath((partida)-[caminos*]->(destino)) "
+					+ 	"RETURN REDUCE (total = 0, c IN caminos | total + c.costo)";
 		return this.calcularCostoDelViaje(ubicacionPartida, ubicacionDestino, query);
 	}
 	
 	
 	@Override
 	public Integer costoDelViajeDirecto(String ubicacionPartida, String ubicacionDestino) {
-		String query =	"MATCH (i:Lugar) WHERE i.nombre={partida} "
-					+ 	"MATCH (f:Lugar) WHERE f.nombre={destino} "
-					+ 	"MATCH (i)-[r]->(f) "
-					+ 	"RETURN r.costo";
+		String query =	"MATCH (partida:Lugar { nombre={partida} }) "
+					+ 	"MATCH (destino:Lugar { nombre={destino} }) "
+					+ 	"MATCH (partida)-[camino]->(destino) "
+					+ 	"RETURN camino.costo";
 		try{
 			return this.calcularCostoDelViaje(ubicacionPartida, ubicacionDestino, query);
 		}
@@ -65,7 +65,7 @@ public class Neo4JMapaDAO implements MapaDAO {
 	@Override
 	public boolean existeLugar(String nombreLugar) {
 		Session session = RunnerNeo4J.getCurrentSession();
-		String query = 	"MATCH (l:Lugar) WHERE l.nombre={unNombreDeLugar} "
+		String query = 	"MATCH (l:Lugar { nombre={unNombreDeLugar} }) "
 					+	"RETURN l";
 		return session.run(query, Values.parameters("unNombreDeLugar", nombreLugar) ).hasNext();
 	}
@@ -74,10 +74,10 @@ public class Neo4JMapaDAO implements MapaDAO {
 	@Override
 	public boolean existeCamino(String partida, String destino) {
 		Session session = RunnerNeo4J.getCurrentSession();
-		String query = 	"MATCH (i:Lugar) WHERE i.nombre={partida} "
-					+ 	"MATCH (f:Lugar) WHERE f.nombre={destino} "
-					+	"MATCH (i)-[r*]-(f) "
-					+	"RETURN (count(r) > 0) as hayResultados";
+		String query = 	"MATCH (partida:Lugar { nombre={partida} }) "
+					+ 	"MATCH (destino:Lugar { nombre={destino} }) "
+					+	"MATCH (partida)-[caminos*]-(destino) "
+					+	"RETURN (count(caminos) > 0) as hayResultados";
 		List<Record> result = session.run(query, Values.parameters("partida", partida, "destino", destino) ).list();
 		return result.get(0).get(0).asBoolean();
 	}
@@ -94,8 +94,8 @@ public class Neo4JMapaDAO implements MapaDAO {
 		//}
 		String query= "MATCH (lugar1 {nombre: {unLugar} }	) "
 					+ "MATCH (lugar2 {nombre: {otroLugar} }	) "
-					+ "MERGE (lugar1)-[r:"+tipoCamino.toString()+"]->(lugar2) "
-					+ "ON CREATE SET r.costo = {unCosto}";
+					+ "MERGE (lugar1)-[camino:"+tipoCamino.toString()+"]->(lugar2) "
+					+ "ON CREATE SET camino.costo = {unCosto}";
 		session.run(query, Values.parameters("unLugar",ubicacion1, "otroLugar", ubicacion2,"unCosto",tipoCamino.getCosto()));
 	}
 	
