@@ -23,7 +23,7 @@ public class Neo4JMapaDAOTest {
 		this.mapaDAO = new Neo4JMapaDAO();
 	}
 
-	@After
+	//@After
 	public void tearDown() throws Exception {
 		GraphCleaner.cleanUpGraph();
 	}
@@ -117,7 +117,7 @@ public class Neo4JMapaDAOTest {
 			mapaDAO.saveLugar(partida);
 			mapaDAO.saveLugar(destino);
 			
-			mapaDAO.crearConexion("Partida", "Destino", "aereo");
+			mapaDAO.crearConexion("Partida", "Destino", TipoDeCamino.AEREO);
 			
 			assertTrue(mapaDAO.existeCamino("Partida", "Destino"));
 			return null;
@@ -145,10 +145,31 @@ public class Neo4JMapaDAOTest {
 		Lugar lugarAlcanzable = crearMapaTestConUnLugarAlcanzablePorRutaDirecta();
 			
 		RunnerNeo4J.runInSession(()-> {
-			List<String> resultado = mapaDAO.lugaresAdyacentes("PARTIDA", "terrestre");
+			List<String> resultado = mapaDAO.lugaresAdyacentes("PARTIDA", TipoDeCamino.TERRESTRE);
 			
 			assertEquals(resultado.size(), 1);
 			assertTrue(resultado.contains(lugarAlcanzable.getNombre()));
+			return null;
+		});
+	}
+	
+	
+
+	@Test
+	public void dadoUnLugarObtengoUnaListaDeAquellosLugaresQueEstanConectadosDirectamentePorCualquieripoDeCamino() {
+		Lugar lugarAlcanzable = crearMapaTestConUnLugarAlcanzablePorRutaDirecta();
+			
+		RunnerNeo4J.runInSession(()-> {
+			List<String> resultado = mapaDAO.lugaresAdyacentesDeCualquierTipo("PARTIDA");
+			
+			assertEquals(resultado.size(), 2);
+			assertTrue(resultado.contains(lugarAlcanzable.getNombre()));
+			//aca veulvo a devolver "DIRECTO-Por ruta terrestre", y  el nodo no esta conectado consigo mismo
+			resultado = mapaDAO.lugaresAdyacentesDeCualquierTipo("DIRECTO-Por ruta terrestre");
+			
+			assertEquals(resultado.size(), 3);
+			assertFalse(resultado.contains(lugarAlcanzable.getNombre()));
+			
 			return null;
 		});
 	}
@@ -172,13 +193,13 @@ public class Neo4JMapaDAOTest {
 			this.mapaDAO.saveLugar(indirecto2_1);
 			this.mapaDAO.saveLugar(indirecto2_2);
 			//Lugar a asertar:
-			this.mapaDAO.crearConexion("PARTIDA", "DIRECTO-Por ruta terrestre", "terrestre");
+			this.mapaDAO.crearConexion("PARTIDA", "DIRECTO-Por ruta terrestre", TipoDeCamino.TERRESTRE);//"terrestre");
 			//Lugares de control. No deben aparecer entre los resultados:
-			this.mapaDAO.crearConexion("PARTIDA", "DIRECTO-Por ruta maritima", "maritimo");
-			this.mapaDAO.crearConexion("DIRECTO-Por ruta terrestre", "INDIRECTO-1.1", "terrestre");
-			this.mapaDAO.crearConexion("DIRECTO-Por ruta terrestre", "INDIRECTO-1.2", "maritimo");
-			this.mapaDAO.crearConexion("DIRECTO-Por ruta maritima", "INDIRECTO-2.1", "terrestre");
-			this.mapaDAO.crearConexion("DIRECTO-Por ruta maritima", "INDIRECTO-2.2", "aereo");
+			this.mapaDAO.crearConexion("PARTIDA", "DIRECTO-Por ruta maritima",TipoDeCamino.MARITIMO);// "maritimo");
+			this.mapaDAO.crearConexion("DIRECTO-Por ruta terrestre", "INDIRECTO-1.1",TipoDeCamino.TERRESTRE);// "terrestre");
+			this.mapaDAO.crearConexion("DIRECTO-Por ruta terrestre", "INDIRECTO-1.2",TipoDeCamino.MARITIMO);// "maritimo");
+			this.mapaDAO.crearConexion("DIRECTO-Por ruta maritima", "INDIRECTO-2.1", TipoDeCamino.TERRESTRE);//"terrestre");
+			this.mapaDAO.crearConexion("DIRECTO-Por ruta maritima", "INDIRECTO-2.2",TipoDeCamino.AEREO);// "aereo");
 			
 			return null;
 		});
@@ -213,10 +234,10 @@ public class Neo4JMapaDAOTest {
 			this.mapaDAO.saveLugar(destinoIndirecto);
 			this.mapaDAO.saveLugar(destinoInalcanzable);
 			
-			this.mapaDAO.crearConexion("Partida", "Intermedio", "terrestre");
-			this.mapaDAO.crearConexion("Intermedio", "Destino", "terrestre");
-			this.mapaDAO.crearConexion("Partida", "Destino", "terrestre");
-			this.mapaDAO.crearConexion("Destino", "DestinoIndirecto", "terrestre");
+			this.mapaDAO.crearConexion("Partida", "Intermedio",TipoDeCamino.TERRESTRE);// "terrestre");
+			this.mapaDAO.crearConexion("Intermedio", "Destino",TipoDeCamino.TERRESTRE);// "terrestre");
+			this.mapaDAO.crearConexion("Partida", "Destino",TipoDeCamino.TERRESTRE);// "terrestre");
+			this.mapaDAO.crearConexion("Destino", "DestinoIndirecto",TipoDeCamino.TERRESTRE);// "terrestre");
 
 			return null;
 		});

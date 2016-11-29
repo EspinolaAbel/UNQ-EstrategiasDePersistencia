@@ -1,9 +1,10 @@
 package ar.edu.unq.epers.bichomon.backend.service.impl;
 
 import ar.edu.unq.epers.bichomon.backend.dao.BichoDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.DocumentoDeEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.EntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
-import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.DocumentoDeJugadorDAO;
+import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.MongoDocumentoDeEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Evento;
@@ -19,7 +20,7 @@ public class BichoService {
 	private BichoDAO bichoDAO;
 	private PuntosDAO puntosDAO;
 	private IFactores busqueda;
-	private DocumentoDeJugadorDAO documentoDAO;
+	private DocumentoDeEntrenadorDAO documentoDAO;
 	
 	
 	public BichoService (EntrenadorDAO entrenadorDAO, BichoDAO bichoDAO, PuntosDAO puntosDAO, IFactores factresDeBusqueda ){
@@ -28,7 +29,7 @@ public class BichoService {
 		this.puntosDAO=puntosDAO;// cree la interface y la utilizo como parametro
 		this.busqueda= factresDeBusqueda;
 		
-		this.documentoDAO= new DocumentoDeJugadorDAO();
+		this.documentoDAO= new MongoDocumentoDeEntrenadorDAO();
 		
 	}
 	
