@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import ar.edu.unq.epers.bichomon.backend.model.condicionesevolucion.CondicionDeE
  * Representa una {@link Especie} de bicho.
  * @author Charly Backend */
 @Entity(name="Especies")
-public class Especie {
+public class Especie implements Serializable {
+
+	private static final long serialVersionUID = -5715391652320011141L;
 
 	@Id
 	private String nombre;

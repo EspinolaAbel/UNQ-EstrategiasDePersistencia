@@ -2,8 +2,6 @@ package ar.edu.unq.epers.bichomon.backend.dao;
 
 import java.util.List;
 
-import org.neo4j.driver.v1.StatementResult;
-
 import ar.edu.unq.epers.bichomon.backend.model.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 

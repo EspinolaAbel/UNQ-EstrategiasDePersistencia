@@ -15,7 +15,7 @@ public class Coronacion extends Evento {
 	}
 
 	public void setEntrenadorRival(String entrenadorRival) {
-		entrenadorRival = entrenadorRival;
+		this.entrenadorRival = entrenadorRival;
 	}
 
 

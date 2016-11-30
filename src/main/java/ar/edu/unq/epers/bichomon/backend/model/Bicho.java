@@ -1,6 +1,8 @@
 
 package ar.edu.unq.epers.bichomon.backend.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,10 @@ import javax.persistence.Transient;
  * 
  * @author Charly Backend */
 @Entity(name="Bichos")
-public class Bicho {
+public class Bicho implements Serializable {
 	
+	private static final long serialVersionUID = 3159369590231412903L;
+
 	@ManyToOne
     private Entrenador owner;
 	

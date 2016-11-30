@@ -2,7 +2,6 @@ package ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unq.epers.bichomon.backend.model.DocumentoDeEntrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
 import ar.edu.unq.epers.bichomon.backend.model.eventos.Abandono;
 import ar.edu.unq.epers.bichomon.backend.model.eventos.Captura;
 import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;

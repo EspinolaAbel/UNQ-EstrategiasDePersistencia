@@ -32,6 +32,7 @@ public class Combate {
 		
 		int  numAtaques=0;
 		boolean combTerminado=false;
+		@SuppressWarnings("unused")
 		Bicho ganador, perdedor;
 				
 		while (numAtaques<10 && !combTerminado ){

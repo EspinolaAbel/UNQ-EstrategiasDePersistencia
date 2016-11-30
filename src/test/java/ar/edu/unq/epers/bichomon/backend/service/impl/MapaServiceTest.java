@@ -114,16 +114,17 @@ public class MapaServiceTest {
 
 
 	@Test
-	public void muevoUnEntrenadorAUnaUbicacionAdyacenteQuePuedePagarYComprueboQueSeHayaMovidoCorrectamente() {
+	public void muevoUnEntrenadorAUnaUbicacionAdyacenteQuePuedePagarYComprueboQueSeHayaMovidoCorrectamenteTomandoElCaminoMasBarato() {
 		Lugar destino = new Pueblo("Destino");
 		Lugar partida = new Pueblo("Partida");
 		this.mapaService.crearUbicacion(partida);
 		this.mapaService.crearUbicacion(destino);
-		this.crearMapaTestMover();
+		this.crearMapaTestMoverMasBarato();
 		Entrenador entrenador = new Entrenador("EntrenadorTest");
 		
 		Runner.runInSession(()->{
-			entrenador.setMonedas(1); 
+			int precioCaminoMasBarato = TipoDeCamino.TERRESTRE.getCosto();
+			entrenador.setMonedas(precioCaminoMasBarato); 	//fuerzo a que tome el camino más barato. Si toma otro camino rompe. No lo va a poder pagar
 			entrenador.setUbicacionActual(partida);
 			this.entrenadorDAO.saveEntrenador(entrenador);
 		
@@ -306,6 +307,28 @@ public class MapaServiceTest {
 		});
 		
 	}
+	
+	
+	/**El mapa creado crea un lugar de partida y un destino, al cual puede llegarse tomando: 
+	 * - una ruta AEREA (más costoso) o; 
+	 * - una ruta TERRESTRE (más económica). 
+	 * */
+	private void crearMapaTestMoverMasBarato() {
+		Lugar partida = new Pueblo("Partida");
+		Lugar destino = new Pueblo("Destino");
+		
+		RunnerNeo4J.runInSession(()->{
+			this.mapaDAO.saveLugar(partida);
+			this.mapaDAO.saveLugar(destino);
+			
+			this.mapaDAO.crearConexion("Partida", "Destino", TipoDeCamino.TERRESTRE);
+			this.mapaDAO.crearConexion("Partida", "Destino", TipoDeCamino.AEREO);
+
+			return null;
+		});
+		
+	}
+	
 	
 //	private void crearGrafoEnBaseDeDatos() {
 //		MapaService mapaSvc = new MapaService(null, new HibernateLugarDAO(), new Neo4JMapaDAO());

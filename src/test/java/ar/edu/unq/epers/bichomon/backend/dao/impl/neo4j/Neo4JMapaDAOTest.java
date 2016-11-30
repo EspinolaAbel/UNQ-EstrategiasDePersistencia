@@ -23,7 +23,7 @@ public class Neo4JMapaDAOTest {
 		this.mapaDAO = new Neo4JMapaDAO();
 	}
 
-	//@After
+	@After
 	public void tearDown() throws Exception {
 		GraphCleaner.cleanUpGraph();
 	}

@@ -16,7 +16,7 @@ public class Deposicion extends Evento {
 	}
 
 	public void setEntrenadorRival(String entrenadorRival) {
-		entrenadorRival = entrenadorRival;
+		this.entrenadorRival = entrenadorRival;
 	}
 
 
