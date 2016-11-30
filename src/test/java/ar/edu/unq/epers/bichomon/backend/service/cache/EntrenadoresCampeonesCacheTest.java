@@ -14,14 +14,14 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 
 public class EntrenadoresCampeonesCacheTest {
 
-	private EntrenadoresCampeonesCache cache;
+	private GenericCache<String,List<Entrenador>> cache;
 
 	@Before
 	public void setUp() {
 		this.cache = CacheProvider.getInstance().getEntrenadoresCampeonesCache();
 		
 		this.cache.put(Arrays.asList(new Entrenador("EntrenadorXTest"), new Entrenador("EntrenadorYTest"),
-									 new Entrenador("EntrenadorZTest")));
+									 					 new Entrenador("EntrenadorZTest")));
 	}
 	
 	@After
