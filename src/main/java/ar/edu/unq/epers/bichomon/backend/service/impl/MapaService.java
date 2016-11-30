@@ -10,8 +10,9 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.MongoDocumentoDeEntren
 import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.FondosInsuficientesException;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Arribo;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;
 import ar.edu.unq.epers.bichomon.backend.service.cache.CantidadEntrenadoresCache;
@@ -120,7 +121,7 @@ public class MapaService {
 				entrenador.viajarALugar(destino, costoDelViaje);
 				//aca inserto el evento  para la base de datos de mongo
 				//si no se puede pagar, se arroja la excepcion y no se guarda el evento
-				Evento evento = new Evento("Arribo", entrenador.getUbicacionActual().getNombre());
+				Arribo evento = new Arribo( entrenador.getUbicacionActual().getNombre());
 				this.documentoDAO.insertarEvento(nombreEntrenador, evento);
 				
 				//La cache es inconsistente para los lugares de partida y destino.
@@ -148,7 +149,7 @@ public class MapaService {
 				entrenador.viajarALugar(destino, costoDelViaje);
 				//aca inserto el evento  para la base de datos de mongo
 				//si no se puede pagar, se arroja la excepcion y no se guarda el evento
-				Evento evento = new Evento("Arribo", entrenador.getUbicacionActual().getNombre());
+				Arribo evento = new Arribo( entrenador.getUbicacionActual().getNombre());
 				this.documentoDAO.insertarEvento(nombreEntrenador, evento);
 				
 				//La cache es inconsistente para los lugares de partida y destino.

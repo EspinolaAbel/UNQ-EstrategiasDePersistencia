@@ -19,7 +19,7 @@ import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.Neo4JMapaDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.neo4j.TipoDeCamino;
 import ar.edu.unq.epers.bichomon.backend.model.DocumentoDeEntrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Evento;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Dojo;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Guarderia;
 import ar.edu.unq.epers.bichomon.backend.model.lugar.Lugar;

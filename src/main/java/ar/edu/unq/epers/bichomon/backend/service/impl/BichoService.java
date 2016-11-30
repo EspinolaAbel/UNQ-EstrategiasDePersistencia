@@ -7,9 +7,13 @@ import ar.edu.unq.epers.bichomon.backend.dao.PuntosDAO;
 import ar.edu.unq.epers.bichomon.backend.dao.impl.mongoDB.MongoDocumentoDeEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.ResultadoCombate;
 import ar.edu.unq.epers.bichomon.backend.model.busqueda.IFactores;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Abandono;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Captura;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Coronacion;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Deposicion;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
 import ar.edu.unq.epers.bichomon.backend.service.runner.CacheProvider;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 
@@ -55,7 +59,7 @@ public class BichoService {
 						bichoRecuperado= entrenador.buscarBicho(expPorBusqueda);
 						//aca inserto el evento  para la base de datos de mongo
 						
-						Evento evento = new Evento("Captura", entrenador.getUbicacionActual().getNombre());
+						Captura evento = new Captura( entrenador.getUbicacionActual().getNombre(),bichoRecuperado.nombreDeEspecie());
 						this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
 						
 						
@@ -84,7 +88,7 @@ public class BichoService {
 			//aca inserto el evento  para la base de datos de mongo
 			//esto ocurre solo si el bicho no pertenece al entrenador
 			if ( bicho.noTieneDueño()){
-				Evento evento = new Evento("Abandono", entrenador.getUbicacionActual().getNombre());
+				Abandono evento = new Abandono( entrenador.getUbicacionActual().getNombre(), nombreDelEntrenador);
 				this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
 				}
 		return null;
@@ -122,16 +126,17 @@ public class BichoService {
 					//si el entrenador retador pierde, entonces no ocurre ningun evento
 					if (ganador.getNombreDelDueño()==nombreDelEntrenador){
 						
-						Evento evento = new Evento("Coronado", entrenador.getUbicacionActual().getNombre());
+						Evento evento = new Coronacion( entrenador.getUbicacionActual().getNombre(),perdedor.getNombreDelDueño() );
 						this.documentoDAO.insertarEvento(nombreDelEntrenador, evento);
 
-						evento.setTipo("Depuesto");
+						evento= new Deposicion(entrenador.getUbicacionActual().getNombre(), ganador.getNombreDelDueño());
 						this.documentoDAO.insertarEvento(perdedor.getNombreDelDueño(), evento);
 						
 					}
 					
 					//Al haber un nuevo campeón, la cache está desactualizada y debo borrar los datos cacheados para
 					//forzar la actualización la próxima vez que se consulte la cache
+					
 					CacheProvider.getInstance().getEntrenadoresCampeonesCache().removeCampeones();
 					
 					return resultadoDeCombate;

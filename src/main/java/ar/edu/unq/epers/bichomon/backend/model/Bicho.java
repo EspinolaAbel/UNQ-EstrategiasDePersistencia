@@ -188,6 +188,10 @@ public class Bicho {
 		
 		return this.owner.getNombre();
 	}
+
+	public String nombreDeEspecie() {
+		return this.especie.getNombre();
+	}
 	
 
 	

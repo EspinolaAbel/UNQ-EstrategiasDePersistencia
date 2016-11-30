@@ -6,6 +6,8 @@ import java.util.List;
 import org.jongo.marshall.jackson.oid.MongoId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
+
 public class DocumentoDeEntrenador {
 	
 	@MongoId

@@ -10,9 +10,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.unq.epers.bichomon.backend.model.Evento;
 import ar.edu.unq.epers.bichomon.backend.model.DocumentoDeEntrenador;
 import ar.edu.unq.epers.bichomon.backend.model.Entrenador;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Abandono;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Captura;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
 
 public class TestDeEnternadorMongo {
 
@@ -30,7 +32,7 @@ public class TestDeEnternadorMongo {
             Thread.sleep(1000);
         }catch(InterruptedException e){}
 		
-		this.evento = new Evento("Captura","Pueblo chico");this.entrenador.agregarEvento(evento);
+		this.evento = new Captura("Pueblo chico", "Lagartomon");this.entrenador.agregarEvento(evento);
 		try
         {
             Thread.sleep(1000);
@@ -41,7 +43,7 @@ public class TestDeEnternadorMongo {
         {
             Thread.sleep(1000);
         }catch(InterruptedException e){}
-		this.evento = new Evento("Abandono", "Gauderia Los Seibos");this.entrenador.agregarEvento(evento);
+		this.evento = new Abandono( "Gauderia Los Seibos","Reptilmon");this.entrenador.agregarEvento(evento);
 		
 		this.entrenadorDAO = new MongoDocumentoDeEntrenadorDAO();
 		this.entrenadorDAO.save(entrenador);
@@ -76,7 +78,7 @@ public class TestDeEnternadorMongo {
 		 *luego unserto u nueveo evento  yn verifiico nuevamente la insercion  y  q el ultimo  
 		 *sigue siendoel evento mas lejano
 		 */
-		Evento nuevoEvento= new Evento("Abandono", "Nueva Uvicacion");
+		Evento nuevoEvento= new Abandono( "Nueva Uvicacion", "EspecieDeTest");
 		List<Evento> eventosRecuperados = this.entrenadorDAO.buscarEventosDelEntrenador("Pedro ARAOZ");
 		assertEquals(4, eventosRecuperados.size());
 		assertTrue(eventosRecuperados.get(0).getFecha()>eventosRecuperados.get(1).getFecha());
@@ -99,7 +101,7 @@ public class TestDeEnternadorMongo {
 		 *"Dojo Cobrakai"  luego inserto un nueveo evento en "Dojo Cobrakai" y verifiico
 		 * nuevamente la insercion  y  q el ultimo sigue siendo el evento mas lejano
 		 */
-		Evento nuevoEvento= new Evento("Captura", "Gauderia Los Seibos");
+		Captura nuevoEvento= new Captura( "Gauderia Los Seibos", "Bichomon");
 		List<Evento> eventosRecuperados = this.entrenadorDAO.buscarEventosDelEntrenadorEnLugares("Pedro ARAOZ", Arrays.asList("Gauderia Los Seibos","Pueblo chico"));
 		assertEquals(2, eventosRecuperados.size());
 		assertTrue(eventosRecuperados.get(0).getFecha()>eventosRecuperados.get(1).getFecha());
@@ -110,13 +112,8 @@ public class TestDeEnternadorMongo {
 		eventosRecuperados = this.entrenadorDAO.buscarEventosDelEntrenadorEnLugares("Pedro ARAOZ", Arrays.asList("Gauderia Los Seibos","Pueblo chico"));
 		assertEquals(3, eventosRecuperados.size());
 		assertTrue(eventosRecuperados.get(1).getFecha()>eventosRecuperados.get(2).getFecha());
-		
 	
 	}
-	
-	
-	
-	
 	
 	/**
 	 * 

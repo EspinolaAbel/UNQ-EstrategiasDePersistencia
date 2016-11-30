@@ -6,7 +6,7 @@ import org.jongo.Aggregate.ResultsIterator;
 
 import ar.edu.unq.epers.bichomon.backend.dao.DocumentoDeEntrenadorDAO;
 import ar.edu.unq.epers.bichomon.backend.model.DocumentoDeEntrenador;
-import ar.edu.unq.epers.bichomon.backend.model.Evento;
+import ar.edu.unq.epers.bichomon.backend.model.eventos.Evento;
 
 public class MongoDocumentoDeEntrenadorDAO extends GenericMongoDAO<DocumentoDeEntrenador> 
 										implements DocumentoDeEntrenadorDAO  {
@@ -51,7 +51,7 @@ public class MongoDocumentoDeEntrenadorDAO extends GenericMongoDAO<DocumentoDeEn
 		ResultsIterator<Evento> result = this.mongoCollection.aggregate
 				("{ $match: {nombre: #}}",nombreDelEntrenador)
 				.and(" { $unwind: '$eventos' } ")
-				.and( "{$project: {tipo: '$eventos.tipo', uvicacion:'$eventos.uvicacion',fecha:'$eventos.fecha', _id:0}}")
+				.and( "{$project: {_class: '$eventos._class', tipo: '$eventos.tipo', uvicacion:'$eventos.uvicacion',fecha:'$eventos.fecha', _id:0}}")
 				.and(" { $sort: { fecha: -1 } }")
 				.as(Evento.class);
 		return this.copyToList(result);
@@ -67,7 +67,7 @@ public class MongoDocumentoDeEntrenadorDAO extends GenericMongoDAO<DocumentoDeEn
 					("{ $match: {nombre: #}}",nombreDelEntrenador)
 					.and(" { $unwind: '$eventos' } ")
 					.and("{ $match: {'eventos.uvicacion': { $in: # } } }", lugares)
-					.and( "{$project: {tipo: '$eventos.tipo', uvicacion:'$eventos.uvicacion',fecha:'$eventos.fecha', _id:0}}")
+					.and( "{$project: {_class: '$eventos._class',  tipo: '$eventos.tipo', uvicacion:'$eventos.uvicacion',fecha:'$eventos.fecha', _id:0}}")
 					.and(" { $sort: { fecha: -1 } }")
 					.as(Evento.class);
 
